@@ -16,10 +16,10 @@
 
 ## 商品詳細情報の管理方法
 ### MVP
-管理者による基本情報登録
+* 管理者による基本情報登録
 ### MVP後
-ユーザー有志による情報追加
-メーカー・生産者からの登録
+* ユーザー有志による情報追加
+* メーカー・生産者からの登録
 
 ## 実装を予定している機能
 ### MVP
@@ -39,22 +39,22 @@
 
 ## 使用するAPIやgem
 ### MVP
-gem 'sorcery'　シンプルな認証
-gem 'ransack'　検索・ソート
-gem 'bootstrap'　UI・スタイリング
-gem 'sass-rails'　SCSS対応
+* gem 'sorcery'　シンプルな認証
+* gem 'ransack'　検索・ソート
+* gem 'bootstrap'　UI・スタイリング
+* gem 'sass-rails'　SCSS対応
 
 ### 画像機能追加
-gem 'image_processing'
-gem 'mini_magick'
-gem 'aws-sdk-s3'
+* gem 'image_processing'
+* gem 'mini_magick'
+* gem 'aws-sdk-s3'
 
 ### 高度な機能
-gem 'acts-as-taggable-on'　タグ機能
-gem 'acts_as_favoritor'　お気に入り機能
-gem 'jquery-rails'  # オートコンプリート用
+* gem 'acts-as-taggable-on'　タグ機能
+* gem 'acts_as_favoritor'　お気に入り機能
+* gem 'jquery-rails'  # オートコンプリート用
 
 ### 外部API
-Amazon Product Advertising API
-楽天商品検索API
-Yahoo!ショッピングAPI
+* Amazon Product Advertising API
+* 楽天商品検索API
+* Yahoo!ショッピングAPI
