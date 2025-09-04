@@ -61,7 +61,7 @@
 ### 高度な機能
 * gem 'acts-as-taggable-on'　タグ機能
 * gem 'acts_as_favoritor'　お気に入り機能
-* gem 'jquery-rails'  # オートコンプリート用
+* gem 'turbo-rails'　# オートコンプリート用
 
 ### 外部API
 * Amazon Product Advertising API
