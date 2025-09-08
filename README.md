@@ -30,7 +30,7 @@
 * レビュー投稿機能(テキスト+5段階評価)
 * レビュー閲覧機能・詳細表示
 * 簡易的なマイページ
-* プロフィール、パスワード編集機能
+* パスワード編集機能
 * 基本的な検索機能(商品名、ブランド名、価格帯)
 * 画像投稿機能(高度な機能：画像加工・合成)
 
@@ -49,14 +49,15 @@
   - 使用DB: PostgreSQL 15  実際に使うDBのバージョンを明記
   - デプロイサーバー：Render
 * gem 'devise'　実務でよく使われるとされる認証ライブラリ
+* gem 'letter_opener' 開発環境でパスワードリセット機能の確認
 * gem 'ransack'　検索・ソート
 * gem 'bootstrap'　UI・スタイリング
 * gem 'sass-rails'　SCSS対応
 
 ### 画像機能追加
-* gem 'image_processing'
-* gem 'mini_magick'
-* gem 'aws-sdk-s3'
+* gem 'image_processing'　リサイズ
+* gem 'mini_magick'　リサイズ、フォーマット変換など
+* gem 'aws-sdk-s3'　クラウドストレージへの配送係
 
 ### 高度な機能
 * gem 'acts-as-taggable-on'　タグ機能
