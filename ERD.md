@@ -1,5 +1,5 @@
 ### ER図
-[![Image from Gyazo](https://i.gyazo.com/23942d8ad4cc2d118e5863bcad517a17.png)](https://gyazo.com/23942d8ad4cc2d118e5863bcad517a17)
+[![Image from Gyazo](https://i.gyazo.com/feb79d67f26a624d2edad84e45b3c877.png)](https://gyazo.com/feb79d67f26a624d2edad84e45b3c877)
 
 ### 本サービスの概要（700文字以内）
 オリーブオイル専用のレビューサイトです。X(旧Twitter)のように簡単な投稿が行うことができます。また、商品情報を登録することでサイト内に各商品の詳細情報をまとめた図鑑のようなものが作られていきます。
