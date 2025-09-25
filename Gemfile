@@ -35,14 +35,14 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 # 認証
-gem 'devise'
+gem "devise"
 
 # 検索・ソート
-gem 'ransack'
+gem "ransack"
 
 # UI・スタイリング
-gem 'bootstrap'
-gem 'sass-rails'
+gem "bootstrap"
+gem "sass-rails"
 
 # 画像処理（後で追加予定）
 # gem 'image_processing'
@@ -64,7 +64,7 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
-  gem 'letter_opener'
+  gem "letter_opener"
 end
 
 group :test do
