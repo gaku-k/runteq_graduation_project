@@ -93,13 +93,6 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
-
-      - name: Wait for PostgreSQL
-        run: |
-          until pg_isready -h db -U postgres; do
-            echo "Waiting for database..."
-            sleep 1
-          done
       
       - name: Add app bin to PATH
         run: echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
