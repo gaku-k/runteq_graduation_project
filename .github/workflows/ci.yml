@@ -97,6 +97,15 @@ jobs:
       - name: Add app bin to PATH
         run: echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
 
+      - name: Wait for PostgreSQL
+        run: |
+          echo "Waiting for PostgreSQL service to be ready..."
+          until pg_isready -h db -U postgres; do
+            echo "Still waiting for database..."
+            sleep 1
+          done
+          echo "PostgreSQL is up and running."
+
       - name: Database setup
         run: bin/rails db:prepare
 
