@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: my_rails_app_development
+      POSTGRES_DB: runteq_graduation_project_development
     ports:
       - "5433:5432"
 
@@ -20,7 +20,8 @@ services:
       - db
     environment:
       RAILS_ENV: development
-      DATABASE_URL: postgres://postgres:password@db:5432/my_rails_app_development
+      DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_development
+      SECRET_KEY_BASE: dummy_secret_key_base  # assets:precompile 時に必要
 
 volumes:
   db-data:
