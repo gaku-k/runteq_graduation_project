@@ -83,6 +83,13 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+ci:
+  <<: *default
+  username: postgres
+  password:
+  host: localhost
+  database: runteq_graduation_project_test
+
 production:
   <<: *default
   database: runteq_graduation_project_production
