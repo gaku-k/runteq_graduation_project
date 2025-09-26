@@ -16,12 +16,15 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  url: <%= ENV['DATABASE_URL'] %>
 
 
 
 development:
   <<: *default
+  username: postgres
+  password: postgres
+  host: db
+  database: runteq_graduation_project_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -58,6 +61,7 @@ test:
   username: postgres
   password: postgres
   host: db
+  database: runteq_graduation_project_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -84,3 +88,4 @@ production:
   database: runteq_graduation_project_production
   username: runteq_graduation_project
   password: <%= ENV["RUNTEQ_GRADUATION_PROJECT_DATABASE_PASSWORD"] %>
+  host: db
