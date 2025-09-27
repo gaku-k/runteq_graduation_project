@@ -9,6 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    # --- PostgreSQL サービス定義 ---
     services:
       db:
         image: postgres:15
@@ -41,26 +42,32 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      # --- Rails bin 追加 ---
+      # --- Rails bin を PATH に追加 ---
       - name: Add app bin to PATH
         run: echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
+
+      # --- db ホスト名解決の確認 ---
+      - name: Check DB host resolution
+        run: |
+          ping -c 4 db || echo "Warning: db host not reachable"
 
       # --- PostgreSQL 起動待機 ---
       - name: Wait for PostgreSQL
         run: |
           echo "Waiting for PostgreSQL service to be ready..."
           retries=0
-          until PGPASSWORD=postgres pg_isready -h db -U postgres; do
-            sleep 3
+          until PGPASSWORD=postgres pg_isready -h db -p 5432 -U postgres; do
+            echo "PostgreSQL not ready yet..."
+            sleep 5
             retries=$((retries+1))
-            if [ $retries -ge 50 ]; then  # 最大 150秒待機
+            if [ $retries -ge 40 ]; then  # 最大 200秒待機
               echo "ERROR: PostgreSQL did not become ready"
               exit 1
             fi
           done
           echo "PostgreSQL is ready!"
 
-      # --- DB 作成 ---
+      # --- データベース作成 ---
       - name: Database setup
         env:
           RAILS_ENV: test
@@ -75,7 +82,7 @@ jobs:
           HEADLESS_CHROME: "true"
         run: bin/rails test:all
 
-      # --- テスト失敗時のスクリーンショット保存 ---
+      # --- テスト失敗時にスクリーンショット保存 ---
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
         if: failure()
