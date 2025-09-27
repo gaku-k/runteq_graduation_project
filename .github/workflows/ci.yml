@@ -16,6 +16,11 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
+        options: >
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
@@ -33,20 +38,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
             postgresql-client chromium curl libjemalloc2 libvips fonts-liberation
-
-      # --- PostgreSQL 起動待機 ---
-      - name: Wait for PostgreSQL
-        run: |
-          echo "Waiting for PostgreSQL to be ready..."
-          for i in {1..30}; do
-            if PGPASSWORD=postgres psql -h db -U postgres -c '\l'; then
-              echo "PostgreSQL is ready!"
-              break
-            else
-              echo "PostgreSQL not ready yet, retrying in 5s..."
-              sleep 5
-            fi
-          done
 
       - name: Database setup
         env:
