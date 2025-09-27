@@ -16,8 +16,8 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
-        ports:
-          - 5433:5432
+        # GitHub Actions 内のコンテナ通信では ports は必須ではない
+        # ports: ["5433:5432"]
 
     steps:
       - uses: actions/checkout@v4
@@ -36,22 +36,26 @@ jobs:
           sudo apt-get install --no-install-recommends -y \
             postgresql-client chromium curl libjemalloc2 libvips fonts-liberation
 
+      # --- PostgreSQL 起動待機 ---
+      - name: Wait for PostgreSQL
+        run: |
+          echo "Waiting for PostgreSQL to be ready..."
+          for i in {1..30}; do
+            if PGPASSWORD=postgres psql -h db -U postgres -c '\l'; then
+              echo "PostgreSQL is ready!"
+              break
+            else
+              echo "PostgreSQL not ready yet, retrying in 5s..."
+              sleep 5
+            fi
+          done
+
       - name: Database setup
         env:
           RAILS_ENV: test
           PGHOST: db
           DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
-        run: |
-          echo "Waiting for database..."
-          for i in {1..20}; do
-            if bin/rails db:prepare; then
-              echo "Database prepared!"
-              break
-            else
-              echo "Database not ready, retrying in 5s..."
-              sleep 5
-            fi
-          done
+        run: bin/rails db:prepare
 
       - name: Run Rails tests
         env:
