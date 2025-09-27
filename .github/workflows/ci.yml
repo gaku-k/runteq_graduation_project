@@ -17,10 +17,10 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
         options: >-
-          --health-cmd="pg_isready -U postgres"
+          --health-cmd="pg_isready -U postgres -d runteq_graduation_project_test"
           --health-interval=5s
           --health-timeout=5s
-          --health-retries=20
+          --health-retries=30   # 起動が遅い場合に備えてリトライ回数を増やす
 
     steps:
       # --- 必要パッケージのインストール ---
@@ -28,7 +28,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
-            chromium-browser curl libjemalloc2 libvips postgresql-client fonts-liberation
+            chromium curl libjemalloc2 libvips postgresql-client fonts-liberation
 
       # --- ソースコード取得 ---
       - name: Checkout code
@@ -50,10 +50,10 @@ jobs:
         run: |
           echo "Waiting for PostgreSQL service to be ready..."
           retries=0
-          until PGPASSWORD=postgres pg_isready -h db -U postgres; do
-            sleep 2
+          until PGPASSWORD=postgres pg_isready -h db -U postgres -d runteq_graduation_project_test; do
+            sleep 3
             retries=$((retries+1))
-            if [ $retries -ge 60 ]; then
+            if [ $retries -ge 40 ]; then  # 最大 120秒待機
               echo "ERROR: PostgreSQL did not become ready"
               exit 1
             fi
