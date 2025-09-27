@@ -17,7 +17,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
         options: >-
-          --health-cmd="pg_isready -U postgres -d runteq_graduation_project_test"
+          --health-cmd="pg_isready -U postgres"
           --health-interval=5s
           --health-timeout=5s
           --health-retries=20
@@ -50,10 +50,10 @@ jobs:
         run: |
           echo "Waiting for PostgreSQL service to be ready..."
           retries=0
-          until PGPASSWORD=postgres pg_isready -h db -U postgres -d runteq_graduation_project_test; do
+          until PGPASSWORD=postgres pg_isready -h db -U postgres; do
             sleep 2
             retries=$((retries+1))
-            if [ $retries -ge 60 ]; then  # 最大 120秒待機
+            if [ $retries -ge 60 ]; then
               echo "ERROR: PostgreSQL did not become ready"
               exit 1
             fi
@@ -68,10 +68,10 @@ jobs:
 
       # --- Rails db:prepare で test DB 作成 ---
       - name: Database setup
-        run: bin/rails db:prepare
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
+        run: bin/rails db:prepare
 
       # --- DB 作成確認 ---
       - name: Confirm test DB created
