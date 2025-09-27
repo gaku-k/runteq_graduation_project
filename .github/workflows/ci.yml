@@ -41,7 +41,7 @@ jobs:
         run: |
           echo "Waiting for PostgreSQL to be ready..."
           for i in {1..30}; do
-            if PGPASSWORD=postgres psql -h db -U postgres -c '\l'; then
+            if PGPASSWORD=postgres psql -h localhost -U postgres -c '\l'; then
               echo "PostgreSQL is ready!"
               break
             else
@@ -53,15 +53,15 @@ jobs:
       - name: Database setup
         env:
           RAILS_ENV: test
-          PGHOST: db
-          DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
+          PGHOST: localhost
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/runteq_graduation_project_test
         run: bin/rails db:prepare
 
       - name: Run Rails tests
         env:
           RAILS_ENV: test
-          PGHOST: db
-          DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
+          PGHOST: localhost
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/runteq_graduation_project_test
           HEADLESS_CHROME: "true"
         run: bin/rails test:all
 
