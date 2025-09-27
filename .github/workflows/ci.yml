@@ -9,7 +9,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    # --- PostgreSQL サービス定義 ---
     services:
       db:
         image: postgres:15
@@ -17,72 +16,51 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
-        options: >-
-          --health-cmd="pg_isready -U postgres"
-          --health-interval=5s
-          --health-timeout=5s
-          --health-retries=30
+        ports:
+          - 5433:5432
 
     steps:
-      # --- 必要パッケージのインストール ---
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends -y \
-            chromium curl libjemalloc2 libvips postgresql-client fonts-liberation
+      - uses: actions/checkout@v4
 
-      # --- ソースコード取得 ---
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # --- Ruby 環境セットアップ ---
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      # --- Rails bin を PATH に追加 ---
       - name: Add app bin to PATH
         run: echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
 
-      # --- db ホスト名解決の確認 ---
-      - name: Check DB host resolution
+      - name: Install dependencies
         run: |
-          ping -c 4 db || echo "Warning: db host not reachable"
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            postgresql-client chromium curl libjemalloc2 libvips fonts-liberation
 
-      # --- PostgreSQL 起動待機 ---
-      - name: Wait for PostgreSQL
-        run: |
-          echo "Waiting for PostgreSQL service to be ready..."
-          retries=0
-          until PGPASSWORD=postgres pg_isready -h db -p 5432 -U postgres; do
-            echo "PostgreSQL not ready yet..."
-            sleep 5
-            retries=$((retries+1))
-            if [ $retries -ge 40 ]; then  # 最大 200秒待機
-              echo "ERROR: PostgreSQL did not become ready"
-              exit 1
-            fi
-          done
-          echo "PostgreSQL is ready!"
-
-      # --- データベース作成 ---
       - name: Database setup
         env:
           RAILS_ENV: test
+          PGHOST: db
           DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
-        run: bin/rails db:prepare
+        run: |
+          echo "Waiting for database..."
+          for i in {1..20}; do
+            if bin/rails db:prepare; then
+              echo "Database prepared!"
+              break
+            else
+              echo "Database not ready, retrying in 5s..."
+              sleep 5
+            fi
+          done
 
-      # --- Rails テスト実行 ---
       - name: Run Rails tests
         env:
           RAILS_ENV: test
+          PGHOST: db
           DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
           HEADLESS_CHROME: "true"
         run: bin/rails test:all
 
-      # --- テスト失敗時にスクリーンショット保存 ---
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
         if: failure()
