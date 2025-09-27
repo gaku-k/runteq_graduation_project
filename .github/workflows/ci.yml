@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     services:
       db:
         image: postgres:15
@@ -22,11 +23,12 @@ jobs:
           --health-retries=10
 
     steps:
-      - name: Install packages
+      # --- 基本パッケージと headless Chrome ---
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
-            chromium-browser curl libjemalloc2 libvips postgresql-client
+            chromium-browser curl libjemalloc2 libvips postgresql-client fonts-liberation
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,35 +42,58 @@ jobs:
       - name: Add app bin to PATH
         run: echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
 
-      - name: Wait for PostgreSQL to start
+      # --- PostgreSQL が ready になるまで待機 ---
+      - name: Wait for PostgreSQL
         run: |
           echo "Waiting for PostgreSQL service to be ready..."
-          timeout 90s bash -c 'until pg_isready -h db -U postgres; do echo "Still waiting for database..."; sleep 1; done'
-          echo "PostgreSQL container is up"
+          retries=0
+          until PGPASSWORD=postgres pg_isready -h db -U postgres; do
+            sleep 2
+            retries=$((retries+1))
+            if [ $retries -ge 30 ]; then
+              echo "ERROR: PostgreSQL did not become ready"
+              exit 1
+            fi
+          done
+          echo "PostgreSQL is ready!"
 
-      - name: Debug DB state
+      # --- DB 作成前に確認 ---
+      - name: Debug Check PostgreSQL container
         run: |
-          echo "Listing databases in PostgreSQL:"
+          echo "Databases before db:prepare:"
           PGPASSWORD=postgres psql -h db -U postgres -l
 
+      # --- Rails db:prepare で test DB 作成 ---
       - name: Database setup
         run: bin/rails db:prepare
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
 
+      # --- DB 作成確認 ---
       - name: Confirm test DB created
         run: |
-          echo "Checking test DB:"
-          PGPASSWORD=postgres psql -h db -U postgres -l | grep runteq_graduation_project_test || echo "Test DB not found!"
+          echo "Databases after db:prepare:"
+          if ! PGPASSWORD=postgres psql -h db -U postgres -lqt | cut -d \| -f 1 | grep -qw runteq_graduation_project_test; then
+            echo "ERROR: Test DB not found!"
+            exit 1
+          fi
+          echo "Test DB exists"
 
-      - name: Run tests
+      # --- Rails System Test 用 Chrome 環境 ---
+      - name: Set DISPLAY for headless Chrome
+        run: export DISPLAY=:99
+
+      # --- テスト実行 ---
+      - name: Run Rails tests
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
+          HEADLESS_CHROME: "true"
         run: bin/rails test:all
 
-      - name: Keep screenshots from failed system tests
+      # --- テスト失敗時のスクリーンショット保存 ---
+      - name: Upload screenshots
         uses: actions/upload-artifact@v4
         if: failure()
         with:
