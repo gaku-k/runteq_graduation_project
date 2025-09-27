@@ -20,7 +20,7 @@ jobs:
           --health-cmd="pg_isready -U postgres -d runteq_graduation_project_test"
           --health-interval=5s
           --health-timeout=5s
-          --health-retries=30   # 起動が遅い場合に備えてリトライ回数を増やす
+          --health-retries=30
 
     steps:
       # --- 必要パッケージのインストール ---
