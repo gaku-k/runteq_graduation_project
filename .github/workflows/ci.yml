@@ -57,8 +57,10 @@ jobs:
 
     steps:
       - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y \
-             google-chrome-stable curl libjemalloc2 libvips postgresql-client
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            chromium-browser curl libjemalloc2 libvips postgresql-client
 
       - name: Checkout code
         uses: actions/checkout@v4
