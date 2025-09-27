@@ -45,21 +45,6 @@ jobs:
       - name: Add app bin to PATH
         run: echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
 
-      # --- PostgreSQL 起動待機 ---
-      - name: Wait for PostgreSQL
-        run: |
-          echo "Waiting for PostgreSQL service to be ready..."
-          retries=0
-          until PGPASSWORD=postgres pg_isready -h db -U postgres -d runteq_graduation_project_test; do
-            sleep 2
-            retries=$((retries+1))
-            if [ $retries -ge 60 ]; then  # 最大 120秒待機
-              echo "ERROR: PostgreSQL did not become ready"
-              exit 1
-            fi
-          done
-          echo "PostgreSQL is ready!"
-
       # --- DB 作成前に確認 ---
       - name: Debug Check PostgreSQL container
         run: |
