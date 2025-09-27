@@ -1,0 +1,25 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  username: postgres
+  password: postgres
+  host: db
+  database: runteq_graduation_project_development
+
+test:
+  <<: *default
+  username: postgres
+  password: postgres
+  host: <%= ENV.fetch("PGHOST", "db") %>  # CIでは localhost に上書き可能
+  database: runteq_graduation_project_test
+
+production:
+  <<: *default
+  username: runteq_graduation_project
+  password: <%= ENV["RUNTEQ_GRADUATION_PROJECT_DATABASE_PASSWORD"] %>
+  host: db
+  database: runteq_graduation_project_production

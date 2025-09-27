@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: runteq_graduation_project_test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Add app bin to PATH
+        run: echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            postgresql-client chromium curl libjemalloc2 libvips fonts-liberation
+
+      - name: Database setup
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/runteq_graduation_project_test
+        run: bin/rails db:prepare
+
+      - name: Run Rails tests
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/runteq_graduation_project_test
+          HEADLESS_CHROME: "true"
+        run: bin/rails test:all
