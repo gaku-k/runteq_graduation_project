@@ -17,7 +17,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
         options: >-
-          --health-cmd="pg_isready -U postgres -d runteq_graduation_project_test"
+          --health-cmd="pg_isready -U postgres"
           --health-interval=5s
           --health-timeout=5s
           --health-retries=30
@@ -50,42 +50,22 @@ jobs:
         run: |
           echo "Waiting for PostgreSQL service to be ready..."
           retries=0
-          until PGPASSWORD=postgres pg_isready -h db -U postgres -d runteq_graduation_project_test; do
+          until PGPASSWORD=postgres pg_isready -h db -U postgres; do
             sleep 3
             retries=$((retries+1))
-            if [ $retries -ge 40 ]; then  # 最大 120秒待機
+            if [ $retries -ge 50 ]; then  # 最大 150秒待機
               echo "ERROR: PostgreSQL did not become ready"
               exit 1
             fi
           done
           echo "PostgreSQL is ready!"
 
-      # --- DB 作成前に確認 ---
-      - name: Debug Check PostgreSQL container
-        run: |
-          echo "Databases before db:prepare:"
-          PGPASSWORD=postgres psql -h db -U postgres -l
-
-      # --- Rails db:prepare で test DB 作成 ---
+      # --- DB 作成 ---
       - name: Database setup
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
         run: bin/rails db:prepare
-
-      # --- DB 作成確認 ---
-      - name: Confirm test DB created
-        run: |
-          echo "Databases after db:prepare:"
-          if ! PGPASSWORD=postgres psql -h db -U postgres -lqt | cut -d \| -f 1 | grep -qw runteq_graduation_project_test; then
-            echo "ERROR: Test DB not found!"
-            exit 1
-          fi
-          echo "Test DB exists"
-
-      # --- Rails System Test 用 Chrome 環境 ---
-      - name: Set DISPLAY for headless Chrome
-        run: export DISPLAY=:99
 
       # --- Rails テスト実行 ---
       - name: Run Rails tests
