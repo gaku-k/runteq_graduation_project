@@ -68,13 +68,14 @@ jobs:
     needs: [] 
     services:
       db:
-        image: postgres
+        image: postgres:15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: runteq_graduation_project_test
         ports:
           - 5432:5432
-        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="pg_isready -U postgres -d runteq_graduation_project_test" --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
       - name: Install packages
@@ -95,7 +96,7 @@ jobs:
       - name: Wait for PostgreSQL (Final Check)
         run: |
           echo "Waiting for PostgreSQL service to be ready..."
-          timeout 30s bash -c 'until pg_isready -h db -U postgres; do echo "Still waiting for database..."; sleep 1; done'
+          timeout 90s bash -c 'until pg_isready -h db -U postgres; do echo "Still waiting for database..."; sleep 1; done'
 
           if ! pg_isready -h db -U postgres; then
              echo "Error: Database did not become ready within the timeout."
@@ -109,8 +110,7 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@db:5432
-          # REDIS_URL: redis://localhost:6379/0
+          DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
         run: bin/rails test:all
 
       - name: Keep screenshots from failed system tests
