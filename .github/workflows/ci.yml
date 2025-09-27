@@ -17,40 +17,43 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
         options: >-
-          --health-cmd="pg_isready -U postgres"
+          --health-cmd="pg_isready -U postgres -d runteq_graduation_project_test"
           --health-interval=5s
           --health-timeout=5s
-          --health-retries=10
+          --health-retries=20
 
     steps:
-      # --- 基本パッケージと headless Chrome ---
+      # --- 必要パッケージのインストール ---
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
             chromium-browser curl libjemalloc2 libvips postgresql-client fonts-liberation
 
+      # --- ソースコード取得 ---
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # --- Ruby 環境セットアップ ---
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      # --- Rails bin 追加 ---
       - name: Add app bin to PATH
         run: echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
 
-      # --- PostgreSQL が ready になるまで待機 ---
+      # --- PostgreSQL 起動待機 ---
       - name: Wait for PostgreSQL
         run: |
           echo "Waiting for PostgreSQL service to be ready..."
           retries=0
-          until PGPASSWORD=postgres pg_isready -h db -U postgres; do
+          until PGPASSWORD=postgres pg_isready -h db -U postgres -d runteq_graduation_project_test; do
             sleep 2
             retries=$((retries+1))
-            if [ $retries -ge 30 ]; then
+            if [ $retries -ge 60 ]; then  # 最大 120秒待機
               echo "ERROR: PostgreSQL did not become ready"
               exit 1
             fi
@@ -84,7 +87,7 @@ jobs:
       - name: Set DISPLAY for headless Chrome
         run: export DISPLAY=:99
 
-      # --- テスト実行 ---
+      # --- Rails テスト実行 ---
       - name: Run Rails tests
         env:
           RAILS_ENV: test
