@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
       data: {
         labels: ['香り', '味', '価格'],
         datasets: [{
-          label: '<%= post.product_name %>',
+          label: 'Triangle Chart',
           data: [<%= post.aroma_rating %>, <%= post.taste_rating %>, <%= post.price_rating %>],
           fill: true,
           backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -19,6 +19,20 @@ document.addEventListener("DOMContentLoaded", function() {
         }]
       },
       options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              usePointStyle: false,  // 左の四角を非表示
+              boxWidth: 0,           // 余白も消す
+              font: {
+                size: 14,            // 文字サイズ
+                style: 'italic'      // 斜体
+              }
+            }
+          }
+        },
         scales: {
           r: { min: 0, max: 5, ticks: { stepSize: 1 } }
         }

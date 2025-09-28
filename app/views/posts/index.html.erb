@@ -3,12 +3,20 @@
 </head>
 <h1>投稿一覧</h1>
 
-<ul>
+<ul class="posts-list">
   <% @posts.each do |post| %>
-    <li>
-      <strong><%= post.product_name %></strong>
-      <p>Review: <%= post.body %></p>
-      <%= render partial: "radar_chart", locals: { post: post } %>
+    <li class="post-item">
+      <div class="chart-section">
+        <h2 class="post-title"><%= post.product_name %></h2>
+        <%= render partial: "radar_chart", locals: { post: post } %>
+      </div>
+
+      <div class="review-section">
+        <article>
+          <h2 class="post-title review-title">Review</h2>
+          <p><%= post.body %></p>
+        </article>
+      </div>
     </li>
   <% end %>
 </ul>
