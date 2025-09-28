@@ -1,3 +1,6 @@
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
 <h1>投稿一覧</h1>
 
 <ul>
@@ -9,3 +12,38 @@
     </li>
   <% end %>
 </ul>
+
+<h2>商品評価レーダーチャート</h2>
+
+<% @posts.each do |post| %>
+  <h3><%= post.product_name %></h3>
+  <canvas id="chart-<%= post.id %>" width="300" height="300"></canvas>
+<% end %>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  <% @posts.each do |post| %>
+    const ctx<%= post.id %> = document.getElementById('chart-<%= post.id %>').getContext('2d');
+    new Chart(ctx<%= post.id %>, {
+      type: 'radar',
+      data: {
+        labels: ['香り', '味', '価格'],
+        datasets: [{
+          label: '<%= post.product_name %>',
+          data: [<%= post.aroma_rating %>, <%= post.taste_rating %>, <%= post.price_rating %>],
+          fill: true,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+        }]
+      },
+      options: {
+        scales: {
+          r: { min: 0, max: 5, ticks: { stepSize: 1 } }
+        }
+      }
+    });
+  <% end %>
+});
+</script>
