@@ -1,0 +1,74 @@
+/* 例: <style>タグとしてHTMLの<head>内に追加するか、CSSファイルに追加してください */
+.chart-container {
+  /* チャートが表示される最大高さを設定 */
+  height: 300px; 
+  
+  /* オプション：チャートが画面いっぱいには広がらないように最大幅を設定 */
+  max-width: 400px;
+  
+  /* オプション：中央寄せ */
+  margin: 0 auto; 
+}
+
+.posts-list {
+  list-style: none;
+  max-width: 960px;       /* コンテンツ幅の上限（PC用） */
+  margin: 0 auto;         /* 自動的に左右中央寄せ */
+  padding: 0 16px;        /* モバイルでも左右に余白を確保 */
+}
+
+.post-item {
+  display: flex;            /* 横並び */
+  gap: 20px;                /* 左右の余白 */
+  margin-bottom: 40px;      /* 投稿ごとの間隔 */
+  align-items: stretch;     /* 縦方向を揃える！ */
+  flex-wrap: wrap;          /* モバイル時の折り返しにも対応 */
+}
+
+.chart-section {
+  flex: 0 0 300px;          /* チャート用に幅を固定、PCでは幅300px固定 */
+}
+
+.review-section {
+  flex: 1;                  /* レビューが残り幅を占有 */
+  background-color: rgba(240, 240, 240, 1);
+}
+
+/* 投稿タイトルとレビュー見出しの共通スタイル */
+.post-title {
+  margin: 0 0 8px 0;     /* 下に余白 */
+  font-weight: bold;     /* 太字（共通） */
+}
+
+/* Reviewだけ斜体 */
+.review-title {
+  font-style: italic;
+}
+
+/* モバイル（～767pxまで） */
+@media (max-width: 767px) {
+  .post-item {
+    flex-direction: row;   /* 横並び */
+  }
+
+  .chart-section,
+  .review-section {
+    flex: 1;               /* それぞれ画面幅の半分ずつに */
+  }
+
+  .chart-section canvas {
+    width: 100% !important;   /* Chart.jsキャンバスを横幅いっぱいに */
+    height: auto !important;  /* 高さは自動調整 */
+  }
+
+  .post-title {
+    font-size: 14px;
+  }
+}
+
+/* PC（768px以上） */
+@media (min-width: 768px) {
+  .post-title {
+    font-size: 20px;
+  }
+}

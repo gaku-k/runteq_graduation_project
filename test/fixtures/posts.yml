@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  product_id: 
+  product_name: MyString
+  aroma_rating: 1
+  taste_rating: 1
+  price_rating: 1
+  body: MyString
+
+two:
+  user_id: 
+  product_id: 
+  product_name: MyString
+  aroma_rating: 1
+  taste_rating: 1
+  price_rating: 1
+  body: MyString
