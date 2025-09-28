@@ -1,3 +1,15 @@
+/* 例: <style>タグとしてHTMLの<head>内に追加するか、CSSファイルに追加してください */
+.chart-container {
+  /* チャートが表示される最大高さを設定 */
+  height: 300px; 
+  
+  /* オプション：チャートが画面いっぱいには広がらないように最大幅を設定 */
+  max-width: 400px;
+  
+  /* オプション：中央寄せ */
+  margin: 0 auto; 
+}
+
 .posts-list {
   list-style: none;
   max-width: 960px;       /* コンテンツ幅の上限（PC用） */

@@ -1,4 +1,6 @@
-<canvas id="chart-<%= post.id %>" width="300" height="300"></canvas>
+<div class="chart-container">
+  <canvas id="chart-<%= post.id %>"></canvas>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -20,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             display: true,
