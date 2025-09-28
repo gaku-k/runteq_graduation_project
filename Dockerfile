@@ -60,7 +60,7 @@ RUN bundle install --jobs 4 --retry 3 && \
 # =============================
 # Final stage: production image
 # =============================
-FROM base
+FROM build
 
 # Copy built gems from build stage
 COPY --from=build /usr/local/bundle /usr/local/bundle
@@ -71,7 +71,7 @@ COPY . .
 # Create non-root user for security
 RUN groupadd --system --gid 1000 rails && \
     useradd --uid 1000 --gid 1000 --create-home --shell /bin/bash rails && \
-    chown -R rails:rails db log storage tmp public
+    chown -R rails:rails /rails
 
 USER rails
 
