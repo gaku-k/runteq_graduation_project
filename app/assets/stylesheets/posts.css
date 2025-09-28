@@ -25,6 +25,16 @@
   flex-wrap: wrap;          /* モバイル時の折り返しにも対応 */
 }
 
+/* 投稿一覧のpostsカードリンク化に伴うスタイル */
+.post-card-link {
+  display: flex;          /* 横並びにする。無いとlink_to~doがaタグを生成、縦並びに */
+  gap: 20px;              /* 左右の余白 */
+  align-items: stretch;   /* 高さを揃える */
+  flex-wrap: wrap;        /* モバイル対応 */
+  text-decoration: none;  /* リンクの下線を消す */
+  color: inherit;         /* テキスト色は継承 */
+}
+
 .chart-section {
   flex: 0 0 300px;          /* チャート用に幅を固定、PCでは幅300px固定 */
 }
@@ -71,14 +81,4 @@
   .post-title {
     font-size: 20px;
   }
-}
-
-/* 投稿一覧のpostsカードリンク化に伴うスタイル */
-.post-card-link {
-  display: flex;          /* 横並びにする。無いとlink_to~doがaタグを生成、縦並びに */
-  gap: 20px;              /* 左右の余白 */
-  align-items: stretch;   /* 高さを揃える */
-  flex-wrap: wrap;        /* モバイル対応 */
-  text-decoration: none;  /* リンクの下線を消す */
-  color: inherit;         /* テキスト色は継承 */
 }
