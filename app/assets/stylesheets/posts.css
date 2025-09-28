@@ -72,3 +72,13 @@
     font-size: 20px;
   }
 }
+
+/* 投稿一覧のpostsカードリンク化に伴うスタイル */
+.post-card-link {
+  display: flex;          /* 横並びにする。無いとlink_to~doがaタグを生成、縦並びに */
+  gap: 20px;              /* 左右の余白 */
+  align-items: stretch;   /* 高さを揃える */
+  flex-wrap: wrap;        /* モバイル対応 */
+  text-decoration: none;  /* リンクの下線を消す */
+  color: inherit;         /* テキスト色は継承 */
+}

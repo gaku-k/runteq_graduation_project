@@ -6,17 +6,21 @@
 <ul class="posts-list">
   <% @posts.each do |post| %>
     <li class="post-item">
-      <div class="chart-section">
-        <h2 class="post-title"><%= post.product_name %></h2>
-        <%= render partial: "radar_chart", locals: { post: post } %>
-      </div>
+      <%= link_to post_path(post), class: "post-card-link" do %>
 
-      <div class="review-section">
-        <article>
-          <h2 class="post-title review-title">Review</h2>
-          <p><%= post.body %></p>
-        </article>
-      </div>
+        <div class="chart-section">
+          <h2 class="post-title"><%= post.product_name %></h2>
+          <%= render partial: "radar_chart", locals: { post: post } %>
+        </div>
+
+        <div class="review-section">
+          <article>
+            <h2 class="post-title review-title">Review</h2>
+            <p><%= post.body %></p>
+          </article>
+        </div>
+
+      <% end %>
     </li>
   <% end %>
 </ul>
