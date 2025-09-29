@@ -8,25 +8,35 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 # db/seeds.rb
-Post.create!(
-  [
-    {
-      user_id: 1,
-      product_id: 1,
-      product_name: "オリーブオイルA",
-      aroma_rating: 4,
-      taste_rating: 5,
-      price_rating: 3,
-      body: "香りがとても良い！"
-    },
-    {
-      user_id: 2,
-      product_id: 2,
-      product_name: "オリーブオイルB",
-      aroma_rating: 3,
-      taste_rating: 4,
-      price_rating: 4,
-      body: "味は良いけど少し高いかな"
-    }
-  ]
+# Rubyの標準ライブラリを読み込む
+# URI.open("URL")でインターネット上のファイルを開いて取得できるようにする
+require "open-uri"
+
+# データベースの posts テーブルにあるデータを全削除。
+Post.destroy_all
+
+# 1件目
+post1 = Post.create!(
+  product_name: "オリーブオイルA",
+  body: "これはサンプルレビューです。",
+  aroma_rating: 3,
+  taste_rating: 3,
+  price_rating: 3
 )
+# 幅300pxのランダムなダミー画像をダウンロードして file に格納
+file1 = URI.open("https://picsum.photos/300")
+# ActiveStorage の has_many_attached :images に画像を追加する処理
+# io: file → ダウンロードした画像データを渡す
+# content_type: "image/jpg" → MIMEタイプ（ブラウザが画像と認識するための情報）
+post1.images.attach(io: file1, filename: "sample1.jpg", content_type: "image/jpg")
+
+# 2件目
+post2 = Post.create!(
+  product_name: "トマトソースB",
+  body: "こちらは別のサンプルレビューです。",
+  aroma_rating: 4,
+  taste_rating: 2,
+  price_rating: 5
+)
+file2 = URI.open("https://picsum.photos/301") # 画像URLを変えると別の画像が取れる
+post2.images.attach(io: file2, filename: "sample2.jpg", content_type: "image/jpg")
