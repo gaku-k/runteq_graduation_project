@@ -45,7 +45,6 @@ gem 'cssbundling-rails'
 
 # UI・スタイリング
 gem "bootstrap"
-gem "sass-rails"
 
 # 画像処理
 # リサイズ
