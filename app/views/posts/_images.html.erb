@@ -1,0 +1,38 @@
+<% images = post.images %>
+<% case images.size %>
+<% when 1 %>
+  <!-- 1枚: div class="w-full" で全幅を使用 -->
+  <div class="w-full">
+    <%= image_tag images.first.variant(resize_to_fill: [800, 600]).processed, class: "w-full h-auto object-cover rounded-lg" %>
+  </div>
+
+<% when 2 %>
+  <!-- 2枚: 横に2分割 -->
+  <div class="grid grid-cols-2 gap-2">
+    <% images.each do |img| %>
+      <%= image_tag img.variant(resize_to_fill: [400, 300]).processed, class: "w-full h-auto object-cover rounded-lg" %>
+    <% end %>
+  </div>
+
+<% when 3 %>
+  <!-- 3枚: 左1枚(50%) + 右上下2分割 -->
+  <div class="grid grid-cols-2 gap-2">
+    <!-- 左 (1枚) -->
+    <div>
+      <%= image_tag images[0].variant(resize_to_fill: [400, 600]).processed, class: "w-full h-full object-cover rounded-lg" %>
+    </div>
+    <!-- 右 (上下2分割) -->
+    <div class="grid grid-rows-2 gap-2">
+      <%= image_tag images[1].variant(resize_to_fill: [400, 300]).processed, class: "w-full h-full object-cover rounded-lg" %>
+      <%= image_tag images[2].variant(resize_to_fill: [400, 300]).processed, class: "w-full h-full object-cover rounded-lg" %>
+    </div>
+  </div>
+
+<% when 4 %>
+  <!-- 4枚: 2×2 グリッド -->
+  <div class="grid grid-cols-2 gap-2">
+    <% images.each do |img| %>
+      <%= image_tag img.variant(resize_to_fill: [400, 300]).processed, class: "w-full h-full object-cover rounded-lg" %>
+    <% end %>
+  </div>
+<% end %>

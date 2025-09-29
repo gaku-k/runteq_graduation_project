@@ -5,16 +5,22 @@
 
 <ul class="posts-list">
     <li class="post-item">
-      <div class="chart-section">
-        <h2 class="post-title"><%= @post.product_name %></h2>
-        <%= render partial: "radar_chart", locals: { post: @post } %>
+      <div class="image-section">
+        <%= render "images", post: @post %>
       </div>
 
-      <div class="review-section">
-        <article>
-          <h2 class="post-title review-title">Review</h2>
-          <p><%= @post.body %></p>
-        </article>
+      <div class="chart-review-wrapper"> 
+        <div class="chart-section">
+          <h2 class="post-title"><%= @post.product_name %></h2>
+          <%= render partial: "radar_chart", locals: { post: @post } %>
+        </div>
+
+        <div class="review-section">
+          <article>
+            <h2 class="post-title review-title">Review</h2>
+            <p><%= @post.body %></p>
+          </article>
+        </div>
       </div>
     </li>
 </ul>

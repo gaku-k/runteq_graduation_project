@@ -46,11 +46,11 @@ gem "sass-rails"
 
 # 画像処理
 # リサイズ
-gem 'image_processing'
+gem "image_processing", "~> 1.2"
 # リサイズ、フォーマット変換など
-gem 'mini_magick'
+gem "mini_magick"
 # クラウドストレージへの配送係
-gem 'aws-sdk-s3'
+gem "aws-sdk-s3", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
