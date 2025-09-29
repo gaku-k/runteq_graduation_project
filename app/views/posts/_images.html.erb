@@ -10,7 +10,9 @@
   <!-- 2枚: 横に2分割 -->
   <div class="grid grid-cols-2 gap-2">
     <% images.each do |img| %>
-      <%= image_tag img.variant(resize_to_fill: [400, 300]).processed, class: "w-full h-auto object-cover rounded-lg" %>
+      <div>
+        <%= image_tag img.variant(resize_to_fill: [400, 300]).processed, class: "w-full h-auto object-cover rounded-lg" %>
+      </div>
     <% end %>
   </div>
 
@@ -32,7 +34,9 @@
   <!-- 4枚: 2×2 グリッド -->
   <div class="grid grid-cols-2 gap-2">
     <% images.each do |img| %>
-      <%= image_tag img.variant(resize_to_fill: [400, 300]).processed, class: "w-full h-full object-cover rounded-lg" %>
+      <div>
+        <%= image_tag img.variant(resize_to_fill: [400, 300]).processed, class: "w-full h-full object-cover rounded-lg" %>
+      </div>
     <% end %>
   </div>
 <% end %>

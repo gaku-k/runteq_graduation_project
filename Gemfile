@@ -40,6 +40,9 @@ gem "devise"
 # 検索・ソート
 gem "ransack"
 
+# CSS bundling with Tailwind
+gem 'cssbundling-rails'
+
 # UI・スタイリング
 gem "bootstrap"
 gem "sass-rails"

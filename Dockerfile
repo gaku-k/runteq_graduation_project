@@ -14,10 +14,15 @@ RUN apt-get update -qq && \
       libjemalloc2 \
       libvips \
       postgresql-client \
-      nodejs \
-      yarn \
-      tzdata \
-      && rm -rf /var/lib/apt/lists/*
+      tzdata
+
+# Install Node.js and Yarn
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs 
+
+# npmのインストールは新しいRUNレイヤーに分離することでパスの問題を回避
+RUN npm install -g yarn && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set environment variables for production
 ENV RAILS_ENV=production \
@@ -65,8 +70,15 @@ FROM build
 # Copy built gems from build stage
 COPY --from=build /usr/local/bundle /usr/local/bundle
 
-# Copy application code
+# Copy application code, including package.json and yarn.lock
 COPY . .
+
+# Tailwind CSSのビルドに必要なJavaScriptパッケージをインストール
+RUN rm -rf node_modules && \
+    yarn install --frozen-lockfile
+
+# Precompile assets for production
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 # Create non-root user for security
 RUN groupadd --system --gid 1000 rails && \
@@ -74,9 +86,6 @@ RUN groupadd --system --gid 1000 rails && \
     chown -R rails:rails /rails
 
 USER rails
-
-# Precompile assets for production (dummy secret)
-RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 # デバッグ用にentrypointを一時的に無効化
 # ENTRYPOINT ["/rails/bin/docker-entrypoint"]
