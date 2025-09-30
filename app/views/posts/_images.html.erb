@@ -3,7 +3,7 @@
 <% when 1 %>
   <!-- 1枚: div class="w-full" で全幅を使用 -->
   <div class="w-full">
-    <%= image_tag images.first.variant(resize_to_fill: [800, 600]).processed, class: "w-full h-auto object-cover rounded-lg" %>
+    <%= image_tag images.first.variant(resize_to_fill: [600, 800]).processed, class: "w-full h-auto object-cover rounded-lg" %>
   </div>
 
 <% when 2 %>
@@ -11,7 +11,7 @@
   <div class="grid grid-cols-2 gap-2">
     <% images.each do |img| %>
       <div>
-        <%= image_tag img.variant(resize_to_fill: [400, 300]).processed, class: "w-full h-auto object-cover rounded-lg" %>
+        <%= image_tag img.variant(resize_to_fill: [300, 400]).processed, class: "w-full h-auto object-cover rounded-lg" %>
       </div>
     <% end %>
   </div>
