@@ -7,3 +7,4 @@
 @tailwind utilities;
 
 /* その他のカスタムCSSやSCSSがあれば、ここに追記またはインポート */
+@import "./posts.css";
