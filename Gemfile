@@ -40,14 +40,19 @@ gem "devise"
 # 検索・ソート
 gem "ransack"
 
+# CSS bundling with Tailwind
+gem 'cssbundling-rails'
+
 # UI・スタイリング
 gem "bootstrap"
-gem "sass-rails"
 
-# 画像処理（後で追加予定）
-# gem 'image_processing'
-# gem 'mini_magick'
-# gem 'aws-sdk-s3'
+# 画像処理
+# リサイズ
+gem "image_processing", "~> 1.2"
+# リサイズ、フォーマット変換など
+gem "mini_magick"
+# クラウドストレージへの配送係
+gem "aws-sdk-s3", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

@@ -1,43 +1,66 @@
-/* 例: <style>タグとしてHTMLの<head>内に追加するか、CSSファイルに追加してください */
 .chart-container {
-  /* チャートが表示される最大高さを設定 */
-  height: 300px; 
-  
-  /* オプション：チャートが画面いっぱいには広がらないように最大幅を設定 */
-  max-width: 400px;
-  
-  /* オプション：中央寄せ */
-  margin: 0 auto; 
+  height: 250px;    /* チャートが表示される最大高さを設定 */
+  max-width: 250px; /* オプション：チャートが画面いっぱいには広がらないように最大幅を設定 */
+  margin: 0 auto;   /* オプション：中央寄せ */
 }
 
 .posts-list {
   list-style: none;
-  max-width: 960px;       /* コンテンツ幅の上限（PC用） */
-  margin: 0 auto;         /* 自動的に左右中央寄せ */
-  padding: 0 16px;        /* モバイルでも左右に余白を確保 */
+  max-width: 960px;       /* PC時のコンテンツ幅上限 */
+  margin: 0 auto;         /* 中央寄せ */
+  padding: 0 16px;        /* モバイルの横余白 */
 }
 
 .post-item {
-  display: flex;            /* 横並び */
-  gap: 20px;                /* 左右の余白 */
-  margin-bottom: 40px;      /* 投稿ごとの間隔 */
-  align-items: stretch;     /* 縦方向を揃える！ */
-  flex-wrap: wrap;          /* モバイル時の折り返しにも対応 */
+  margin-bottom: 40px;    /* 投稿ごとの間隔 */
 }
 
+/* 投稿全体をリンク化 */
+.post-card-link {
+  display: block;         /* 全体をブロック要素に */
+  text-decoration: none;  /* リンクの下線消す */
+  color: inherit;         /* テキスト色継承 */
+}
+
+/* 画像エリア */
+.image-section {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.image-section img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* チャート＋レビューの横並び */
+.chart-review-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+  flex-wrap: nowrap; /* 折り返しを禁止して、常に横並びを強制 */
+}
+
+/* チャート部分 */
 .chart-section {
-  flex: 0 0 300px;          /* チャート用に幅を固定、PCでは幅300px固定 */
+  flex: 0 1 300px;        /* 成長:0, 縮小:1, ベース:300px */
 }
 
+/* レビュー部分 */
 .review-section {
-  flex: 1;                  /* レビューが残り幅を占有 */
+  /* PCでは残り幅を占有しつつ、縮小を許可します */
+  flex: 1 1 0; /* 成長:1, 縮小:1, ベース:0。残り幅を均等に占めます */
   background-color: rgba(240, 240, 240, 1);
+  padding: 12px;
+  border-radius: 8px;
 }
 
-/* 投稿タイトルとレビュー見出しの共通スタイル */
+/* 投稿タイトル共通 */
 .post-title {
-  margin: 0 0 8px 0;     /* 下に余白 */
-  font-weight: bold;     /* 太字（共通） */
+  margin: 0 0 8px 0;
+  font-weight: bold;
 }
 
 /* Reviewだけ斜体 */
@@ -47,18 +70,22 @@
 
 /* モバイル（～767pxまで） */
 @media (max-width: 767px) {
-  .post-item {
-    flex-direction: row;   /* 横並び */
+.chart-container {
+    /* モバイルでも最大幅を制限する場合は、ここで指定します */
+    max-width: 200px; /* 例として、モバイルでは最大200pxに制限 */
+    height: 200px;    /* 高さを200pxに制限 */
+    margin: 0 auto;   /* 中央寄せを維持 */
+    height: auto; /* チャートの高さを柔軟に調整 */
   }
 
-  .chart-section,
-  .review-section {
-    flex: 1;               /* それぞれ画面幅の半分ずつに */
+
+  .chart-section {
+    max-width: none;
+    flex: 1 1 0; /* 成長:1、縮小:1、ベース:0、画面幅に合わせて強制的に50%ずつ縮小・拡大する */
   }
 
-  .chart-section canvas {
-    width: 100% !important;   /* Chart.jsキャンバスを横幅いっぱいに */
-    height: auto !important;  /* 高さは自動調整 */
+   .review-section {
+    flex: 1 1 0; /* 成長:1、縮小:1、ベース:0、画面幅に合わせて強制的に50%ずつ縮小・拡大する */
   }
 
   .post-title {
@@ -68,6 +95,11 @@
 
 /* PC（768px以上） */
 @media (min-width: 768px) {
+  .chart-section {
+    /* PCでは固定幅を維持 */
+    flex: 0 0 300px;
+  }
+  
   .post-title {
     font-size: 20px;
   }

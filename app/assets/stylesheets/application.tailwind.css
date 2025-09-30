@@ -1,0 +1,10 @@
+/*
+ * @import "tailwindcss" ではなく、
+ * Tailwind の公式ディレクティブを使用します。
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* その他のカスタムCSSやSCSSがあれば、ここに追記またはインポート */
+@import "./posts.css";
