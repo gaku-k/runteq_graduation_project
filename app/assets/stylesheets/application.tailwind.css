@@ -8,3 +8,10 @@
 
 /* その他のカスタムCSSやSCSSがあれば、ここに追記またはインポート */
 @import "./posts.css";
+
+/* レビューの星マーク */
+.rating-field .fa-star {
+  color: gold;
+  font-size: 20px;
+  margin-right: 1px;
+}

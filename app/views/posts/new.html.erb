@@ -1,0 +1,63 @@
+<h1>Write a review</h1>
+
+<%= form_with(model: @post, local: true) do |f| %>
+  <% if @post.errors.any? %>
+    <div id="error_explanation">
+      <!-- pluralizeを(単数、複数を切り替えてくれる)使って、発生したエラーの総数を表示 -->
+      <h2><%= pluralize(@post.errors.count, "error") %> が発生しました:</h2>
+      <ul>
+        <!-- @post のバリデーションに基づいて、Rilsがエラーを生成 -->
+        <% @post.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :product_name, "商品名" %><br>
+    <%= f.text_field :product_name %>
+  </div>
+
+  <h3>Triangle Chart</h3>
+
+  <div class="triangle-chart">
+    <!-- 香り -->
+    <div class="rating-field">
+      <%= f.label :aroma_rating, "香り" %><br>
+      <!-- この空の `div` に、外部ライブラリ(js)が動的にHTML要素を生成します -->
+      <div id="aroma-rating"></div>
+      <!-- ユーザーが上記の `div` で星などを操作した際、その評価結果（数値）を実際に保存するための隠された入力欄 -->
+      <%= f.hidden_field :aroma_rating %>
+    </div>
+
+    <!-- 味 -->
+    <div class="rating-field">
+      <%= f.label :taste_rating, "味" %><br>
+      <div id="taste-rating"></div>
+      <%= f.hidden_field :taste_rating %>
+    </div>
+
+    <!-- 価格 -->
+    <div class="rating-field">
+      <%= f.label :price_rating, "価格" %><br>
+      <div id="price-rating"></div>
+      <%= f.hidden_field :price_rating %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= f.label :body, "Review" %><br>
+    <%= f.text_area :body %>
+  </div>
+
+  <div class="field">
+    <%= f.label :images, "画像を追加" %><br>
+    <!-- multiple: true は複数選択の許可 -->
+    <%= f.file_field :images, multiple: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Add Review" %>
+  </div>
+<% end %>

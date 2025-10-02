@@ -7,6 +7,10 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
   end
 
+  def new
+    @post = Post.new
+  end
+
   private
 
   def post_params
