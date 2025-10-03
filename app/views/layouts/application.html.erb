@@ -22,6 +22,11 @@
   </head>
 
   <body>
+    <!-- key: "success", message: "投稿が完了しました" となる -->
+    <% flash.each do |key, message| %>
+      <div class="flash <%= key %>"><%= message %></div>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

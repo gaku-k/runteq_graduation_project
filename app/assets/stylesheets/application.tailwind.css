@@ -15,3 +15,32 @@
   font-size: 20px;
   margin-right: 1px;
 }
+
+/* Flash メッセージの共通スタイル */
+.flash {
+  padding: 12px;
+  border-radius: 6px;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+/* 成功メッセージ（緑） */
+.flash.success {
+  background-color: #d1fae5; /* 薄い緑 */
+  border: 1px solid #10b981; /* エメラルドグリーン */
+  color: #065f46; /* 濃い緑文字 */
+}
+
+/* 通常の通知（青系にする例） */
+.flash.notice {
+  background-color: #bfdbfe; /* 薄い青 */
+  border: 1px solid #3b82f6;
+  color: #1e3a8a;
+}
+
+/* エラーメッセージ（赤） */
+.flash.danger {
+  background-color: #fee2e2;
+  border: 1px solid #ef4444;
+  color: #991b1b;
+}
