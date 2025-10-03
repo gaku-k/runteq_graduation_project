@@ -9,6 +9,24 @@
 /* その他のカスタムCSSやSCSSがあれば、ここに追記またはインポート */
 @import "./posts.css";
 
+/* コンテンツのカード化 */
+.my-card {
+  width: 100%;                /* 要素の幅を親要素の100%にする */
+  max-width: 800px;           /* 要素の幅の最大値を800ピクセルに制限 */
+  margin-left: auto;          /* 左右自動で中央寄せ */
+  margin-right: auto;
+  background-color: white;    /* 背景色を白にする */
+  padding: 1.5rem;            /* カードの枠と中身のコンテンツとの間にスペース */
+}
+
+/* 赤いアスタリスクで入力必須を表現 */
+.required-star {
+  color: #e3342f; 
+  /* 任意: フォントを太くしたり、サイズを調整したりできます */
+  font-weight: bold;
+  margin-left: 2px; /* ラベルとの間に少し隙間を空ける */
+}
+
 /* レビューの星マーク */
 .rating-field .fa-star {
   color: gold;

@@ -63,8 +63,8 @@
   font-weight: bold;
 }
 
-/* Reviewだけ斜体 */
-.review-title {
+/* 斜体タイトル */
+.italic-title {
   font-style: italic;
 }
 
