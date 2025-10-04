@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  country_of_origin: MyString
+  volume: 1
+  reference_price: 9.99
+  sweet_rating: 1
+  spicy_rating: 1
+  bitter_rating: 1
+  green_rating: 1
+  fruity_rating: 1
+
+two:
+  name: MyString
+  country_of_origin: MyString
+  volume: 1
+  reference_price: 9.99
+  sweet_rating: 1
+  spicy_rating: 1
+  bitter_rating: 1
+  green_rating: 1
+  fruity_rating: 1
