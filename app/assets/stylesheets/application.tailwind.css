@@ -15,8 +15,7 @@
   max-width: 800px;           /* 要素の幅の最大値を800ピクセルに制限 */
   margin-left: auto;          /* 左右自動で中央寄せ */
   margin-right: auto;
-  background-color: white;    /* 背景色を白にする */
-  padding: 1.5rem;            /* カードの枠と中身のコンテンツとの間にスペース */
+  background-color: white;    /* 背景色を白にする */           /* カードの枠と中身のコンテンツとの間にスペース */
 }
 
 /* -------------------------------------- */
