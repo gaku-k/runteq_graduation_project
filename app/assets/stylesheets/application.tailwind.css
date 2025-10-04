@@ -20,7 +20,7 @@
 }
 
 /* -------------------------------------- */
-/* 共通: 入力フィールドを幅いっぱいに広げる */
+/* 共通: 入力フィールドを親要素の幅いっぱいに広げる */
 .input-group input[type="text"],
 .input-group textarea {
   width: 100%; /* 親要素の幅いっぱい（余白はpaddingやmarginで確保） */
@@ -83,7 +83,7 @@
 /* ラベルと星を横並びにする */
 .rating-field {
   display: flex; /* ラベルと星のコンテナを横並びにする */
-  align-items: center; /* 垂直方向の中央揃え */
+  align-items: center; /* 垂直方向の中央揃えで高さを揃える */
   gap: 10px; /* ラベルと星の間に10pxの間隔を空ける */
   padding: 5px 0;
 }

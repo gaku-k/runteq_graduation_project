@@ -104,3 +104,30 @@
     font-size: 20px;
   }
 }
+
+/* --------------newページ------------- */
+/* 楕円の送信ボタン */
+.actions input[type="submit"] {
+  /* 1. ボタンの背景色 */
+  background-color: #7D9D76;            
+  /* 枠線は不要 */
+  border: none;             
+
+  /* 2. 楕円形の形状 */
+  /* paddingを大きく取ることで、縦長で楕円に近い形を作る */
+  padding: 12px 30px; 
+  /* 四隅の半径を28.5pxにする */
+  border-radius: 28.5px;    
+  
+  /* その他、基本的なスタイル */
+  cursor: pointer;          
+  font-size: 16px;
+}
+
+/* タイトル「Write a review」と送信ボタンを横並びにする */
+.post-header {
+  display: flex;
+  justify-content: space-between; /* 左右両端に分ける */
+  align-items: center;           /* 縦位置を揃える */
+}
+/* -------------------------------------- */

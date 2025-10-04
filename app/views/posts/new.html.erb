@@ -1,7 +1,13 @@
 <div class="my-card">
-  <h1 class="italic-title">Write a review</h1>
-
   <%= form_with(model: @post, local: true) do |f| %>
+  <!-- Write a review と ボタンを横並びにする狙い -->
+    <div class="post-header">
+      <h1 class="italic-title">Write a review</h1>
+      <div class="actions">
+        <%= f.submit "Add Review" %>
+      </div>
+    </div>
+
     <% if @post.errors.any? %>
       <div id="error_explanation">
         <!-- pluralizeを(単数、複数を切り替えてくれる)使って、発生したエラーの総数を表示 -->
@@ -58,10 +64,6 @@
       <%= f.label :images, "画像を追加" %><br>
       <!-- multiple: true は複数選択の許可 -->
       <%= f.file_field :images, multiple: true %>
-    </div>
-
-    <div class="actions">
-      <%= f.submit "Add Review" %>
     </div>
   <% end %>
 </div>
