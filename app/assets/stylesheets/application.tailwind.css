@@ -8,3 +8,120 @@
 
 /* その他のカスタムCSSやSCSSがあれば、ここに追記またはインポート */
 @import "./posts.css";
+
+/* コンテンツのカード化 */
+.my-card {
+  width: 100%;                /* 要素の幅を親要素の100%にする */
+  max-width: 800px;           /* 要素の幅の最大値を800ピクセルに制限 */
+  margin-left: auto;          /* 左右自動で中央寄せ */
+  margin-right: auto;
+  background-color: white;    /* 背景色を白にする */           /* カードの枠と中身のコンテンツとの間にスペース */
+}
+
+/* -------------------------------------- */
+/* 共通: 入力フィールドを親要素の幅いっぱいに広げる */
+.input-group input[type="text"],
+.input-group textarea {
+  width: 100%; /* 親要素の幅いっぱい（余白はpaddingやmarginで確保） */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* paddingとborderを幅に含める */
+}
+
+/* 入力項目、フィールド横並びのスタイル */
+.input-group:not(.vertical-group) {
+  /* vertical-groupがない .input-group のみに適用 */
+  display: flex;
+  align-items: center; /* 垂直方向の中央揃え */
+  margin-bottom: 15px;
+}
+
+.input-group:not(.vertical-group) label {
+  /* ラベルは縮まないように固定 */
+  flex-shrink: 0;
+}
+
+.input-group:not(.vertical-group) input[type="text"] {
+  /* 残りの幅をすべて占め、横いっぱいに広がる */
+  flex-grow: 1; 
+  /* ラベルとの間隔を確保 */
+  margin-left: 15px;
+}
+
+/* 入力項目、フィールド縦並びのスタイル */
+.vertical-group {
+  /* デフォルトの縦並び（display: block;）を維持 */
+  display: block; 
+  margin-bottom: 20px;
+}
+
+.vertical-group label {
+  /* 縦並びなので、幅いっぱいに広がる必要なし */
+  display: block; 
+  margin-bottom: 5px; /* 入力フィールドとの間に間隔を確保 */
+}
+/* -------------------------------------- */
+
+/* 赤いアスタリスクで入力必須を表現 */
+.required-star {
+  color: #e3342f; 
+  /* 任意: フォントを太くしたり、サイズを調整したりできます */
+  font-weight: bold;
+  margin-left: 2px; /* ラベルとの間に少し隙間を空ける */
+}
+
+/* -------------------------------------- */
+/* レビューの星マーク */
+.rating-field .fa-star {
+  color: gold;
+  font-size: 20px;
+  margin-right: 1px;
+}
+
+/* ラベルと星を横並びにする */
+.rating-field {
+  display: flex; /* ラベルと星のコンテナを横並びにする */
+  align-items: center; /* 垂直方向の中央揃えで高さを揃える */
+  gap: 10px; /* ラベルと星の間に10pxの間隔を空ける */
+  padding: 5px 0;
+}
+
+/* ラベルのスタイル調整 */
+.rating-label {
+  /* 修正: 確実に星の開始位置を揃えるため、ラベル内のテキストを右寄せにする */
+  text-align: right;
+  width: 50px;
+  /* 0:縮むな という意味。親コンテナが狭くなっても省略、押しつぶされたりするのを防ぐ */
+  flex-shrink: 0;
+}
+/* -------------------------------------- */
+
+/* Flash メッセージの共通スタイル */
+.flash {
+  padding: 12px;
+  border-radius: 6px;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+/* 成功メッセージ（緑） */
+.flash.success {
+  background-color: #d1fae5; /* 薄い緑 */
+  border: 1px solid #10b981; /* エメラルドグリーン */
+  color: #065f46; /* 濃い緑文字 */
+}
+
+/* 通常の通知（青系にする例） */
+.flash.notice {
+  background-color: #bfdbfe; /* 薄い青 */
+  border: 1px solid #3b82f6;
+  color: #1e3a8a;
+}
+
+/* エラーメッセージ（赤） */
+.flash.danger {
+  background-color: #fee2e2;
+  border: 1px solid #ef4444;
+  color: #991b1b;
+}

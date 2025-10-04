@@ -1,3 +1,31 @@
+/* -------------------------------------- */
+/* フローティングボタン(post作成) */
+.floating-btn {
+  position: fixed;        /* 画面に固定 */
+  bottom: 30px;           /* 下から20px */
+  right: 30px;             /* 左から20px */
+  width: 60px;            /* 幅 */
+  height: 60px;           /* 高さ */
+  background-color: #7D9D76; /* ボタンの背景色 */
+  border-radius: 50%;     /* 丸いボタンにする */
+  display: flex;          /* 中央寄せ */
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;        /* 「＋」を大きめに */
+  text-decoration: none;  /* リンクの下線を消す */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* 影をつける */
+  transition: background-color 0.3s ease;
+}
+
+.floating-btn:hover {
+  background-color: #6a8c63; /* ホバー時に濃く */
+}
+
+.floating-btn i {
+  color: black
+}
+/* -------------------------------------- */
+
 .chart-container {
   height: 250px;    /* チャートが表示される最大高さを設定 */
   max-width: 250px; /* オプション：チャートが画面いっぱいには広がらないように最大幅を設定 */
@@ -63,8 +91,8 @@
   font-weight: bold;
 }
 
-/* Reviewだけ斜体 */
-.review-title {
+/* 斜体タイトル */
+.italic-title {
   font-style: italic;
 }
 
@@ -84,7 +112,7 @@
     flex: 1 1 0; /* 成長:1、縮小:1、ベース:0、画面幅に合わせて強制的に50%ずつ縮小・拡大する */
   }
 
-   .review-section {
+  .review-section {
     flex: 1 1 0; /* 成長:1、縮小:1、ベース:0、画面幅に合わせて強制的に50%ずつ縮小・拡大する */
   }
 
@@ -104,3 +132,35 @@
     font-size: 20px;
   }
 }
+
+/* --------------newページ------------- */
+/* 楕円の送信ボタン */
+.actions input[type="submit"] {
+  /* 1. ボタンの背景色 */
+  background-color: #7D9D76;            
+  /* 枠線は不要 */
+  border: none;             
+
+  /* 2. 楕円形の形状 */
+  /* paddingを大きく取ることで、縦長で楕円に近い形を作る */
+  padding: 12px 30px; 
+  /* 四隅の半径を28.5pxにする */
+  border-radius: 28.5px;    
+  
+  /* その他、基本的なスタイル */
+  cursor: pointer;          
+  font-size: 16px;
+}
+
+/* ホバー時の色を少し濃くする (任意) */
+.actions input:hover {
+  background-color: #6a8c63; /* 少し濃い緑 */
+}
+
+/* タイトル「Write a review」と送信ボタンを横並びにする */
+.post-header {
+  display: flex;
+  justify-content: space-between; /* 左右両端に分ける */
+  align-items: center;           /* 縦位置を揃える */
+}
+/* -------------------------------------- */

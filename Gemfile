@@ -41,7 +41,7 @@ gem "devise"
 gem "ransack"
 
 # CSS bundling with Tailwind
-gem 'cssbundling-rails'
+gem "cssbundling-rails"
 
 # UI・スタイリング
 gem "bootstrap"
@@ -62,6 +62,8 @@ group :development, :test do
   gem "brakeman", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+  gem "rubocop", require: false
+  gem "rubocop-rails", require: false
   gem "rubocop-rails-omakase", require: false
 end
 

@@ -82,8 +82,15 @@ RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 # Create non-root user for security
 RUN groupadd --system --gid 1000 rails && \
-    useradd --uid 1000 --gid 1000 --create-home --shell /bin/bash rails && \
-    chown -R rails:rails /rails
+    useradd --uid 1000 --gid 1000 --create-home --shell /bin/bash rails
+
+# 1. /railsディレクトリ全体の所有権をrailsユーザーに変更
+RUN chown -R rails:rails /rails
+
+# 2. Bundlerのキャッシュディレクトリの所有権をrailsユーザーに変更
+#    BUNDLERのデフォルトインストールパス/cacheへの書き込み権限を付与する
+#    /usr/local/bundle はCOPY --from=buildでコピーされています
+RUN chown -R rails:rails /usr/local/bundle
 
 USER rails
 
