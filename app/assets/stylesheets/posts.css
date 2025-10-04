@@ -1,3 +1,31 @@
+/* -------------------------------------- */
+/* フローティングボタン(post作成) */
+.floating-btn {
+  position: fixed;        /* 画面に固定 */
+  bottom: 30px;           /* 下から20px */
+  right: 30px;             /* 左から20px */
+  width: 60px;            /* 幅 */
+  height: 60px;           /* 高さ */
+  background-color: #7D9D76; /* ボタンの背景色 */
+  border-radius: 50%;     /* 丸いボタンにする */
+  display: flex;          /* 中央寄せ */
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;        /* 「＋」を大きめに */
+  text-decoration: none;  /* リンクの下線を消す */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* 影をつける */
+  transition: background-color 0.3s ease;
+}
+
+.floating-btn:hover {
+  background-color: #6a8c63; /* ホバー時に濃く */
+}
+
+.floating-btn i {
+  color: black
+}
+/* -------------------------------------- */
+
 .chart-container {
   height: 250px;    /* チャートが表示される最大高さを設定 */
   max-width: 250px; /* オプション：チャートが画面いっぱいには広がらないように最大幅を設定 */
@@ -122,6 +150,11 @@
   /* その他、基本的なスタイル */
   cursor: pointer;          
   font-size: 16px;
+}
+
+/* ホバー時の色を少し濃くする (任意) */
+.actions input:hover {
+  background-color: #6a8c63; /* 少し濃い緑 */
 }
 
 /* タイトル「Write a review」と送信ボタンを横並びにする */
