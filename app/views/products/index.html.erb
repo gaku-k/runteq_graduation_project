@@ -5,8 +5,20 @@
     <% @products.each do |product| %>
       <li>
         <div>
+          <% if product.images.attached? %>
+            <% if product.images.size == 1 %>
+              <%= image_tag product.images.first %>
+            <% else %>
+              <%= image_tag product.images.last %>
+            <% end %>
+          <% else %>
+            <div>画像はありません</div>
+          <% end %>
+        </div>
+
+        <div>
           <h2><%= product.name %></h2>
-          <%= render partial: "radar_chart", locals: { product: product } %>
+          <%= render partial: "products/radar_chart", locals: { product: product } %>
         </div>
       </li>
     <% end %>        
