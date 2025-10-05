@@ -92,3 +92,29 @@ post5.images.attach(io: file1, filename: "sample4_1.jpg", content_type: "image/j
 post5.images.attach(io: file2, filename: "sample4_2.jpg", content_type: "image/jpg")
 post5.images.attach(io: file3, filename: "sample4_3.jpg", content_type: "image/jpg")
 post5.images.attach(io: file4, filename: "sample4_4.jpg", content_type: "image/jpg")
+
+# Product.destroy_all
+
+product1 = Product.create!(
+  name: "商品:オリーブオイル",
+  country_of_origin: "スペイン",
+  volume: 250,
+  reference_price: 2000,
+  sweet_rating: 4,
+  spicy_rating: 3,
+  bitter_rating: 5,
+  green_rating: 4,
+  fruity_rating: 2
+)
+
+product2 = Product.create!(
+  name: "商品:オリーブオイル",
+  country_of_origin: "イタリア",
+  volume: 250,
+  reference_price: 1500,
+  sweet_rating: 3,
+  spicy_rating: 1,
+  bitter_rating: 4,
+  green_rating: 5,
+  fruity_rating: 3
+)

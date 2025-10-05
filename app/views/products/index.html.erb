@@ -1,0 +1,15 @@
+<div class="my-card">
+  <%= render "shared/floating_button" %>
+  <h1>商品一覧</h1>
+
+  <ul>
+    <% @products.each do |product| %>
+      <li>
+        <div>
+          <h2><%= product.name %></h2>
+          <%# render partial: "radar_chart", locals: { product: product } %>
+        </div>
+      </li>
+    <% end %>        
+  </ul>
+</div>
