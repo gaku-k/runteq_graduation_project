@@ -1,24 +1,27 @@
 <%= render "shared/floating_button" %>
   <h1>商品一覧</h1>
 
-  <ul>
+  <ul class="product-list-container">
     <% @products.each do |product| %>
-      <li>
-        <div>
-          <% if product.images.attached? %>
-            <% if product.images.size == 1 %>
-              <%= image_tag product.images.first %>
-            <% else %>
-              <%= image_tag product.images.last %>
-            <% end %>
-          <% else %>
-            <div>画像はありません</div>
-          <% end %>
-        </div>
+      <li class="product-card">
 
-        <div>
-          <h2><%= product.name %></h2>
-          <%= render partial: "products/radar_chart", locals: { product: product } %>
+        <div class="product-card-inner"> 
+
+          <div class="product-image-area">
+            <% if product.images.attached? %>
+              <% image_to_show = product.images.size == 1 ? product.images.first : product.images.last %>
+              <%= image_tag image_to_show, class: "product-image" %> 
+            <% else %>
+              <%= image_tag "https://placehold.co/600x400/CCCCCC/000000?text=NO+IMAGE", alt: "画像なし", class: "product-image" %>
+            <% end %>
+          </div>
+
+          <div class="product-info-area">
+            <h2><%= product.name %></h2>
+            <div class="new-pentagon-radar-chart-container">
+              <%= render partial: "products/radar_chart", locals: { product: product } %>
+            </div>
+          </div>
         </div>
       </li>
     <% end %>        
