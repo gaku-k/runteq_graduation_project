@@ -1,18 +1,18 @@
-<div class="chart-container">
-  <canvas id="chart-<%= post.id %>"></canvas>
+<div>
+  <canvas id="chart-<%= product.id %>" class="radar-chart"></canvas>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const ctx = document.getElementById('chart-<%= post.id %>').getContext('2d');
+  const ctx = document.getElementById('chart-<%= product.id %>').getContext('2d');
   
   new Chart(ctx, {
     type: 'radar',
     data: {
-      labels: ['香り', '味', '価格'],
+      labels: ['甘み', '辛み', '青い', 'フルーティー', '苦み'],
       datasets: [{
-        label: 'Triangle Chart', 
-        data: [<%= post.aroma_rating %>, <%= post.taste_rating %>, <%= post.price_rating %>],
+        label: 'Flavor Chart', 
+        data: [<%= product.sweet_rating %>, <%= product.spicy_rating %>, <%= product.green_rating %>, <%= product.fruity_rating %>, <%= product.bitter_rating %>],
         fill: true,
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgba(54, 162, 235, 1)',

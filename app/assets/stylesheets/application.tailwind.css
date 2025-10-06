@@ -8,6 +8,7 @@
 
 /* その他のカスタムCSSやSCSSがあれば、ここに追記またはインポート */
 @import "./posts.css";
+@import "./products.css";
 
 /* コンテンツのカード化 */
 .my-card {

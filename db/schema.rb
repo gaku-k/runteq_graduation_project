@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_28_113912) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_04_064456) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,6 +42,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_28_113912) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "olive_varieties", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "product_id"
@@ -50,6 +56,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_28_113912) do
     t.integer "taste_rating"
     t.integer "price_rating"
     t.string "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "product_olive_varieties", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "olive_variety_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.string "country_of_origin"
+    t.integer "volume"
+    t.decimal "reference_price"
+    t.integer "sweet_rating"
+    t.integer "spicy_rating"
+    t.integer "bitter_rating"
+    t.integer "green_rating"
+    t.integer "fruity_rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

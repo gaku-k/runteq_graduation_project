@@ -38,6 +38,7 @@ post2 = Post.create!(
   taste_rating: 2,
   price_rating: 5
 )
+
 file2 = URI.open("https://picsum.photos/301") # 画像URLを変えると別の画像が取れる
 post2.images.attach(io: file2, filename: "sample2.jpg", content_type: "image/jpg")
 
@@ -92,3 +93,77 @@ post5.images.attach(io: file1, filename: "sample4_1.jpg", content_type: "image/j
 post5.images.attach(io: file2, filename: "sample4_2.jpg", content_type: "image/jpg")
 post5.images.attach(io: file3, filename: "sample4_3.jpg", content_type: "image/jpg")
 post5.images.attach(io: file4, filename: "sample4_4.jpg", content_type: "image/jpg")
+
+# ----------------------
+# 商品サンプルデータ
+# ----------------------
+Product.destroy_all
+
+product1 = Product.create!(
+  name: "商品:オリーブオイルA",
+  country_of_origin: "スペイン",
+  volume: 250,
+  reference_price: 2000,
+  sweet_rating: 4,
+  spicy_rating: 3,
+  bitter_rating: 5,
+  green_rating: 4,
+  fruity_rating: 2
+)
+
+product2 = Product.create!(
+  name: "商品:オリーブオイルB",
+  country_of_origin: "イタリア",
+  volume: 250,
+  reference_price: 1500,
+  sweet_rating: 3,
+  spicy_rating: 1,
+  bitter_rating: 4,
+  green_rating: 5,
+  fruity_rating: 3
+)
+
+file1 = URI.open("https://picsum.photos/300?random=2")
+file2 = URI.open("https://picsum.photos/300?random=3")
+product2.images.attach(io: file1, filename: "sample2_1.jpg", content_type: "image/jpg")
+product2.images.attach(io: file2, filename: "sample2_2.jpg", content_type: "image/jpg")
+
+product3 = Product.create!(
+  name: "商品:オリーブオイルC",
+  country_of_origin: "ポルトガル",
+  volume: 260,
+  reference_price: 1400,
+  sweet_rating: 3,
+  spicy_rating: 2,
+  bitter_rating: 3,
+  green_rating: 5,
+  fruity_rating: 5
+)
+
+file1 = URI.open("https://picsum.photos/300?random=4")
+file2 = URI.open("https://picsum.photos/300?random=5")
+file3 = URI.open("https://picsum.photos/300?random=6")
+product3.images.attach(io: file1, filename: "sample3_1.jpg", content_type: "image/jpg")
+product3.images.attach(io: file2, filename: "sample3_2.jpg", content_type: "image/jpg")
+product3.images.attach(io: file3, filename: "sample3_3.jpg", content_type: "image/jpg")
+
+product4 = Product.create!(
+  name: "商品:オリーブオイルD",
+  country_of_origin: "トルコ",
+  volume: 600,
+  reference_price: 2300,
+  sweet_rating: 4,
+  spicy_rating: 1,
+  bitter_rating: 2,
+  green_rating: 3,
+  fruity_rating: 5
+)
+
+file1 = URI.open("https://picsum.photos/300?random=7")
+file2 = URI.open("https://picsum.photos/300?random=8")
+file3 = URI.open("https://picsum.photos/300?random=9")
+file4 = URI.open("https://picsum.photos/300?random=10")
+product4.images.attach(io: file1, filename: "sample4_1.jpg", content_type: "image/jpg")
+product4.images.attach(io: file2, filename: "sample4_2.jpg", content_type: "image/jpg")
+product4.images.attach(io: file3, filename: "sample4_3.jpg", content_type: "image/jpg")
+product4.images.attach(io: file4, filename: "sample4_4.jpg", content_type: "image/jpg")

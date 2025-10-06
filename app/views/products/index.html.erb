@@ -1,0 +1,28 @@
+<%= render "shared/floating_button" %>
+  <h1>商品一覧</h1>
+
+  <ul class="product-list-container">
+    <% @products.each do |product| %>
+      <li class="product-card">
+
+        <div class="product-card-inner"> 
+
+          <div class="product-image-area">
+            <% if product.images.attached? %>
+              <% image_to_show = product.images.size == 1 ? product.images.first : product.images.last %>
+              <%= image_tag image_to_show, class: "product-image" %> 
+            <% else %>
+              <%= image_tag "https://placehold.co/600x400/CCCCCC/000000?text=NO+IMAGE", alt: "画像なし", class: "product-image" %>
+            <% end %>
+          </div>
+
+          <div class="product-info-area">
+            <h2><%= product.name %></h2>
+            <div class="new-pentagon-radar-chart-container">
+              <%= render partial: "products/radar_chart", locals: { product: product } %>
+            </div>
+          </div>
+        </div>
+      </li>
+    <% end %>        
+  </ul>
