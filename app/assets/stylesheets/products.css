@@ -152,3 +152,15 @@
   color: #0070f3;
 }
 /* -------------------------------------- */
+/* -------------------------------------- */
+/* pruducts/showページ */
+
+/* 品種の表示 */
+.tag {
+  background-color: #f0f4f8;
+  color: #333;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-right: 4px;
+  font-size: 0.9rem;
+}
