@@ -1,5 +1,11 @@
 <% images = product.images %>
 <% case images.size %>
+<% when 0 %>
+  <!-- 画像がない場合: ダミー画像を表示 -->
+  <div class="w-full">
+    <%= image_tag "https://placehold.co/600x400/CCCCCC/000000?text=NO+IMAGE", alt: "画像なし", class: "w-full h-auto object-cover rounded-lg" %>
+  </div>
+
 <% when 1 %>
   <!-- 1枚: div class="w-full" で全幅を使用 -->
   <div class="w-full">

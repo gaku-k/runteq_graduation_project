@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
   new Chart(ctx, {
     type: 'radar',
     data: {
-      labels: ['甘み', '辛み', '青い', 'フルーティー', '苦み'],
+      labels: ['甘み', '辛み', '青い', '果実感', '苦み'],
       datasets: [{
         label: 'Flavor Chart', 
         data: [<%= product.sweet_rating %>, <%= product.spicy_rating %>, <%= product.green_rating %>, <%= product.fruity_rating %>, <%= product.bitter_rating %>],
