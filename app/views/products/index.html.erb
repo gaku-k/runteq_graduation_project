@@ -17,7 +17,9 @@
           </div>
 
           <div class="product-info-area">
-            <h2><%= product.name %></h2>
+            <h2>
+              <%= link_to product.name, product_path(product), class: "product-name-link"%>
+            </h2>
             <div class="new-pentagon-radar-chart-container">
               <%= render partial: "products/radar_chart", locals: { product: product } %>
             </div>
