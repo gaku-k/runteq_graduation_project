@@ -26,6 +26,13 @@ const initializeRaty = () => {
   $('#aroma-rating').raty(options);
   $('#taste-rating').raty(options);
   $('#price-rating').raty(options);
+
+  $('#sweet-rating').raty(options);
+  $('#spicy-rating').raty(options);
+  $('#bitter-rating').raty(options);
+  $('#green-rating').raty(options);
+  $('#fruity-rating').raty(options);
+
 };
 
 // 1. DOMが完全に準備されたときに実行
