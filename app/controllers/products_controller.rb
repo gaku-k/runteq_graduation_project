@@ -7,6 +7,20 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
   end
 
+  def new
+    @product = Product.new
+  end
+
+  def create
+    @product = Product.new(product_params)
+    if @product.save
+      redirect_to product_path(@product), success: "ご協力ありがとうございます！"
+    else
+      flash.now[:danger] = "商品追加に失敗しました"
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def product_params
