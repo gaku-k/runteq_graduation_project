@@ -99,6 +99,34 @@ post5.images.attach(io: file4, filename: "sample4_4.jpg", content_type: "image/j
 # ----------------------
 Product.destroy_all
 
+# 品種をあらかじめ作成
+variety1 = OliveVariety.create!(name: "アルベキーナ")
+variety2 = OliveVariety.create!(name: "ピクアル")
+
+product0 = Product.create!(
+  name: "商品:オリーブオイル",
+  country_of_origin: "トルコ",
+  volume: 600,
+  reference_price: 2300,
+  sweet_rating: 4,
+  spicy_rating: 1,
+  bitter_rating: 2,
+  green_rating: 3,
+  fruity_rating: 5
+)
+
+# 関連付け（中間テーブルに自動でレコードが作られる）
+product0.olive_varieties << [variety1, variety2]
+
+file1 = URI.open("https://picsum.photos/300?random=7")
+file2 = URI.open("https://picsum.photos/300?random=8")
+file3 = URI.open("https://picsum.photos/300?random=9")
+file4 = URI.open("https://picsum.photos/300?random=10")
+product0.images.attach(io: file1, filename: "sample4_1.jpg", content_type: "image/jpg")
+product0.images.attach(io: file2, filename: "sample4_2.jpg", content_type: "image/jpg")
+product0.images.attach(io: file3, filename: "sample4_3.jpg", content_type: "image/jpg")
+product0.images.attach(io: file4, filename: "sample4_4.jpg", content_type: "image/jpg")
+
 product1 = Product.create!(
   name: "商品:オリーブオイルA",
   country_of_origin: "スペイン",
@@ -167,3 +195,19 @@ product4.images.attach(io: file1, filename: "sample4_1.jpg", content_type: "imag
 product4.images.attach(io: file2, filename: "sample4_2.jpg", content_type: "image/jpg")
 product4.images.attach(io: file3, filename: "sample4_3.jpg", content_type: "image/jpg")
 product4.images.attach(io: file4, filename: "sample4_4.jpg", content_type: "image/jpg")
+
+# 画像一枚で縦横4:3になるか
+product5 = Product.create!(
+  name: "商品:オリーブオイルE",
+  country_of_origin: "イタリア",
+  volume: 260,
+  reference_price: 2300,
+  sweet_rating: 5,
+  spicy_rating: 1,
+  bitter_rating: 2,
+  green_rating: 5,
+  fruity_rating: 1
+)
+
+file1 = URI.open("https://picsum.photos/300?random=2")
+product5.images.attach(io: file1, filename: "sample2_2.jpg", content_type: "image/jpg")

@@ -139,4 +139,74 @@
         margin: 0 auto; 
     }
 }
+
+/* -------------------------------------- */
+/* Product.nameのリンク */
+.product-name-link {
+  text-decoration: none;
+  color: #333;
+}
+
+.product-name-link:hover {
+  text-decoration: underline;
+  color: #0070f3;
+}
+/* ====================================== */
+/* pruducts/showページ */
+
+/* 品種の表示 */
+.tag {
+  background-color: #f0f4f8;
+  color: #333;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-right: 4px;
+  font-size: 0.9rem;
+}
+
+/* -------------------------------------- */
+.product-detail-section {
+  /* PCでは残り幅を占有しつつ、縮小を許可します */
+  flex: 1 1 0; /* 成長:1, 縮小:1, ベース:0。残り幅を均等に占めます */
+  background-color: rgba(240, 240, 240, 1);
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+/* タイトルの余白を詰める */
+.product-detail-section h2 {
+  margin-top: 0;              /* デフォルトのh2上余白を削除 */
+  margin-bottom: 10px;        /* タイトル下のスペースを程よく */
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* 商品詳細情報の各項目 */
+.product-detail-list {
+  list-style: none; /* 丸点を消す */
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 400px; /* 任意。整った幅を設定 */
+}
+
+.product-detail-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.detail-label {
+  display: inline-block;
+  width: 140px; /* ラベル列の幅を統一して揃える */
+  font-weight: 600;
+  color: #333;
+}
+
+.detail-value {
+  flex: 1;
+  color: #555;
+  padding-left: 12px; /* ラベルと値の間隔 */
+}
 /* -------------------------------------- */
