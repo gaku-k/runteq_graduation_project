@@ -116,7 +116,7 @@ product0 = Product.create!(
 )
 
 # 関連付け（中間テーブルに自動でレコードが作られる）
-product0.olive_varieties << [variety1, variety2]
+product0.olive_varieties << [ variety1, variety2 ]
 
 file1 = URI.open("https://picsum.photos/300?random=7")
 file2 = URI.open("https://picsum.photos/300?random=8")
