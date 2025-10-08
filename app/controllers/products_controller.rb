@@ -35,6 +35,11 @@ class ProductsController < ApplicationController
       :green_rating,
       :fruity_rating,
       images: []
+      # 既存オリーブ品種の選択。配列によるデータ(id)の受け取りを許可し、既存データを再利用
+      olive_variety_ids: [],
+      # 別テーブルの新しい品種名を許可する
+      olive_varieties_attributes: [:name]
+      # ただしこれだけでは既存品種の再入力で同じ名前の別idのデータが送信できてしまう
     )
   end
 end
