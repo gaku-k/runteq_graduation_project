@@ -9,6 +9,9 @@ class ProductsController < ApplicationController
 
   def new
     @product = Product.new
+    # @olive_varieties を初期化する
+    # チェックボックスの選択肢として利用するnilでない品種のみにフィルタリングする
+    @olive_varieties = OliveVariety.where.not(name: nil)
   end
 
   def create
@@ -17,6 +20,9 @@ class ProductsController < ApplicationController
       redirect_to product_path(@product), success: "ご協力ありがとうございます！"
     else
       flash.now[:danger] = "商品追加に失敗しました"
+      # フォーム再表示時に再度@olive_varieties の初期化をしないと選択肢リストを生成できない
+      # elseブロックはnewアクションとは独立しているらしく、再定義しないとビューに渡る時点でnilになるという
+      @olive_varieties = OliveVariety.where.not(name: nil)
       render :new, status: :unprocessable_entity
     end
   end
