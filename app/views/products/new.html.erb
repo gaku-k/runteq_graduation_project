@@ -104,6 +104,30 @@
       </div>
     </div>
 
+    <!-- 新しい品種を追加 -->
+    <div data-controller="add-variety">
+      <%= label_tag "new_olive_variety_name", "新しい品種" %>
 
+      <!-- 入力欄をまとめる領域 -->
+      <div data-add-variety-target="fields">
+        <div class="variety-field mb-2 flex items-center gap-2">
+          <%= text_field_tag "new_olive_variety_name[]", nil, class: "border p-1 rounded w-full" %>
+          <button type="button" data-action="click->add-variety#removeField" class="text-red-500">−</button>
+        </div>
+      </div>
+
+      <!-- テンプレート（非表示） -->
+      <template data-add-variety-target="template">
+        <div class="variety-field mb-2 flex items-center gap-2">
+          <%= text_field_tag "new_olive_variety_name[]", nil, class: "border p-1 rounded w-full" %>
+          <button type="button" data-action="click->add-variety#removeField" class="text-red-500">−</button>
+        </div>
+      </template>
+
+      <!-- 追加ボタン -->
+      <button type="button" data-action="click->add-variety#addField" class="text-blue-600 font-bold mt-2">
+        ＋ 品種を追加
+      </button>
+    </div>
   <% end %>
 </div>
