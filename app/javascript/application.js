@@ -1,6 +1,7 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import $ from "jquery";
-import "jquery-raty"; 
+import "jquery-raty";
+import "controllers";
 
 // --------------------------------
 // 五つ星
