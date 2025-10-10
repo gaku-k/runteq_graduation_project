@@ -8,4 +8,20 @@ class Product < ApplicationRecord
   # Productの新規作成や更新時にProductのインスタンスを操作する際、関連づけられた:olive_varieties の属性も同時に受け付けて保存する機能
   # allow_destroy: falseはネストされたフォームを通じて削除要求が行われることを拒否する。ユーザーはOliveVariety レコードの削除ができない前提
   accepts_nested_attributes_for :olive_varieties, allow_destroy: false
+
+  validates :name, presence: true, length: { maximum: 100 }
+  validates :sweet_rating, :spicy_rating, :bitter_rating, :green_rating, :fruity_rating,
+            presence: true,
+            numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
+
+  # postモデルと全く同じもの。共通のバリデーションを定義したモジュールを作成し、各モデルでincludeする手もある
+  validate :images_count_within_limit
+
+  private
+
+  def images_count_within_limit
+    if images.attached? && images.count > 4
+      errors.add(:images, "は4枚まで添付できます")
+    end
+  end
 end
