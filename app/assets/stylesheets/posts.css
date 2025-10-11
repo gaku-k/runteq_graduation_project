@@ -2,8 +2,8 @@
 /* フローティングボタン(post作成) */
 .floating-btn {
   position: fixed;        /* 画面に固定 */
-  bottom: 30px;           /* 下から20px */
-  right: 30px;             /* 左から20px */
+  bottom: 30px;           /* 下から30px */
+  right: 30px;             /* 右から30px */
   width: 60px;            /* 幅 */
   height: 60px;           /* 高さ */
   background-color: #7D9D76; /* ボタンの背景色 */
