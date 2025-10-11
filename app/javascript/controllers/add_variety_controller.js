@@ -11,9 +11,16 @@ export default class extends Controller {
     // テンプレートを複製して、fields内に挿入
     // HTMLの <template> タグの中身（.content）を取得し、cloneNode(true) でその内容をすべて複製する
     const content = this.templateTarget.content.cloneNode(true)
-    // フォーム内で新しいフィールドが追加されるべきコンテナ (fieldsTarget) の最後に、複製された入力フィールドを追加
-    this.fieldsTarget.appendChild(content)
-  }
+
+    // 現在のタイムスタンプを使ってユニークなインデックスを作成
+    const newIndex = new Date().getTime() 
+    
+    // テンプレート内の "__INDEX__" を一意のインデックスに置き換える
+    const newHtml = content.innerHTML.replace(/__INDEX__/g, newIndex)
+
+    // 置き換え後のHTMLをfieldsコンテナに挿入
+    this.fieldsTarget.insertAdjacentHTML('beforeend', newHtml)
+  } 
 
   removeField(event) {
     // event.target: 削除ボタン（このアクションをトリガーした要素）

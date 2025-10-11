@@ -93,7 +93,7 @@
     </div>
 
     <div data-controller="olive-variety-modal">
-      <button type="button" data-action="click->olive-variety-modal#open" class="btn">品種を選択</button>
+      <button type="button" data-action="click->olive-variety-modal#open" class="btn">オリーブの品種を選択</button>
 
       <!-- モーダル本体 -->
       <div data-olive-variety-modal-target="content" class="hidden">
@@ -121,7 +121,8 @@
         <!-- 入力欄をまとめる領域 -->
         <div data-add-variety-target="fields">
           <div class="variety-field mb-2 flex items-center gap-2">
-            <%= text_field_tag "new_olive_variety_name[]", nil, class: "border p-1 rounded w-full" %>
+            <!--[0]はRailsが行を識別するための値であり、0は単なる開始点-->
+            <%= text_field_tag "product[olive_varieties_attributes][0][name]", nil, class: "border p-1 rounded w-full" %>
             <button type="button" data-action="click->add-variety#removeField" class="text-red-500">−</button>
           </div>
         </div>
@@ -129,7 +130,7 @@
         <!-- テンプレート（非表示） -->
         <template data-add-variety-target="template">
           <div class="variety-field mb-2 flex items-center gap-2">
-            <%= text_field_tag "new_olive_variety_name[]", nil, class: "border p-1 rounded w-full" %>
+            <%= text_field_tag "product[olive_varieties_attributes][__INDEX__][name]", nil, class: "border p-1 rounded w-full" %>
             <button type="button" data-action="click->add-variety#removeField" class="text-red-500">−</button>
           </div>
         </template>
