@@ -14,6 +14,10 @@ class Product < ApplicationRecord
             presence: true,
             numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
 
+  validates :volume, numericality: { only_integer: true }, allow_nil: true
+  # numericality: true は整数・少数どちらも許可する
+  validates :reference_price, numericality: true, allow_nil: true
+
   # postモデルと全く同じもの。共通のバリデーションを定義したモジュールを作成し、各モデルでincludeする手もある
   validate :images_count_within_limit
 
