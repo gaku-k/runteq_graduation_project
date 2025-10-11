@@ -7,6 +7,26 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
   end
 
+  def new
+    @product = Product.new
+    # @olive_varieties を初期化する
+    # チェックボックスの選択肢として利用するnilでない品種のみにフィルタリングする
+    @olive_varieties = OliveVariety.where.not(name: nil)
+  end
+
+  def create
+    @product = Product.new(product_params)
+    if @product.save
+      redirect_to product_path(@product), success: "ご協力ありがとうございます！"
+    else
+      flash.now[:danger] = "商品追加に失敗しました"
+      # フォーム再表示時に再度@olive_varieties の初期化をしないと選択肢リストを生成できない
+      # elseブロックはnewアクションとは独立しているらしく、再定義しないとビューに渡る時点でnilになるという
+      @olive_varieties = OliveVariety.where.not(name: nil)
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def product_params
@@ -20,7 +40,12 @@ class ProductsController < ApplicationController
       :bitter_rating,
       :green_rating,
       :fruity_rating,
-      images: []
+      images: [],
+      # 既存オリーブ品種の選択。配列によるデータ(id)の受け取りを許可し、既存データを再利用
+      olive_variety_ids: [],
+      # 別テーブルの新しい品種名を許可する
+      olive_varieties_attributes: [ :name ]
+      # ただしこれだけでは既存品種の再入力で同じ名前の別idのデータが送信できてしまう
     )
   end
 end
