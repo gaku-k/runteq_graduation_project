@@ -27,6 +27,56 @@ class ProductsController < ApplicationController
     end
   end
 
+  def edit
+    @product = Product.find(params[:id])
+    @olive_varieties = OliveVariety.where.not(name: nil)
+  end
+
+  def update
+    @product = Product.find(params[:id])
+    # ==============================================
+    # 画像なしで更新した場合に元ある画像をパージしないための処理
+    # product_params はパラメーターをフィルタリングためのメソッドであり、特定の@productに紐づいたものではない
+    # 送信された生のデータにアクセス。なおハッシュの要素アクセスは[]を使う。これはRubyの配列ではなく、配列のように振る舞うコレクションが返る
+
+    # &.: 左側がnilでない場合、エラーを出さずに右を実行する
+    # .reject(&:blank?): 空の要素を取り除く処理/画像なしで空文字を送信してしまうのを防ぐ
+    new_images = product_params[:images]&.reject(&:blank?)
+
+    # exceptメソッドは特定のキーを除外した新しいハッシュを作る/既存画像への上書き対策
+    update_params = product_params.except(:images)
+
+    if new_images.present?
+      total_after_attach = @product.images.size + new_images.size
+      excess = total_after_attach - 4
+
+      # excess > 0 であるか/追加文含めて4枚以上であるか
+      if excess.positive?
+        # 「Productとファイルの関係を表すテーブルの行」を直接操作するもの.「どの画像がいつ紐づいたか」を操作できる
+        attachments_to_purge = @product.images.attachments
+          .reject { |att| att.created_at.nil? }
+          .sort_by(&:created_at)
+          .first(excess)
+
+        # .eachメソッドの短縮版。attachments_to_purge(配列)に対してpurgeを繰り返す
+        attachments_to_purge.each(&:purge)
+      end
+
+      @product.images.attach(new_images)
+    end
+    # ==============================================
+
+    # 引数は元のストロングパラメーター(product_params)ではなく上述のimagesのキーを除外したパラメーターを渡す
+    # has_many_attachedの場合、imagesをnilで更新すると空の配列で更新しようとする(Active Recordのデフォルト動作)
+    if @product.update(update_params)
+      redirect_to product_path(@product), success: "ご協力ありがとうございます！"
+    else
+      flash.now[:danger] = "送信に失敗しました"
+      @olive_varieties = OliveVariety.where.not(name: nil)
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def product_params
