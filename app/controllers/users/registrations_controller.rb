@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  # before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
+  # createアクション(=新規作成/sign_up)が実行される前に以下のメソッドが呼ばれる
+  before_action :configure_sign_up_params, only: [ :create ]
+  # updateではユーザーのcurrent_passwordを求める。その他必須パラメーターに違いがあるのでcreateとupdateで場合わけする
+  before_action :configure_account_update_params, only: [ :update ]
 
   # GET /resource/sign_up
   # def new
@@ -10,9 +12,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    # 継承しているデフォルトコントローラーにも同名のメソッドがある
+    # def createの中にsuperだけを記述している場合、「基本のサインアップ処理はDeviseに任せる」という意味になる。
+    super # <---- これがDevise::RegistrationsController#createを呼び出す
+  end
 
   # GET /resource/edit
   # def edit
@@ -20,9 +24,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    super
+  end
 
   # DELETE /resource
   # def destroy
@@ -38,22 +42,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
 
   # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_up_params
-  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
-  # end
+  def configure_sign_up_params
+    # デフォルトパラメータに加えてnameカラムを許可する
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :name ])
+  end
 
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_account_update_params
-  #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
-  # end
+  # アカウント更新時に送信されるパラメータを許可
+  def configure_account_update_params
+    # パスワードを変更せずに名前だけを更新できるよう :nameを許可する
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :name ])
+  end
 
-  # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  # サインアップ成功後の遷移先を指定。コメントアウトかsuper(resource)だけならDeviseのデフォルト動作となる
+  def after_sign_up_path_for(resource)
+    # ユーザーがアクセスしようとしていたページ(Stored Location)か、それがなければルートURLに移動する
+    super(resource)
+  end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
