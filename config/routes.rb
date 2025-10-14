@@ -1,4 +1,19 @@
 Rails.application.routes.draw do
+  # devise_for :users
+  # どのCを使うかを明示的に表しており、デフォルトのままだとコマンドで生成したカスタムCを使ってくれない
+  devise_for :users, controllers: {
+    # 左: Deviseのコントローラーを　右: 自分のアプリ内のコントローターに置き換えている
+    registrations: "users/registrations",
+    sessions: "users/sessions",
+    passwords: "users/passwords"
+    # 必要に応じて以下も追加
+    # confirmations: "users/confirmations",
+    # omniauth_callbacks: "users/omniauth_callbacks",
+    # unlocks: "users/unlocks"
+  }
+
+  # トップページを指定
+  root "posts#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

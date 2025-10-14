@@ -9,6 +9,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      RAILS_ENV: test
+      PGHOST: db
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
+      HEADLESS_CHROME: "true"
+
     services:
       db:
         image: postgres:15
@@ -16,11 +24,21 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+          -v ${{ github.workspace }}/.github/pg_hba.conf:/etc/postgresql/pg_hba.conf
+        command: ["postgres", "-c", "hba_file=/etc/postgresql/pg_hba.conf", "-c", "listen_addresses='*'"]
 
     steps:
+      - name: Setup PostgreSQL Trust Authentication File
+        run: |
+          mkdir -p .github
+          # すべてのユーザー、すべてのDBからのTCP/IP接続をパスワードなしで許可する設定
+          echo "host all all 0.0.0.0/0 trust" > .github/pg_hba.conf
+          # Dockerコンテナ内の設定ファイルへのパスを使用
+          # trust認証を使うので、rootユーザーからのアクセスも認証失敗でクラッシュしなくなる
+          echo "host all all 127.0.0.1/32 trust" >> .github/pg_hba.conf
+          
       - uses: actions/checkout@v5
 
       - uses: ruby/setup-ruby@v1
@@ -36,18 +54,30 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
             postgresql-client chromium curl libjemalloc2 libvips fonts-liberation
+      
+      - name: Wait for PostgreSQL (Trust Auth in Place)
+        run: |
+          set -e
+          export PGPASSWORD=$PGPASSWORD 
+          echo "Waiting for PostgreSQL service to be accessible..."
+          
+          for i in $(seq 1 10); do
+            if pg_isready -h $PGHOST -U $PGUSER -d runteq_graduation_project_test -t 1; then 
+              echo "PostgreSQL is ready and accepting connections!"
+              exit 0
+            fi
+            echo "Waiting for PostgreSQL... (Attempt $i/10)"
+            sleep 6
+          done
+          echo "PostgreSQL failed to respond within the timeout."
+          exit 1
 
       - name: Database setup
-        env:
-          RAILS_ENV: test
-          PGHOST: localhost
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/runteq_graduation_project_test
-        run: bin/rails db:prepare
+        run: |
+          export PGPASSWORD=$PGPASSWORD
+          bin/rails db:prepare
 
       - name: Run Rails tests
-        env:
-          RAILS_ENV: test
-          PGHOST: localhost
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/runteq_graduation_project_test
-          HEADLESS_CHROME: "true"
-        run: bin/rails test:all
+        run: |
+          export PGPASSWORD=$PGPASSWORD
+          bin/rails test:all
