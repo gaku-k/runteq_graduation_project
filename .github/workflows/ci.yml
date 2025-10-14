@@ -9,6 +9,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      RAILS_ENV: test
+      PGHOST: db
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
+      HEADLESS_CHROME: "true" # テスト実行に必要な変数をすべてここに集約
+
     services:
       db:
         image: postgres:15
@@ -41,8 +49,8 @@ jobs:
         run: |
           set -e
           for i in $(seq 1 10); do
-            if pg_isready -h db -U postgres -d runteq_graduation_project_test -t 1; then
-              echo "PostgreSQL is ready!"
+            if pg_isready -h $PGHOST -U $PGUSER -d runteq_graduation_project_test -t 1; then
+              echo "PostgreSQL is ready and accepting connections!"
               exit 0
             fi
             echo "Waiting for PostgreSQL... ($i/10)"
@@ -50,27 +58,9 @@ jobs:
           done
           echo "PostgreSQL failed to start within the timeout."
           exit 1
-        env:
-          PGHOST: db
-          PGUSER: postgres
-          PGPASSWORD: postgres
-          DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
 
       - name: Database setup
-        env:
-          RAILS_ENV: test
-          PGHOST: db
-          PGUSER: postgres
-          PGPASSWORD: postgres
-          DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
         run: bin/rails db:prepare
 
       - name: Run Rails tests
-        env:
-          RAILS_ENV: test
-          PGHOST: db
-          PGUSER: postgres
-          PGPASSWORD: postgres
-          DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
-          HEADLESS_CHROME: "true"
         run: bin/rails test:all
