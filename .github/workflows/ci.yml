@@ -24,7 +24,6 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
-        # ports: 5432:5432 の削除は維持
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
@@ -44,14 +43,14 @@ jobs:
           sudo apt-get install --no-install-recommends -y \
             postgresql-client chromium curl libjemalloc2 libvips fonts-liberation
       
-      - name: Wait for PostgreSQL (Final Attempt with Inline Auth)
+      - name: Wait for PostgreSQL (Final Attempt)
         run: |
           set -e
-          export PGPASSWORD=$PGPASSWORD
+          export PGPASSWORD=$PGPASSWORD 
           echo "Waiting for PostgreSQL service to be accessible..."
           
           for i in $(seq 1 10); do
-            if pg_isready -h $PGHOST -U $PGUSER -d runteq_graduation_project_test -w -t 1; then
+            if pg_isready -h $PGHOST -U $PGUSER -d runteq_graduation_project_test -t 1; then 
               echo "PostgreSQL is ready and accepting connections!"
               exit 0
             fi
