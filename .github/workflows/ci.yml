@@ -15,7 +15,7 @@ jobs:
       PGUSER: postgres
       PGPASSWORD: postgres
       DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
-      HEADLESS_CHROME: "true" # テスト実行に必要な変数をすべてここに集約
+      HEADLESS_CHROME: "true"
 
     services:
       db:
@@ -48,19 +48,22 @@ jobs:
       - name: Wait for PostgreSQL
         run: |
           set -e
+          echo "Waiting for PostgreSQL service to be accessible..."
           for i in $(seq 1 10); do
-            if pg_isready -h $PGHOST -U $PGUSER -d runteq_graduation_project_test -t 1; then
-              echo "PostgreSQL is ready and accepting connections!"
+            if curl --connect-timeout 5 -s "db:5432" > /dev/null; then
+              echo "Port 5432 is open! Database is reachable."
               exit 0
             fi
-            echo "Waiting for PostgreSQL... ($i/10)"
+            echo "Waiting for PostgreSQL... (Attempt $i/10)"
             sleep 6
           done
-          echo "PostgreSQL failed to start within the timeout."
+          echo "PostgreSQL failed to respond on port 5432 within the timeout."
           exit 1
 
       - name: Database setup
-        run: bin/rails db:prepare
+        run: |
+          PGHOST=$PGHOST PGUSER=$PGUSER PGPASSWORD=$PGPASSWORD bin/rails db:prepare
 
       - name: Run Rails tests
-        run: bin/rails test:all
+        run: |
+          PGHOST=$PGHOST PGUSER=$PGUSER PGPASSWORD=$PGPASSWORD bin/rails test:all
