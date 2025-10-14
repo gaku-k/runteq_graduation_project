@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
   has_many_attached :images
-  belong_to :user
+  belongs_to :user
 
   validates :product_name, presence: true, length: { maximum: 100 }
 
