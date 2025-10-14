@@ -39,5 +39,5 @@ class User < ApplicationRecord
   # ユーザーが削除されたら、その投稿も削除
   has_many :posts, dependent: :destroy
 
-  enum role: { general: 0, admin: 1 }, _default: :general
+  enum role: { general: 0, admin: 1 }
 end

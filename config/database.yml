@@ -12,8 +12,8 @@ development:
 
 test:
   <<: *default
-  username: postgres
-  password: postgres
+  username: <%= ENV.fetch("PGUSER", "postgres") %>
+  password: <%= ENV.fetch("PGPASSWORD", "postgres") %>
   host: <%= ENV.fetch("PGHOST", "db") %>  # CIでは localhost に上書き可能
   database: runteq_graduation_project_test
 
