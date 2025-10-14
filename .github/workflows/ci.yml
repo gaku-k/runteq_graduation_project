@@ -24,9 +24,21 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+          -v ${{ github.workspace }}/.github/pg_hba.conf:/etc/postgresql/pg_hba.conf
+          -c 'config_file=/etc/postgresql/postgresql.conf'
 
     steps:
+      - name: Setup PostgreSQL Trust Authentication File
+        run: |
+          mkdir -p .github
+          # すべてのユーザー、すべてのDBからのTCP/IP接続をパスワードなしで許可する設定
+          echo "host all all 0.0.0.0/0 trust" > .github/pg_hba.conf
+          # Dockerコンテナ内の設定ファイルへのパスを使用
+          # trust認証を使うので、rootユーザーからのアクセスも認証失敗でクラッシュしなくなる
+          echo "host all all 127.0.0.1/32 trust" >> .github/pg_hba.conf
+          
       - uses: actions/checkout@v5
 
       - uses: ruby/setup-ruby@v1
@@ -43,7 +55,7 @@ jobs:
           sudo apt-get install --no-install-recommends -y \
             postgresql-client chromium curl libjemalloc2 libvips fonts-liberation
       
-      - name: Wait for PostgreSQL (Final Attempt)
+      - name: Wait for PostgreSQL (Trust Auth in Place)
         run: |
           set -e
           export PGPASSWORD=$PGPASSWORD 
@@ -57,7 +69,7 @@ jobs:
             echo "Waiting for PostgreSQL... (Attempt $i/10)"
             sleep 6
           done
-          echo "PostgreSQL failed to respond and authenticate within the timeout."
+          echo "PostgreSQL failed to respond within the timeout."
           exit 1
 
       - name: Database setup
