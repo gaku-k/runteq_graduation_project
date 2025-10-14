@@ -35,4 +35,7 @@ class User < ApplicationRecord
 
   # :omniauthable :対応C omniauth_callbacks_controller.rb
   # 用途 :外部サービス連携認証（Google, Twitterなど)
+
+  # ユーザーが削除されたら、その投稿も削除
+  has_many :posts, dependent: :destroy
 end
