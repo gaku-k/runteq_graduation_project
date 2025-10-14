@@ -24,10 +24,10 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
-        options: >
+        options: >-
           --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
           -v ${{ github.workspace }}/.github/pg_hba.conf:/etc/postgresql/pg_hba.conf
-          -c 'config_file=/etc/postgresql/postgresql.conf'
+        command: ["postgres", "-c", "hba_file=/etc/postgresql/pg_hba.conf", "-c", "listen_addresses='*'"]
 
     steps:
       - name: Setup PostgreSQL Trust Authentication File
