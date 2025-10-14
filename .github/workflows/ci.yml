@@ -36,6 +36,25 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
             postgresql-client chromium curl libjemalloc2 libvips fonts-liberation
+      
+      - name: Wait for PostgreSQL
+        run: |
+          set -e
+          for i in $(seq 1 10); do
+            if pg_isready -h db -U postgres -d runteq_graduation_project_test -t 1; then
+              echo "PostgreSQL is ready!"
+              exit 0
+            fi
+            echo "Waiting for PostgreSQL... ($i/10)"
+            sleep 6
+          done
+          echo "PostgreSQL failed to start within the timeout."
+          exit 1
+        env:
+          PGHOST: db
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
 
       - name: Database setup
         env:
