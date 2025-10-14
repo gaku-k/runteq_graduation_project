@@ -24,8 +24,6 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: runteq_graduation_project_test
-        ports:
-          - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
@@ -45,19 +43,19 @@ jobs:
           sudo apt-get install --no-install-recommends -y \
             postgresql-client chromium curl libjemalloc2 libvips fonts-liberation
       
-      - name: Wait for PostgreSQL
+      - name: Wait for PostgreSQL (with Authentication Check)
         run: |
           set -e
           echo "Waiting for PostgreSQL service to be accessible..."
           for i in $(seq 1 10); do
-            if curl --connect-timeout 5 -s "db:5432" > /dev/null; then
-              echo "Port 5432 is open! Database is reachable."
+            if PGPASSWORD=$PGPASSWORD pg_isready -h $PGHOST -U $PGUSER -d runteq_graduation_project_test -t 1; then
+              echo "PostgreSQL is ready and accepting connections!"
               exit 0
             fi
             echo "Waiting for PostgreSQL... (Attempt $i/10)"
             sleep 6
           done
-          echo "PostgreSQL failed to respond on port 5432 within the timeout."
+          echo "PostgreSQL failed to respond and authenticate within the timeout."
           exit 1
 
       - name: Database setup
