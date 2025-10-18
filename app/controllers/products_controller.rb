@@ -192,6 +192,8 @@ class ProductsController < ApplicationController
     images_to_attach.each do |item|
       # obuject.is_a?() オブジェクトの型を調べるメソッド
       if item.is_a?(ActiveStorage::Attachment)
+        # blobは実際のファイルデータ
+        # ProductからProductDraftへ画像をコピーしている
         blob = item.blob
         draft.images.attach(
           io: StringIO.new(blob.download),

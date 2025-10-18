@@ -15,7 +15,7 @@ class Admin::ProductDraftsController < ApplicationController
   def approve
     begin
       ActiveRecord::Base.transaction do
-
+        # オリーブ品種、画像などの紐付け処理
         reflect_draft_to_product
         @draft.product.update!(status: :published)
         @draft.update!(status: :approved)
