@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_14_002723) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_17_070832) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,11 +61,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_14_002723) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "product_drafts", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "user_id", null: false
+    t.integer "status", default: 0, null: false
+    t.string "name"
+    t.string "country_of_origin"
+    t.integer "volume"
+    t.decimal "reference_price"
+    t.integer "sweet_rating"
+    t.integer "spicy_rating"
+    t.integer "bitter_rating"
+    t.integer "green_rating"
+    t.integer "fruity_rating"
+    t.integer "request_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_drafts_on_product_id"
+    t.index ["user_id"], name: "index_product_drafts_on_user_id"
+  end
+
   create_table "product_olive_varieties", force: :cascade do |t|
     t.integer "product_id"
     t.integer "olive_variety_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "product_draft_id"
+    t.index ["product_draft_id"], name: "index_product_olive_varieties_on_product_draft_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -80,6 +102,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_14_002723) do
     t.integer "fruity_rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -98,4 +121,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_14_002723) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "product_drafts", "products"
+  add_foreign_key "product_drafts", "users"
+  add_foreign_key "product_olive_varieties", "product_drafts"
 end

@@ -1,0 +1,23 @@
+<h1>承認待ちの商品更新リクエスト一覧</h1>
+
+<table>
+  <!-- thead:ヘッダー要素。列の項目(見出し) -->
+  <thead>
+    <tr>
+      <th>商品名</th>
+      <th>申請者</th>
+      <th>申請日時</th>
+    </tr>
+  </thead>
+  <!-- 見出しに対する値をeachでルーブ -->
+  <tbody>
+    <% @drafts.each do |draft| %>
+      <tr>
+        <!-- product, userというカラム自体はない。アソシエーションを参照している -->
+        <td><%= link_to draft.product.name, admin_product_draft_path(draft) %></td>
+        <td><%= draft.user.name %></td>
+        <td><%= draft.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

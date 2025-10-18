@@ -1,10 +1,14 @@
 class ProductsController < ApplicationController
+  # create/updateで即時反映させるカラムを定義
+  # 大文字で始まる変数 → 定数: 再代入で警告/ .fleeze → 配列を凍結し書き換え不可にする
+  IMMEDIATE_UPDATE_COLUMNS = %w[ name sweet_rating spicy_rating bitter_rating green_rating fruity_rating ].freeze
+
   # before_action :autenticate_uer! メソッド: Deviseが提供する「ログインしていなければログインページにリダイレクトする」
   # except :ただし/除く
   before_action :authenticate_user!, except: [ :index, :show ]
 
   def index
-    @products = Product.all
+    @products = Product.published
   end
 
   def show
@@ -19,15 +23,57 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(product_params)
-    if @product.save
-      redirect_to product_path(@product), success: "ご協力ありがとうございます！"
+    if current_user.admin?
+      @product = Product.new(product_params)
+      # adminなら即公開。saveを実行する前にstatueを設定し、saveメソッドで保存する
+      @product.status = :published
+
+      if @product.save
+        redirect_to products_path, success: "商品情報が即座に更新されました"
+      else
+        flash.now[:danger] = "商品追加に失敗しました"
+        # フォーム再表示時に再度@olive_varieties の初期化をしないと選択肢リストを生成できない
+        # elseブロックはnewアクションとは独立しているらしく、再定義しないとビューに渡る時点でnilになるという
+        @olive_varieties = OliveVariety.where.not(name: nil)
+        render :new, status: :unprocessable_entity
+      end
+
     else
-      flash.now[:danger] = "商品追加に失敗しました"
-      # フォーム再表示時に再度@olive_varieties の初期化をしないと選択肢リストを生成できない
-      # elseブロックはnewアクションとは独立しているらしく、再定義しないとビューに渡る時点でnilになるという
-      @olive_varieties = OliveVariety.where.not(name: nil)
-      render :new, status: :unprocessable_entity
+      # .mergeメソッドは既存のハッシュに新しいキーと値を追加(または上書き)する
+      draft_params = product_params.merge(
+        # Q 相手方のカラムに依存するならuser_id:では？ → どちらも可。associationを通じてRailsがuser_idを設定してくれる
+        user: current_user,
+        status: :pending,
+        request_type: :create_request
+        # product_idは編集対象のProductのidが入る。新規作成では対応するProductレコードは存在しない
+      )
+      @draft = ProductDraft.new(draft_params)
+
+      # begin~(例外が起こるかもしれない処理)~rescue~(例外が発生した時の処理)~end
+      begin
+        # transaction:モデルに対する複数のデータベース操作を一つのまとまりとし、全部成功か全部失敗かにする
+        # ActiveRecord::Baseはすべてのモデルの親(包括しているわけではない)
+        ActiveRecord::Base.transaction do
+          @draft.save!
+
+          # 即時反映を希望するカラムをProductにも反映したい
+          immediate_params = extract_immediate_params(product_params)
+          @product = Product.new(immediate_params)
+          @product.status = :draft
+          @product.save!
+
+          # ProductDraftにproduct_idを関連付け
+          @draft.update!(product: @product)
+        end
+          redirect_to products_path, notice: "商品追加リクエストを管理者へ送信しました"
+
+      rescue ActiveRecord::RecordInvalid => e
+        flash.now[:danger] = "商品追加に失敗しました"
+        @olive_varieties = OliveVariety.where.not(name: nil)
+        # transaction 内で初期化できなかった場合のために @product を作る
+        @product ||= Product.new(product_params)
+        render :new, status: :unprocessable_entity
+      end
     end
   end
 
@@ -38,50 +84,127 @@ class ProductsController < ApplicationController
 
   def update
     @product = Product.find(params[:id])
-    # ==============================================
-    # 画像なしで更新した場合に元ある画像をパージしないための処理
+
+    # 定義元はreturnで値を返しているが、後続の処理で使いたい場合多重代入をする必要がある
+    update_params, new_images = prepare_image_update_params(@product, product_params)
+
+    if current_user.admin?
+      perform_image_update(@product, new_images)
+
+      # 引数は元のストロングパラメーター(product_params)ではなく上述のimagesのキーを除外したパラメーターを渡す
+      # has_many_attachedの場合、imagesをnilで更新すると空の配列で更新しようとする(Active Recordのデフォルト動作)
+      if @product.update(update_params)
+        redirect_to products_path, success: "商品情報が即座に更新されました"
+      else
+        flash.now[:danger] = "商品追加に失敗しました"
+        @olive_varieties = OliveVariety.where.not(name: nil)
+        render :edit, status: :unprocessable_entity
+      end
+
+    else
+      # Productモデルで has_many :product_drafts と定義しているので、Railsが自動的に関連メソッド(product_drafts)を生成する
+      # buildメソッド:関連モデル(ProductDraft)の新インスタンスを生成する
+      @draft = @product.product_drafts.find_by(status: :pending) || @product.product_drafts.build
+
+      # :image　キーを含まないupdate_paramsで画像なし送信からの初期化を防ぐ
+      draft_params = update_params.merge(
+        user: current_user,
+        status: :pending,
+        request_type: :update_request
+      )
+
+      begin
+        ActiveRecord::Base.transaction do
+          @draft.update!(draft_params)
+
+          # 画像の玉突き処理を実行し、ProductDraftに複製、添付する
+          perform_draft_image_update(@draft, @product, new_images)
+          immediate_params = extract_immediate_params(product_params)
+
+          # status: :draftをマージしなければpublished(update故の初期値)となる
+          product_updates = immediate_params.merge(status: :draft)
+          @product.update!(product_updates)
+        end
+          redirect_to products_path, notice: "商品更新リクエストを管理者へ送信しました"
+
+      rescue ActiveRecord::RecordInvalid => e
+        flash.now[:danger] = "商品追加に失敗しました"
+        @olive_varieties = OliveVariety.where.not(name: nil)
+        render :edit, status: :unprocessable_entity
+      end
+    end
+  end
+
+  private
+
+  def extract_immediate_params(params)
+    # *（スプラット演算子）は「配列を展開して個別の引数として渡す」
+    # *がないとparamsのキーだけが抽出される
+    params.slice(*IMMEDIATE_UPDATE_COLUMNS)
+  end
+
+  # 呼び出し側はインスタンス変数(@product)を使い、メソッド定義側ではローカル変数(product)となる
+  def prepare_image_update_params(product, params)
     # product_params はパラメーターをフィルタリングためのメソッドであり、特定の@productに紐づいたものではない
     # 送信された生のデータにアクセス。なおハッシュの要素アクセスは[]を使う。これはRubyの配列ではなく、配列のように振る舞うコレクションが返る
 
     # &.: 左側がnilでない場合、エラーを出さずに右を実行する
     # .reject(&:blank?): 空の要素を取り除く処理/画像なしで空文字を送信してしまうのを防ぐ
     new_images = product_params[:images]&.reject(&:blank?)
-
     # exceptメソッドは特定のキーを除外した新しいハッシュを作る/既存画像への上書き対策
     update_params = product_params.except(:images)
-
-    if new_images.present?
-      total_after_attach = @product.images.size + new_images.size
-      excess = total_after_attach - 4
-
-      # excess > 0 であるか/追加文含めて4枚以上であるか
-      if excess.positive?
-        # 「Productとファイルの関係を表すテーブルの行」を直接操作するもの.「どの画像がいつ紐づいたか」を操作できる
-        attachments_to_purge = @product.images.attachments
-          .reject { |att| att.created_at.nil? }
-          .sort_by(&:created_at)
-          .first(excess)
-
-        # .eachメソッドの短縮版。attachments_to_purge(配列)に対してpurgeを繰り返す
-        attachments_to_purge.each(&:purge)
-      end
-
-      @product.images.attach(new_images)
-    end
-    # ==============================================
-
-    # 引数は元のストロングパラメーター(product_params)ではなく上述のimagesのキーを除外したパラメーターを渡す
-    # has_many_attachedの場合、imagesをnilで更新すると空の配列で更新しようとする(Active Recordのデフォルト動作)
-    if @product.update(update_params)
-      redirect_to product_path(@product), success: "ご協力ありがとうございます！"
-    else
-      flash.now[:danger] = "送信に失敗しました"
-      @olive_varieties = OliveVariety.where.not(name: nil)
-      render :edit, status: :unprocessable_entity
-    end
+    # return はメソッドの戻り値を明示的に指定して終了、配列として返す。なくてもいいが、わかりやすい書き方
+    return update_params, new_images
   end
 
-  private
+  # admin用:画像なしで更新した場合に元ある画像をパージしないための処理
+  def perform_image_update(product, new_images)
+    return unless new_images.present?
+
+    total_after_attach = product.images.size + new_images.size
+    excess = total_after_attach - 4
+
+    # excess > 0 であるか/追加文含めて4枚以上であるか
+    if excess.positive?
+      # 「Productとファイルの関係を表すテーブルの行」を直接操作するもの.「どの画像がいつ紐づいたか」を操作できる
+      attachments_to_purge = product.images.attachments
+        .reject { |att| att.created_at.nil? }
+        .sort_by(&:created_at)
+        .first(excess)
+
+      # .eachメソッドの短縮版。attachments_to_purge(配列)に対してpurgeを繰り返す
+      attachments_to_purge.each(&:purge)
+    end
+    product.images.attach(new_images)
+  end
+
+  # 非admin用:画像なしで更新した場合に元ある画像をパージしないための処理
+  def perform_draft_image_update(draft, product, new_images)
+    return unless new_images.present? || params[:product].key?(:images)
+
+    # 既存の添付ファイルをrubyの配列に変換して取得
+    existing_attachments = product.images.attachments.to_a
+    combined_images = existing_attachments + new_images
+    images_to_attach = combined_images.last(4)
+    # 関連を一度削除することで、最終的に紐づけたい状態を確実に反映させる
+    draft.images.attachments.destroy_all
+
+    images_to_attach.each do |item|
+      # obuject.is_a?() オブジェクトの型を調べるメソッド
+      if item.is_a?(ActiveStorage::Attachment)
+        # blobは実際のファイルデータ
+        # ProductからProductDraftへ画像をコピーしている
+        blob = item.blob
+        draft.images.attach(
+          io: StringIO.new(blob.download),
+          filename: blob.filename,
+          content_type: blob.content_type
+        )
+      else
+        draft.images.attach(item)
+      end
+    end
+  end
 
   def product_params
     params.require(:product).permit(

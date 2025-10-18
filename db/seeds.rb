@@ -12,11 +12,30 @@
 # URI.open("URL")でインターネット上のファイルを開いて取得できるようにする
 require "open-uri"
 
-# データベースの posts テーブルにあるデータを全削除。
+# データのクリーンアップ
+ProductOliveVariety.destroy_all
+ProductDraft.destroy_all
+Product.destroy_all
 Post.destroy_all
+
+# Userレコードの作成/取得
+# Userレコードの作成/取得（find_or_create_by! を使うと2回目以降の実行時に重複作成を防げる）
+user = User.find_or_create_by!(email: "test@example.com") do |u|
+  u.password = "password"
+  u.name = "gaku"
+  u.role = :admin # または u.role = 1 でもDB上は問題ない
+end
+
+user2 = User.find_or_create_by!(email: "hogehoge@gmail.com") do |u|
+  u.password = "password"
+  u.name = "らんてくん"
+  u.role = 0
+end
+
 
 # 1件目
 post1 = Post.create!(
+  user: user,
   product_name: "オリーブオイルA",
   body: "これはサンプルレビューです。",
   aroma_rating: 3,
@@ -32,6 +51,7 @@ post1.images.attach(io: file1, filename: "sample1.jpg", content_type: "image/jpg
 
 # 2件目
 post2 = Post.create!(
+  user: user,
   product_name: "オリーブオイルB",
   body: "こちらは別のサンプルレビューです。",
   aroma_rating: 4,
@@ -43,6 +63,7 @@ file2 = URI.open("https://picsum.photos/301") # 画像URLを変えると別の�
 post2.images.attach(io: file2, filename: "sample2.jpg", content_type: "image/jpg")
 
 post3 = Post.create!(
+  user: user,
   product_name: "オリーブオイルC",
   body: "画像が2枚のサンプルです。",
   aroma_rating: 4,
@@ -60,6 +81,7 @@ post3.images.attach(io: file2, filename: "sample2_2.jpg", content_type: "image/j
 # 画像3枚
 # ----------------------
 post4 = Post.create!(
+  user: user,
   product_name: "オリーブオイルD",
   body: "画像が3枚のサンプルです。",
   aroma_rating: 5,
@@ -78,6 +100,7 @@ post4.images.attach(io: file3, filename: "sample3_3.jpg", content_type: "image/j
 # 画像4枚
 # ----------------------
 post5 = Post.create!(
+  user: user,
   product_name: "オリーブオイルE",
   body: "画像が4枚のサンプルです。",
   aroma_rating: 2,
@@ -97,13 +120,13 @@ post5.images.attach(io: file4, filename: "sample4_4.jpg", content_type: "image/j
 # ----------------------
 # 商品サンプルデータ
 # ----------------------
-Product.destroy_all
 
 # 品種をあらかじめ作成
-variety1 = OliveVariety.create!(name: "アルベキーナ")
-variety2 = OliveVariety.create!(name: "ピクアル")
+variety1 = OliveVariety.find_or_create_by!(name: "アルベキーナ")
+variety2 = OliveVariety.find_or_create_by!(name: "ピクアル")
 
 product0 = Product.create!(
+  status: :published,
   name: "商品:オリーブオイル",
   country_of_origin: "トルコ",
   volume: 600,
@@ -128,6 +151,7 @@ product0.images.attach(io: file3, filename: "sample4_3.jpg", content_type: "imag
 product0.images.attach(io: file4, filename: "sample4_4.jpg", content_type: "image/jpg")
 
 product1 = Product.create!(
+  status: :published,
   name: "商品:オリーブオイルA",
   country_of_origin: "スペイン",
   volume: 250,
@@ -140,6 +164,7 @@ product1 = Product.create!(
 )
 
 product2 = Product.create!(
+  status: :published,
   name: "商品:オリーブオイルB",
   country_of_origin: "イタリア",
   volume: 250,
@@ -157,6 +182,7 @@ product2.images.attach(io: file1, filename: "sample2_1.jpg", content_type: "imag
 product2.images.attach(io: file2, filename: "sample2_2.jpg", content_type: "image/jpg")
 
 product3 = Product.create!(
+  status: :published,
   name: "商品:オリーブオイルC",
   country_of_origin: "ポルトガル",
   volume: 260,
@@ -176,6 +202,7 @@ product3.images.attach(io: file2, filename: "sample3_2.jpg", content_type: "imag
 product3.images.attach(io: file3, filename: "sample3_3.jpg", content_type: "image/jpg")
 
 product4 = Product.create!(
+  status: :published,
   name: "商品:オリーブオイルD",
   country_of_origin: "トルコ",
   volume: 600,
@@ -198,6 +225,7 @@ product4.images.attach(io: file4, filename: "sample4_4.jpg", content_type: "imag
 
 # 画像一枚で縦横4:3になるか
 product5 = Product.create!(
+  status: :published,
   name: "商品:オリーブオイルE",
   country_of_origin: "イタリア",
   volume: 260,

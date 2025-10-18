@@ -1,7 +1,7 @@
 class User < ApplicationRecord
+  # 以下Userモデルが持つ機能(モジュール)
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  # 以下Userモデルが持つ機能(モジュール)
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
@@ -36,8 +36,8 @@ class User < ApplicationRecord
   # :omniauthable :対応C omniauth_callbacks_controller.rb
   # 用途 :外部サービス連携認証（Google, Twitterなど)
 
-  # ユーザーが削除されたら、その投稿も削除
-  has_many :posts, dependent: :destroy
+  enum :role, { general: 0, admin: 1 }
 
-  enum role: { general: 0, admin: 1 }
+  has_many :posts, dependent: :destroy
+  has_many :product_drafts
 end

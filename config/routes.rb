@@ -28,4 +28,17 @@ Rails.application.routes.draw do
   # root "posts#index"
   resources :posts, only: [ :index, :show, :new, :create ]
   resources :products, only: [ :index, :show, :new, :create, :edit, :update ]
+
+  # namespaxe はURLとコントローラーをグループ化する機能「admin/ で始まるURL → Admin名前空間のコントローラに送る」
+  namespace :admin do
+    resources :product_drafts, only: [ :index, :show ] do
+      # member: id持ち個別レコードに対して、approve、rejectというアクションを追加
+      member do
+        # PATCH: レコードの部分更新をリクエストするHTTPメソッド
+        # リクエスト送信で、コントローラー内のapprove, rejectアクションが実行される
+        patch :approve
+        patch :reject
+      end
+    end
+  end
 end
