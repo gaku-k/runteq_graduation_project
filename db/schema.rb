@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_14_063630) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_17_070832) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -86,6 +86,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_14_063630) do
     t.integer "olive_variety_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "product_draft_id"
+    t.index ["product_draft_id"], name: "index_product_olive_varieties_on_product_draft_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -121,4 +123,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_14_063630) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "product_drafts", "products"
   add_foreign_key "product_drafts", "users"
+  add_foreign_key "product_olive_varieties", "product_drafts"
 end

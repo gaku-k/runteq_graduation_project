@@ -6,7 +6,7 @@ class Product < ApplicationRecord
   has_many :product_drafts
 
   # 非公開(保留中)か、公開済みか。
-  enum status: { draft: 0, published: 1 }
+  enum :status, { draft: 0, published: 1 }
 
   # 直訳:オリーブ品種に対してネストされた属性を許可する。
   # Productの新規作成や更新時にProductのインスタンスを操作する際、関連づけられた:olive_varieties の属性も同時に受け付けて保存する機能
