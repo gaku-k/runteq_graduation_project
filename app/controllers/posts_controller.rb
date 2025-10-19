@@ -4,7 +4,11 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
 
   def index
-    @posts = Post.all
+    # @params[:q]に検索フォームから送られたパラメータが入る.
+    @q = Post.ransack(params[:q])
+    # resultメソッドはparams[:q]がnilなら全件(Post.all)を返す
+    # distinct: true 同じレコードが重複して出ないようにするオプション
+    @posts = @q.result(distinct: true)
   end
 
   def show
