@@ -14,7 +14,9 @@ class Post < ApplicationRecord
     [ "product_name", "body", "created_at", "updated_at" ]
   end
 
+  # Postモデルのアソシエーションを、Ransackで検索・ソートして良い関連として指定する必要がある
   def self.ransackable_associations(auth_object = nil)
+    # もしユーザー名などで検索したければ、Userモデルでカラムを指定、許可する必要がある
     [ "user", "images_attachments", "images_blobs" ]
   end
 
