@@ -170,3 +170,22 @@
   border: 1px solid #ef4444;
   color: #991b1b;
 }
+
+/* -------------------------------------- */
+/* 検索フォーム設定 */
+/* なぜかtailwindの構文text-whiteが反映されない */
+.custom-white-text {
+  color: white; /* または color: #FFFFFF; */
+}
+
+/* 背景画像と検索バーの下端に余白を作るためのクラス */
+.container-spacing {
+  padding-bottom: 20px; 
+}
+
+/* ホバー時のスタイル */
+.search-submit-button:hover {
+  /* 濃い背景色 */
+  background-color: #6a8c63;
+}
+/* -------------------------------------- */
