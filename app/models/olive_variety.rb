@@ -8,4 +8,9 @@ class OliveVariety < ApplicationRecord
   validates :name,
             uniqueness: { case_sensitive: false },
             allow_blank: true
+
+  # ProductからOliveVarietyを検索するだけならOliveVariety側でransackable_associationsを定義する必要はない
+  def self.ransackable_attributes(auth_object = nil)
+    [ "name" ]
+  end
 end

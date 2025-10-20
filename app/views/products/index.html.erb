@@ -1,6 +1,27 @@
 <%= render "shared/floating_button" %>
 <%= render "shared/products_floating_button" %>
-  <h1>商品一覧</h1>
+
+<!-- 背景画像セクション -->
+<div class="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-cover bg-center bg-no-repeat pt-12 sm:pt-16 container-spacing"
+     style="background-image: url(<%= asset_path('frank-albrecht-k-ICgGQLdkM-unsplash.jpg') %>);">
+
+  <!-- キャッチコピー -->
+  <h2 class="custom-white-text text-xl sm:text-2xl font-semibold text-center mb-6 drop-shadow-lg px-[80px]">
+    暮らしをちょっと良くするアイテム探し
+  </h2>
+
+  <!-- 検索フォーム中央寄せ -->
+  <%= search_form_for @q, url: products_path, method: :get, class: "flex justify-center" do |f| %>
+    <div class="flex w-[90%] max-w-[400px] sm:max-w-[700px]">
+      <%= f.search_field :name_or_country_of_origin_or_olive_varieties_name_cont,
+        placeholder: "キーワードを入力",
+        class: "w-full p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-1" %>
+      <%= f.submit "検索",
+        class: "search-submit-button px-4 py-2 rounded-r-lg" %>
+    </div>
+  <% end %>
+</div>
+<br>
 
   <ul class="product-list-container">
     <% @products.each do |product| %>
