@@ -10,7 +10,7 @@
   <!-- 検索フォーム中央寄せ -->
   <%= search_form_for @q, url: posts_path, method: :get, class: "flex justify-center" do |f| %>
     <div class="flex w-[90%] max-w-[400px] sm:max-w-[700px]">
-      <%= f.text_field :product_name_or_body_cont,
+      <%= f.search_field :product_name_or_body_cont,
         placeholder: "キーワードを入力",
         class: "w-full p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-1" %>
       <%= f.submit "検索",

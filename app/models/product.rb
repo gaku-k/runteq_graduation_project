@@ -26,6 +26,15 @@ class Product < ApplicationRecord
   # postモデルと全く同じもの。共通のバリデーションを定義したモジュールを作成し、各モデルでincludeする手もある
   validate :images_count_within_limit
 
+  def self.ransackable_attributes(auth_object = nil)
+    [ "name", "country_of_origin", "volume", "reference_price", "created_at", "updated_at" ]
+  end
+
+  # 関連名を通じてRansackは自動的にJOINを組み立てる。中間テーブルを介せずolive_varietiesとかける
+  def self.ransackable_associations(auth_object = nil)
+    [ "olive_varieties", "images_attachments", "images_blobs" ]
+  end
+
   private
 
   def images_count_within_limit

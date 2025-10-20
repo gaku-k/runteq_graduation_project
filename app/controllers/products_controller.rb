@@ -8,7 +8,9 @@ class ProductsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
 
   def index
-    @products = Product.published
+    # @products = Product.published
+    @q = Product.ransack(params[:q])
+    @products = @q.result(distinct: true)
   end
 
   def show
