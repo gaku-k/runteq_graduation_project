@@ -1,17 +1,22 @@
 <div class="my-card margin">
-  <h2>Log in</h2>
+  <h2 class="w-full max-w-md text-center">
+    Log in
+  </h2>
+  <br>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field">
       <%= f.label :email %><br />
-      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full"%>
     </div>
 
+    <br>
     <div class="field">
       <%= f.label :password %><br />
-      <%= f.password_field :password, autocomplete: "current-password" %>
+      <%= f.password_field :password, autocomplete: "current-password", class: "w-full" %>
     </div>
 
+    <br>
     <% if devise_mapping.rememberable? %>
       <div class="field">
         <%= f.check_box :remember_me %>
@@ -19,8 +24,8 @@
       </div>
     <% end %>
 
-    <div class="actions">
-      <%= f.submit "Log in" %>
+    <div class="actions w-full max-w-md text-center">
+      <%= f.submit "Log in", class: "w-full" %>
     </div>
   <% end %>
 
