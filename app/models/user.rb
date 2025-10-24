@@ -40,4 +40,5 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy
   has_many :product_drafts
+  has_one_attached :avatar
 end

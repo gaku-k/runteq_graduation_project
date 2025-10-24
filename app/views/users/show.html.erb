@@ -1,0 +1,55 @@
+<div class="my-card">
+  <h1 class="italic-title">My Page</h1>
+
+  <div class="flex items-center">
+    <div>
+      <% if @user.avatar.attached? %>
+        <%= image_tag @user.avatar.variant(resize_to_fill: [300, 300]),
+          class: "rounded-full w-[115px] h-[115px] sm:w-[300px] sm:h-[300px] object-cover"%>
+      <% else %>
+        <%= image_tag "44775.jpg",
+          class: "rounded-full user-avatar" %>
+      <% end %>
+    </div>
+
+    <div class="ml-8">
+      <h2>ユーザー名</h2>
+      <div><%= @user.name %></div>
+
+      <div class="h-4"></div>
+
+      <h2>Email ID</h2>
+      <!-- helpers/users_helper.rbのヘルパーメソッド -->
+      <div><%= masked_email(@user.email) %></div>
+    </div>
+  </div>
+
+  <h2>My Posts</h2>
+  <div>
+    <% @user.posts.each do |post| %>
+      <div class="post-item">
+        <%= link_to post_path(post), class: "post-card-link" do %>
+          <div class="image-section">
+            <%= render "posts/images", post: post %>
+          </div>
+
+          <div class="chart-review-wrapper">
+            <div class="chart-section">
+              <h2 class="post-title"><%= post.product_name %></h2>
+              <%= render partial: "posts/radar_chart", locals: { post: post } %>
+            </div>
+
+            <div class="review-section">
+              <article>
+                <h2 class="post-title italic-title">Review</h2>
+                <p><%= post.body %></p>
+              </article>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+
+  </div>
+</div>

@@ -2,13 +2,14 @@
  * @import "tailwindcss" ではなく、
  * Tailwind の公式ディレクティブを使用します。
  */
+/* その他のカスタムCSSやSCSSがあれば、ここに追記またはインポート */
+@import "posts.css";
+@import "products.css";
+@import "users.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* その他のカスタムCSSやSCSSがあれば、ここに追記またはインポート */
-@import "./posts.css";
-@import "./products.css";
 
 /* コンテンツのカード化 */
 .my-card {
