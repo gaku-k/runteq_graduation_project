@@ -8,14 +8,14 @@
 
     <br>
     <div class="field">
-      <%= f.label :name %><br>
-      <%= f.text_field :name, class: "w-full" %>
+      <%= f.label "ユーザー名" %><br>
+      <%= f.text_field :name, autofocus: true, class: "w-full" %>
     </div>
 
     <br>
     <div class="field">
       <%= f.label :email %><br />
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full" %>
+      <%= f.email_field :email, autocomplete: "email", class: "w-full" %>
     </div>
 
     <br>
