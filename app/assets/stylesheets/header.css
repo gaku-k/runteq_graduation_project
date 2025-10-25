@@ -1,0 +1,30 @@
+.header {
+  background-color: black;
+  color: white;
+  display: flex;
+  /* 垂直方向中央寄せ */
+  align-items: center;
+}
+
+.header h3 {
+  font-size: 24px;
+  margin-left: 40px;
+  font-style: italic;
+}
+
+.header-right-menu {
+  /* 左側のマージンが空きスペースを吸収、結果要素全体が右寄せになる
+  　　margin-right: auto; と合わせることで中央寄せにもなる */
+  margin-left: auto;
+  display: flex;
+  /* フレックスコンテナの子要素の配置方向を、横並び(デフォ)から縦並びに変更する*/
+  flex-direction: column;
+  /* 縦並びにしたアイテムを中央に寄せる */
+  align-items: center;
+}
+
+.header-right-menu div {
+  /* 右メニューの子要素(リンクやボタン)を中央に寄せる */
+  margin: auto;
+  margin-bottom: 5px;
+}

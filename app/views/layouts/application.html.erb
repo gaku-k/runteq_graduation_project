@@ -22,19 +22,11 @@
   </head>
 
   <body>
+    <%= render 'shared/header' %>
+
     <!-- key: "success", message: "投稿が完了しました" となる -->
     <% flash.each do |key, message| %>
       <div class="flash <%= key %>"><%= message %></div>
-    <% end %>
-
-    <!-- ure_signed_in?メソッド: ユーザーがサインイン状態だとtrue, ログアウト状態だとfalse -->
-    <!-- 余談だがadmin_signed_in? でも動くとかなんとか -->
-    <% if user_signed_in?  %>
-      <p>こんにちは、<%= current_user.name %>さん!</p>
-      <%= button_to "ログアウト", destroy_user_session_path, method: :delete, date: { turbo: false } %>
-    <% else %>
-      <%= link_to "ログイン", new_user_session_path %> |
-      <%= link_to "新規登録", new_user_registration_path %>
     <% end %>
 
     <%= yield %>
