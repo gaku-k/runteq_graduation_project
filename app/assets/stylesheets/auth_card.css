@@ -1,0 +1,67 @@
+/* auth=認証 ログイン/新規登録ページなどのカードデザイン */
+.auth-card {
+  /* 親クラスの横幅いっぱいに広がる */
+  width: 100%;
+  /* ただし、最大幅は556pxで留まる */
+  max-width: 556px;
+  background-color: #f0f0f0;
+  /* 内部のコンテンツへの余白。上に32px, 左右に24px, 下に24px */
+  padding: 32px 24px 24px;
+  /* 
+  これ↓の短縮形,左右の余白を自動で均等にとる。結果水平方向に中央寄せになる
+  margin-left: auto; 
+  margin-right: auto;
+  */
+  margin: auto;
+}
+
+/* auth-catdの親コンテナ */
+.auth-card-container {
+  /* 直下の子要素を横並びにする(孫要素は適用外) */
+  /* また、子要素を柔軟な箱(Flexbox)のルールに従って管理、制御する */
+  display: flex;
+  /* 要素が持つ最小の高さ 100vhはビューポートの高さの100% を意味し、
+  親要素が、スクロールせずに表示される領域いっぱいを覆うことになる */
+  min-height: 100vh;
+
+  /* 垂直方向中央寄せ */
+  align-items: center;
+  /* 水平方向中央寄せ(margin: auto;と重複) */
+  justify-content: center;
+}
+
+/* h2はカードタイトル専用にしよう */
+.auth-card h2 {
+  font-size: 24px;
+  /* 下の入力欄との間にスペース */
+  margin-bottom: 32px;
+}
+
+/* pはタイトル直下の説明文,パスワードリセットの説明で使用 */
+.auth-card p {
+  text-align: center;
+  /* 下の入力欄との間にスペース。上のスペースはh2タグで補完 */
+  margin-bottom: 24px;
+}
+
+.field {
+  margin-bottom: 24px;
+  /* これは間違い。f.email_fieldなどが生成する<input>要素にwidth: 100%; を適用する必要がある
+  width: 100%;
+  */
+}
+
+.field input[type="email"],
+.field input[type="password"],
+.field input[type="text"] {
+  width: 100%;
+  /* 入力欄の縦幅を設定 */
+  height: 35px;
+}
+
+/* 下部大ボタン。<%= f.submit "Log in" %>が、こちらも<input>要素を生成する */
+.actions input[type="submit"] {
+  width: 100%;
+  /* 入力欄とボタン間でスペースがほしい */
+  margin-top: 24px;
+}
