@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_17_070832) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_26_104054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -90,6 +90,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_17_070832) do
     t.index ["product_draft_id"], name: "index_product_olive_varieties_on_product_draft_id"
   end
 
+  create_table "product_ratings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "sweet", null: false
+    t.integer "spicy", null: false
+    t.integer "green", null: false
+    t.integer "fruity", null: false
+    t.integer "bitter", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_ratings_on_product_id"
+    t.index ["user_id", "product_id"], name: "index_product_ratings_on_user_id_and_product_id", unique: true
+    t.index ["user_id"], name: "index_product_ratings_on_user_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "country_of_origin"
@@ -124,4 +139,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_17_070832) do
   add_foreign_key "product_drafts", "products"
   add_foreign_key "product_drafts", "users"
   add_foreign_key "product_olive_varieties", "product_drafts"
+  add_foreign_key "product_ratings", "products"
+  add_foreign_key "product_ratings", "users"
 end

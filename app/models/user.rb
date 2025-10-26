@@ -40,6 +40,9 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy
   has_many :product_drafts, dependent: :destroy
+  has_many :product_ratings, dependent: :destroy
+  # 「特定ユーザーが評価した」商品というアソシエーションを付与。実際にはproductを指定していることをsourceで明記
+  has_many :rated_products, through: :product_ratings, source: :product
   has_one_attached :avatar
 
   validates :name, presence: true, length: { minimum: 2, maximum: 30 }
