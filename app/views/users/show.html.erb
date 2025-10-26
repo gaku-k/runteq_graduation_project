@@ -1,0 +1,61 @@
+<div class="my-card">
+  <h1 class="italic-title">My Page</h1>
+
+  <div class="my-page-container">
+    <div>
+      <% if @user.avatar.attached? %>
+        <%= image_tag @user.avatar.variant(resize_to_fill: [300, 300]),
+          class: "rounded-full user-avatar"%>
+      <% else %>
+        <%= image_tag "44775.jpg",
+          class: "rounded-full user-avatar" %>
+      <% end %>
+    </div>
+
+    <div class="user-info">
+      <div>
+        <h2>ユーザー名</h2>
+        <%= @user.name %>
+      </div>
+
+      <div>
+        <h2>Email ID</h2>
+        <!-- helpers/users_helper.rbのヘルパーメソッド -->
+        <%= masked_email(@user.email) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-link-container">
+    <%= link_to "プロフィール編集", edit_user_registration_path, class: "edit-profile-button" %>
+  </div>
+
+  <h2 class="italic-title">My Posts</h2>
+  <div>
+    <% @user.posts.each do |post| %>
+      <div class="post-item">
+        <%= link_to post_path(post), class: "post-card-link" do %>
+          <div class="image-section">
+            <%= render "posts/images", post: post %>
+          </div>
+
+          <div class="chart-review-wrapper">
+            <div class="chart-section">
+              <h2 class="post-title"><%= post.product_name %></h2>
+              <%= render partial: "posts/radar_chart", locals: { post: post } %>
+            </div>
+
+            <div class="review-section">
+              <article>
+                <h2 class="post-title italic-title">Review</h2>
+                <p><%= post.body %></p>
+              </article>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+
+  </div>
+</div>

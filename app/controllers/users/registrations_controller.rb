@@ -47,13 +47,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
     # デフォルトパラメータに加えてnameカラムを許可する
-    devise_parameter_sanitizer.permit(:sign_up, keys: [ :name ])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :name, :avatar ])
   end
 
   # アカウント更新時に送信されるパラメータを許可
   def configure_account_update_params
     # パスワードを変更せずに名前だけを更新できるよう :nameを許可する
-    devise_parameter_sanitizer.permit(:account_update, keys: [ :name ])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :avatar ])
   end
 
   # サインアップ成功後の遷移先を指定。コメントアウトかsuper(resource)だけならDeviseのデフォルト動作となる

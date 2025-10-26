@@ -39,5 +39,8 @@ class User < ApplicationRecord
   enum :role, { general: 0, admin: 1 }
 
   has_many :posts, dependent: :destroy
-  has_many :product_drafts
+  has_many :product_drafts, dependent: :destroy
+  has_one_attached :avatar
+
+  validates :name, presence: true, length: { minimum: 2, maximum: 30 }
 end

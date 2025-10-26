@@ -1,5 +1,5 @@
 // tailwind.config.js
-export default {
+module.exports = {
   content: [
     "./app/views/**/*.{html,erb,haml,slim,jbuilder,turbo_stream}",
     "./app/javascript/**/*.js",

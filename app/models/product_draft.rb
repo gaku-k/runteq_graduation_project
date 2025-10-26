@@ -4,7 +4,7 @@ class ProductDraft < ApplicationRecord
   belongs_to :product, optional: true
   belongs_to :user
   has_many_attached :images
-  has_many :product_olive_varieties
+  has_many :product_olive_varieties, dependent: :destroy
   has_many :olive_varieties, through: :product_olive_varieties
   accepts_nested_attributes_for :olive_varieties, allow_destroy: false, reject_if: :all_blank
 

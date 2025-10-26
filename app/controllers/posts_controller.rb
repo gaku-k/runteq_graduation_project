@@ -25,6 +25,7 @@ class PostsController < ApplicationController
     # Post.newは初期化
     # post_paramsという引数 = キー(カラム)と値を渡してPostオブジェクトを初期設定する
     @post = Post.new(post_params)
+    @post.user = current_user
     if @post.save
       redirect_to posts_path, success: "投稿が完了しました！"
     else

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "users/show"
   # devise_for :users
   # どのCを使うかを明示的に表しており、デフォルトのままだとコマンドで生成したカスタムCを使ってくれない
   devise_for :users, controllers: {
@@ -28,6 +29,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   resources :posts, only: [ :index, :show, :new, :create ]
   resources :products, only: [ :index, :show, :new, :create, :edit, :update ]
+  resource :user, only: [ :show ]
 
   # namespaxe はURLとコントローラーをグループ化する機能「admin/ で始まるURL → Admin名前空間のコントローラに送る」
   namespace :admin do

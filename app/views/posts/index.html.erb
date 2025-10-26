@@ -28,13 +28,13 @@
       <li class="post-item">
         <%= link_to post_path(post), class: "post-card-link" do %>
           <div class="image-section">
-            <%= render "images", post: post %>
+            <%= render "posts/images", post: post %>
           </div>
 
           <div class="chart-review-wrapper">
             <div class="chart-section">
               <h2 class="post-title"><%= post.product_name %></h2>
-              <%= render partial: "radar_chart", locals: { post: post } %>
+              <%= render partial: "posts/radar_chart", locals: { post: post } %>
             </div>
 
             <div class="review-section">

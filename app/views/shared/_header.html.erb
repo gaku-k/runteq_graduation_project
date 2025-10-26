@@ -1,0 +1,65 @@
+<header class="desktop-header-container">
+  <div class="desktop-header">
+    <h3><%= link_to "My Page", user_path(current_user) %></h3>
+    <h3><%= link_to "Review List", posts_path %></h3>
+    <h3><%= link_to "Olive Oil List", products_path %></h3>
+
+    <div class="header-right-menu">
+      <div>
+        <%= link_to "利用規約", "#" %> |
+        <%= link_to "プライバシーポリシー", "#" %> |
+        <%= link_to "お問い合わせ", "#" %>
+      </div>
+      <div>
+        <!-- ure_signed_in?メソッド: ユーザーがサインイン状態だとtrue, ログアウト状態だとfalse -->
+        <!-- 余談だがadmin_signed_in? でも動くとかなんとか -->
+        <% if user_signed_in?  %>
+          <%= button_to "ログアウト", destroy_user_session_path, method: :delete, date: { turbo: false } %>
+        <% else %>
+          <%= button_to "ログイン", new_user_session_path %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</header>
+
+<header class="mobile-header-container">
+  <div class="mobile-header">
+    <!-- このdiv全体がSrimulusコントローラーの対象になる -->
+    <div data-controller="hamburger">
+      <!-- buttonタグ:子要素でカスタマイズ性の高いボタンが作れる -->
+      <!-- menu-toggle=メニュー切り替えを識別するためのidを付与 -->
+      <!-- コントローラーで操作する要素"button" -->
+      <!-- data-action="イベント名->コントローラー名#メソッド名" -->
+      <button id="menu-toggle" data-hamburger-target="button" data-action="click->hamburger#toggle" >
+        <!-- 中身が空の要素は飾りや形をcssで描くための要素として使われる-->
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- navタグはナビゲーションリンクをまとめるために使用される -->
+      <!-- コントローラーで操作する要素"menu" -->
+      <nav data-hamburger-target="menu" class="mobile-nav hidden">
+        <ul>
+          <li><%= link_to "My Page", user_path(current_user) %></li>
+          <li><%= link_to "Review List", posts_path %></li>
+          <li><%= link_to "Olive Oil List", products_path %></li>
+        </ul>
+        <ul>
+          <li><%= link_to "利用規約", "#" %></li>
+          <li><%= link_to "プライバシーポリシー", "#" %></li>
+          <li><%= link_to "お問い合わせ", "#" %></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div>
+      <% if user_signed_in?  %>
+        <%= button_to "ログアウト", destroy_user_session_path, method: :delete, date: { turbo: false } %>
+      <% else %>
+        <%= button_to "ログイン", new_user_session_path %>
+      <% end %>
+    </div>
+  </div>
+</header>

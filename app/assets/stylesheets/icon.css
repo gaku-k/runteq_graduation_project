@@ -1,0 +1,26 @@
+/* 円形のアイコン */
+.rounded-full {
+  border-radius: 50%;
+  /* 画像が親要素からの引き伸ばしを受けないように 'block' に設定 */
+  display: block;
+  /* 画像のアスペクト比を維持しつつトリミング */
+  object-fit: cover;
+  /* 親要素の幅が狭くなった際、親要素からはみ出さずに柔軟に縮小 */
+  max-width: 100%;
+}
+
+/* マイページのアイコン */
+.user-avatar {
+  /* モバイル版: 縦横115pxの円形 */
+  width: 115px;
+  height: 115px;
+}
+
+@media (min-width: 768px) {
+  .user-avatar {
+    /* PC版: 縦横300pxの円形 */
+    width: 200px;
+    height: 200px;
+  }
+}
+/* -------------------------------------- */

@@ -1,0 +1,38 @@
+.my-page-container {
+  display: flex;
+  padding-top: 32px;
+  padding-left: 16px;
+  /* 横方向の子要素間にスペースを開ける */
+  gap: 32px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  /* 縦並びの子要素にもスペースを設定できる */
+  gap: 1rem;
+}
+
+.profile-link-container {
+  /* 幅をコンテンツに合わせる */
+  width: fit-content;
+  /* divがブロック要素なので親がFlexboxでないと余白ができない 
+  だから上の設定が必要 */
+  margin-left: auto;
+  padding-right: 16px;
+}
+
+.edit-profile-button {
+  /* ブロック要素のままでは要素が縦に並び余白がない。
+  だからインライン要素(要素が横に並ぶ)を加える */
+  display: inline-block;
+  /* 角を丸くする */
+  border-radius: 10px;
+  background-color: #7D9D76;
+  color: black;
+  padding: 4px 16px;
+}
+
+.edit-profile-button:hover {
+  background-color: #6a8c63;
+}

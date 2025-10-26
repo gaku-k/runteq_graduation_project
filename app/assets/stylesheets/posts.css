@@ -91,11 +91,6 @@
   font-weight: bold;
 }
 
-/* 斜体タイトル */
-.italic-title {
-  font-style: italic;
-}
-
 /* モバイル（～767pxまで） */
 @media (max-width: 767px) {
 .chart-container {
