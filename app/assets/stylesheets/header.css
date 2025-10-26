@@ -1,4 +1,26 @@
 /* --------------------- */
+/* ヘッダータイプの切り替え */
+/* --------------------- */
+.desktop-header-container {
+  display: none;
+}
+
+.mobile-header-container {
+  display: block;
+}
+
+/* 画面幅が800px以上のスクリーンに対応するスタイル */
+@media (min-width: 800px) {
+  .desktop-header-container {
+    display: block;
+  }
+
+  .mobile-header-container {
+    display: none;
+  }
+}
+
+/* --------------------- */
 /* デスクトップ版ヘッダー */
 /* --------------------- */
 .desktop-header {
@@ -13,6 +35,8 @@
   display: flex;
   /* 垂直方向中央寄せ */
   align-items: center;
+  /* 応急処置:検索バーより上に表示 */
+  z-index: 100;
 }
 
 .desktop-header h3 {
@@ -35,6 +59,11 @@
   /* 右メニューの子要素(リンクやボタン)を中央に寄せる */
   margin: auto;
   margin-bottom: 5px;
+}
+
+.header-right-menu div:nth-child(1) {
+  font-size: 14px;
+  padding-right: 16px;
 }
 
 /* --------------------- */
