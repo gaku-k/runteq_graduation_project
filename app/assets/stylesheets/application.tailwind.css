@@ -13,6 +13,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ヘッダーが表示領域を占領するので全ページの上部を開ける */
+body {
+  padding-top: 60px;
+}
+
 /* コンテンツのカード化 */
 .my-card {
   width: 100%;                /* 要素の幅を親要素の100%にする */
