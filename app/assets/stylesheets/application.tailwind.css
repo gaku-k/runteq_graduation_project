@@ -8,6 +8,7 @@
 @import "icon.css";
 @import "auth_card.css";
 @import "header.css";
+@import "my_page.css";
 
 @tailwind base;
 @tailwind components;
@@ -31,6 +32,12 @@ body {
   list-style: none;   /* 丸点を消す */
   padding-left: 0;    /* 左の余白も消す */
   margin: 0;          /* 不要なら上下の余白もリセット */
+}
+
+/* 斜体タイトル/ページ左上の見出しに使用 */
+.italic-title {
+  font-style: italic;
+  font-size: 20px;
 }
 
 /* -------------------------------------- */

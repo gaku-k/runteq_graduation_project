@@ -19,8 +19,8 @@
 @media (min-width: 768px) {
   .user-avatar {
     /* PC版: 縦横300pxの円形 */
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
   }
 }
 /* -------------------------------------- */

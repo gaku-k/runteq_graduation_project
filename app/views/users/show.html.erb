@@ -1,34 +1,36 @@
 <div class="my-card">
   <h1 class="italic-title">My Page</h1>
 
-  <div class="flex items-center">
+  <div class="my-page-container">
     <div>
       <% if @user.avatar.attached? %>
         <%= image_tag @user.avatar.variant(resize_to_fill: [300, 300]),
-          class: "rounded-full w-[115px] h-[115px] sm:w-[300px] sm:h-[300px] object-cover"%>
+          class: "rounded-full user-avatar"%>
       <% else %>
         <%= image_tag "44775.jpg",
           class: "rounded-full user-avatar" %>
       <% end %>
     </div>
 
-    <div class="ml-8">
-      <h2>ユーザー名</h2>
-      <div><%= @user.name %></div>
+    <div class="user-info">
+      <div>
+        <h2>ユーザー名</h2>
+        <%= @user.name %>
+      </div>
 
-      <div class="h-4"></div>
-
-      <h2>Email ID</h2>
-      <!-- helpers/users_helper.rbのヘルパーメソッド -->
-      <div><%= masked_email(@user.email) %></div>
+      <div>
+        <h2>Email ID</h2>
+        <!-- helpers/users_helper.rbのヘルパーメソッド -->
+        <%= masked_email(@user.email) %>
+      </div>
     </div>
   </div>
 
-  <div>
-    <%= link_to "プロフィール編集", edit_user_registration_path %>
+  <div class="profile-link-container">
+    <%= link_to "プロフィール編集", edit_user_registration_path, class: "edit-profile-button" %>
   </div>
 
-  <h2>My Posts</h2>
+  <h2 class="italic-title">My Posts</h2>
   <div>
     <% @user.posts.each do |post| %>
       <div class="post-item">
