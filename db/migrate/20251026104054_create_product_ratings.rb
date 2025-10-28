@@ -3,11 +3,11 @@ class CreateProductRatings < ActiveRecord::Migration[8.0]
     create_table :product_ratings do |t|
       t.references :user, null: false, foreign_key: true
       t.references :product, null: false, foreign_key: true
-      t.integer :sweet, null: false
-      t.integer :spicy, null: false
-      t.integer :green, null: false
-      t.integer :fruity, null: false
-      t.integer :bitter, null: false
+      t.integer :sweet
+      t.integer :spicy
+      t.integer :green
+      t.integer :fruity
+      t.integer :bitter
 
       t.timestamps
     end

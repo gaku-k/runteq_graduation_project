@@ -15,6 +15,9 @@ class ProductsController < ApplicationController
 
   def show
     @product = Product.find(params[:id])
+    # find_or_initialize_by: 指定した条件に合うオブジェクトが存在すれば取得、なければ新しいオブジェクトをbuildする。
+    # find_or_create_byと違い保存はしない
+    @product_rating = @product.product_ratings.find_or_initialize_by(user: current_user)
   end
 
   def new

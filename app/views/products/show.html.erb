@@ -52,4 +52,37 @@
   <div style="text-align: right;">
     <%= link_to "編集する", edit_product_path(@product)%>
   </div>
+  <hr>
+  <h3>あなたの評価</h3>
+
+  <%= form_with(model: [@product, @product_rating], local: true) do |f| %>
+    <div>
+      <%= f.label :sweet, "甘さ" %>
+      <%= f.number_field :sweet, in: 1..5 %>
+    </div>
+
+    <div>
+      <%= f.label :fruity, "果実感" %>
+      <%= f.number_field :fruity, in: 1..5 %>
+    </div>
+
+    <div>
+      <%= f.label :green, "青い" %>
+      <%= f.number_field :green, in: 1..5 %>
+    </div>
+
+    <div>
+      <%= f.label :spicy, "辛み" %>
+      <%= f.number_field :spicy, in: 1..5 %>
+    </div>
+
+    <div>
+      <%= f.label :bitter, "苦み" %>
+      <%= f.number_field :bitter, in: 1..5 %>
+    </div>
+
+    <!-- persisted? :ActiveRecordのメソッドでオブジェクトがDBに存在すればtrue,新規ならfalse -->
+    <!-- 条件式 ? 真の場合の値 : 偽の場合の値 で、1行のif文 -->
+    <%= f.submit @product_rating.persisted? ? "評価を更新" : "評価を登録" %>
+  <% end %>
 </div>

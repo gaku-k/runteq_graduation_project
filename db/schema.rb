@@ -93,11 +93,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_26_104054) do
   create_table "product_ratings", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "product_id", null: false
-    t.integer "sweet", null: false
-    t.integer "spicy", null: false
-    t.integer "green", null: false
-    t.integer "fruity", null: false
-    t.integer "bitter", null: false
+    t.integer "sweet"
+    t.integer "spicy"
+    t.integer "green"
+    t.integer "fruity"
+    t.integer "bitter"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_product_ratings_on_product_id"
