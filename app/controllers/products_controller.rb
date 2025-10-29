@@ -18,6 +18,9 @@ class ProductsController < ApplicationController
     # find_or_initialize_by: 指定した条件に合うオブジェクトが存在すれば取得、なければ新しいオブジェクトをbuildする。
     # find_or_create_byと違い保存はしない
     @product_rating = @product.product_ratings.find_or_initialize_by(user: current_user)
+    # メソッドはモデルに記載。レーダーチャート用の平均値, 評価件数をビューに渡す
+    @average_ratings = @product.average_ratings
+    @ratings_count = @product.ratings_count
   end
 
   def new

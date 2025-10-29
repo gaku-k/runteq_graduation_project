@@ -7,8 +7,10 @@ import "controllers";
 // 五つ星
 // 評価ウィジェットを初期化する関数
 const initializeRaty = () => {
+  // 設定オプションをまとめたオブジェクト
   const options = {
     number: 5,
+    // Font Awesomeの<i>アイコンを使用
     starType: 'i',
     starOff: 'far fa-star',
     starOn: 'fas fa-star',
@@ -28,6 +30,8 @@ const initializeRaty = () => {
   $('#taste-rating').raty(options);
   $('#price-rating').raty(options);
 
+  // #sweet-rating … 星を描画するHTML要素（div）
+  // #sweet-score … 選んだ星の数を格納するhidden input
   $('#sweet-rating').raty(options);
   $('#spicy-rating').raty(options);
   $('#bitter-rating').raty(options);

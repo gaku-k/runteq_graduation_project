@@ -3,12 +3,14 @@
  * Tailwind の公式ディレクティブを使用します。
  */
 /* その他のカスタムCSSやSCSSがあれば、ここに追記またはインポート */
+@import "flash.css";
 @import "posts.css";
 @import "products.css";
 @import "icon.css";
 @import "auth_card.css";
 @import "header.css";
 @import "my_page.css";
+@import "five_star.css";
 
 @tailwind base;
 @tailwind components;
@@ -129,61 +131,6 @@ body {
   /* 任意: フォントを太くしたり、サイズを調整したりできます */
   font-weight: bold;
   margin-left: 2px; /* ラベルとの間に少し隙間を空ける */
-}
-
-/* -------------------------------------- */
-/* レビューの星マーク */
-.rating-field .fa-star {
-  color: gold;
-  font-size: 20px;
-  margin-right: 1px;
-}
-
-/* ラベルと星を横並びにする */
-.rating-field {
-  display: flex; /* ラベルと星のコンテナを横並びにする */
-  align-items: center; /* 垂直方向の中央揃えで高さを揃える */
-  gap: 10px; /* ラベルと星の間に10pxの間隔を空ける */
-  padding: 5px 0;
-}
-
-/* ラベルのスタイル調整 */
-.rating-label {
-  /* 修正: 確実に星の開始位置を揃えるため、ラベル内のテキストを右寄せにする */
-  text-align: right;
-  width: 50px;
-  /* 0:縮むな という意味。親コンテナが狭くなっても省略、押しつぶされたりするのを防ぐ */
-  flex-shrink: 0;
-}
-/* -------------------------------------- */
-
-/* Flash メッセージの共通スタイル */
-.flash {
-  padding: 12px;
-  border-radius: 6px;
-  margin: 10px 0;
-  font-weight: bold;
-}
-
-/* 成功メッセージ（緑） */
-.flash.success {
-  background-color: #d1fae5; /* 薄い緑 */
-  border: 1px solid #10b981; /* エメラルドグリーン */
-  color: #065f46; /* 濃い緑文字 */
-}
-
-/* 通常の通知（青系にする例） */
-.flash.notice {
-  background-color: #bfdbfe; /* 薄い青 */
-  border: 1px solid #3b82f6;
-  color: #1e3a8a;
-}
-
-/* エラーメッセージ（赤） */
-.flash.danger {
-  background-color: #fee2e2;
-  border: 1px solid #ef4444;
-  color: #991b1b;
 }
 
 /* -------------------------------------- */

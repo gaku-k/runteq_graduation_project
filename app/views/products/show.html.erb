@@ -53,32 +53,40 @@
     <%= link_to "編集する", edit_product_path(@product)%>
   </div>
   <hr>
+  <div>
+    <%= render partial: "products/flavor_chart", locals: { average_ratings: @average_ratings, ratings_count: @ratings_count } %>
+  </div>
   <h3>あなたの評価</h3>
 
   <%= form_with(model: [@product, @product_rating], local: true) do |f| %>
-    <div>
-      <%= f.label :sweet, "甘さ" %>
-      <%= f.number_field :sweet, in: 1..5 %>
+    <div class="rating-field">
+      <%= f.label :sweet, "甘さ", class: "rating-label" %>
+      <div id="sweet-rating"></div>
+      <%= f.hidden_field :sweet %>
     </div>
 
-    <div>
-      <%= f.label :fruity, "果実感" %>
-      <%= f.number_field :fruity, in: 1..5 %>
+    <div class="rating-field">
+      <%= f.label :fruity, "果実感", class: "rating-label" %>
+      <div id="fruity-rating"></div>
+      <%= f.hidden_field :fruity %>
     </div>
 
-    <div>
-      <%= f.label :green, "青い" %>
-      <%= f.number_field :green, in: 1..5 %>
+    <div class="rating-field">
+      <%= f.label :green, "青い", class: "rating-label" %>
+      <div id="green-rating"></div>
+      <%= f.hidden_field :green %>
     </div>
 
-    <div>
-      <%= f.label :spicy, "辛み" %>
-      <%= f.number_field :spicy, in: 1..5 %>
+    <div class="rating-field">
+      <%= f.label :spicy, "辛み", class: "rating-label" %>
+      <div id="spicy-rating"></div>
+      <%= f.hidden_field :spicy %>
     </div>
 
-    <div>
-      <%= f.label :bitter, "苦み" %>
-      <%= f.number_field :bitter, in: 1..5 %>
+    <div class="rating-field">
+      <%= f.label :bitter, "苦み", class: "rating-label" %>
+      <div id="bitter-rating"></div>
+      <%= f.hidden_field :bitter %>
     </div>
 
     <!-- persisted? :ActiveRecordのメソッドでオブジェクトがDBに存在すればtrue,新規ならfalse -->

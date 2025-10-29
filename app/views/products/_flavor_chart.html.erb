@@ -1,0 +1,56 @@
+<canvas id="ratingRadarChart"></canvas>
+
+<script>
+  const ctx = document.getElementById("ratingRadarChart");
+
+  const data = {
+    labels: ["甘さ", "辛さ", "青さ", "フルーティー", "苦さ"],
+    datasets: [{
+      label: "<%= ratings_count %>件の評価",
+      data: [
+        <%= average_ratings[:sweet] %>,
+        <%= average_ratings[:spicy] %>,
+        <%= average_ratings[:green] %>,
+        <%= average_ratings[:fruity] %>,
+        <%= average_ratings[:bitter] %>
+      ],
+      backgroundColor: "rgba(125, 157, 118, 0.2)",
+      borderColor: "rgba(125, 157, 118, 1)",
+      pointBackgroundColor: "rgba(125, 157, 118, 1)",
+      borderWidth: 2
+    }]
+  };
+
+  new Chart(ctx, {
+    type: "radar",
+    data: data,
+    options: {
+      // オブションを付け足す。今回は左上にタイトルを付ける
+      plugins: {
+        title: {
+          display: true,
+          text: 'Flavor Chart',
+          // 'center' → 中央(デフォルト) 'end' → 右寄せ
+          align: 'start',
+          font: { size: 14 },
+        }
+      },
+      // title.padding にleftが効かない使用なためキャンバス全体に余白を作る
+      layout: {
+        padding: {
+          left: 20,
+          top: 20,
+          right: 20,
+          bottom: 20
+        }
+      },
+      scales: {
+        r: {
+          min: 0,
+          max: 5,
+          ticks: { stepSize: 1 }
+        }
+      }
+    }
+  });
+</script>

@@ -38,6 +38,25 @@ class Product < ApplicationRecord
     [ "olive_varieties", "images_attachments", "images_blobs" ]
   end
 
+  # レーダーチャートに平均値を渡す。
+  def average_ratings
+    ratings = product_ratings
+
+    {
+      # 評価が一件もないなら0点で返す。データがないなら値0のチャートを表示してレイアウトを崩さない
+      # .round(1)で小数点一桁までの値を返す。
+      sweet: (ratings.average(:sweet) || 0).round(1),
+      spicy: (ratings.average(:spicy) || 0).round(1),
+      green: (ratings.average(:green) || 0).round(1),
+      fruity: (ratings.average(:fruity) || 0).round(1),
+      bitter: (ratings.average(:bitter) || 0).round(1)
+    }
+  end
+
+  def ratings_count
+    product_ratings.count
+  end
+
   private
 
   def images_count_within_limit
