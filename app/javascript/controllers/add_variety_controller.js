@@ -16,8 +16,7 @@ export default class extends Controller {
     const newIndex = new Date().getTime() 
     
     // テンプレート内の "__INDEX__" を一意のインデックスに置き換える
-    const newHtml = content.innerHTML.replace(/__INDEX__/g, newIndex)
-
+    const newHtml = content.firstElementChild.outerHTML.replace(/__INDEX__/g, newIndex)
     // 置き換え後のHTMLをfieldsコンテナに挿入
     this.fieldsTarget.insertAdjacentHTML('beforeend', newHtml)
   } 
