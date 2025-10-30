@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  product: one
+  sweet: 1
+  spicy: 1
+  green: 1
+  fruity: 1
+  bitter: 1
+
+two:
+  user: two
+  product: two
+  sweet: 1
+  spicy: 1
+  green: 1
+  fruity: 1
+  bitter: 1

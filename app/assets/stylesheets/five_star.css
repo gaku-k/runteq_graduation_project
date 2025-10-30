@@ -1,0 +1,24 @@
+/* レビューの星マーク */
+.rating-field .fa-star {
+  color: gold;
+  font-size: 20px;
+  margin-right: 1px;
+}
+
+/* ラベルと星を横並びにする */
+.rating-field {
+  display: flex; /* ラベルと星のコンテナを横並びにする */
+  align-items: center; /* 垂直方向の中央揃えで高さを揃える */
+  gap: 10px; /* ラベルと星の間に10pxの間隔を空ける */
+  padding: 5px 0;
+}
+
+/* ラベルのスタイル調整 */
+.rating-label {
+  /* 修正: 確実に星の開始位置を揃えるため、ラベル内のテキストを右寄せにする */
+  text-align: right;
+  width: 50px;
+  /* 0:縮むな という意味。親コンテナが狭くなっても省略、押しつぶされたりするのを防ぐ */
+  flex-shrink: 0;
+}
+/* -------------------------------------- */

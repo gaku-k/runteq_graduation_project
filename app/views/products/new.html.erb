@@ -23,50 +23,6 @@
       <%= f.text_field :name %>
     </div>
 
-    <p class="italic-title">Flavor Chart<span class="required-star">*</span></p>
-    <div>
-      <!-- 甘み -->
-      <div class="rating-field">
-        <%= f.label :sweet_rating, "甘み", class: "rating-label" %>
-        <!-- この空の `div` に、外部ライブラリ(js)が動的にHTML要素を生成します -->
-        <div id="sweet-rating"></div>
-        <!-- ユーザーが上記の `div` で星などを操作した際、その評価結果（数値）を実際に保存するための隠された入力欄 -->
-        <%= f.hidden_field :sweet_rating %>
-      </div>
-
-      <!-- 果実感 -->
-      <div class="rating-field">
-        <%= f.label :fruity_rating, "果実感", class: "rating-label" %>
-        <div id="fruity-rating"></div>
-        <%= f.hidden_field :fruity_rating %>
-      </div>
-
-      <!-- 青い -->
-      <div class="rating-field">
-        <%= f.label :green_rating, "青い" , class: "rating-label" %>
-        <div id="green-rating"></div>
-        <%= f.hidden_field :green_rating %>
-      </div>
-
-      <!-- 辛み -->
-      <div class="rating-field">
-        <%= f.label :spicy_rating, "辛み" , class: "rating-label" %>
-        <div id="spicy-rating"></div>
-        <%= f.hidden_field :spicy_rating %>
-      </div>
-
-      <!-- 苦み -->
-      <div class="rating-field">
-        <%= f.label :bitter_rating, "苦み" , class: "rating-label" %>
-        <div id="bitter-rating"></div>
-        <%= f.hidden_field :bitter_rating %>
-      </div>
-    </div>
-    
-    <div class="actions" style="text-align: right;">
-      <%= f.submit "Share It!" %>
-    </div>
-
     <div class="field">
       <%= f.label :images, "画像を追加" %><br>
       <!-- multiple: true は複数選択の許可 -->
@@ -75,7 +31,10 @@
 
     <!-- プレビュー表示用 -->
     <div id="preview"></div>
-    <br>
+
+    <div class="actions" style="text-align: right;">
+      <%= f.submit "Share It!" %>
+    </div>
 
     <div>
       <div class="input-group">

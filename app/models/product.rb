@@ -4,6 +4,9 @@ class Product < ApplicationRecord
   has_many :posts
   has_many_attached :images
   has_many :product_drafts
+  has_many :product_ratings, dependent: :destroy
+  # 「特定商品の評価者」というアソシエーションを付与。実際にはuserを指定していることをsourceで明記
+  has_many :rated_users, through: :product_ratings, source: :user
 
   # 非公開(保留中)か、公開済みか。
   enum :status, { draft: 0, published: 1 }
@@ -15,10 +18,6 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :olive_varieties, allow_destroy: false, reject_if: :all_blank
 
   validates :name, presence: true, length: { maximum: 100 }
-  validates :sweet_rating, :spicy_rating, :bitter_rating, :green_rating, :fruity_rating,
-            presence: true,
-            numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
-
   validates :volume, numericality: { only_integer: true }, allow_nil: true
   # numericality: true は整数・少数どちらも許可する
   validates :reference_price, numericality: true, allow_nil: true
@@ -33,6 +32,25 @@ class Product < ApplicationRecord
   # 関連名を通じてRansackは自動的にJOINを組み立てる。中間テーブルを介せずolive_varietiesとかける
   def self.ransackable_associations(auth_object = nil)
     [ "olive_varieties", "images_attachments", "images_blobs" ]
+  end
+
+  # レーダーチャートに平均値を渡す。
+  def average_ratings
+    ratings = product_ratings
+
+    {
+      # 評価が一件もないなら0点で返す。データがないなら値0のチャートを表示してレイアウトを崩さない
+      # .round(1)で小数点一桁までの値を返す。
+      sweet: (ratings.average(:sweet) || 0).round(1),
+      spicy: (ratings.average(:spicy) || 0).round(1),
+      green: (ratings.average(:green) || 0).round(1),
+      fruity: (ratings.average(:fruity) || 0).round(1),
+      bitter: (ratings.average(:bitter) || 0).round(1)
+    }
+  end
+
+  def ratings_count
+    product_ratings.count
   end
 
   private

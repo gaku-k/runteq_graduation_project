@@ -8,42 +8,35 @@
         <%= render "products/images", product: @product %>
       </div>
 
-      <!-- 情報エリア -->
-      <div>
-        <!-- レーダーチャート -->
-        <div>
-          <h2><%= @product.name %></h2>
-          <div class="new-pentagon-radar-chart-container">
-            <%= render partial: "products/radar_chart", locals: { product: @product } %>
-          </div>
-        </div>
-
-        <!-- 商品詳細情報 -->
-        <div class="product-detail-section">
-          <h2 class="italic-title">Product Info</h2>
-          <ul class="product-detail-list">
-            <li>
-              <span class="detail-label">原産国</span>
-              <span class="detail-value"><%= @product.country_of_origin %></span>
-            </li>
-            <li>
-              <span class="detail-label">使用オリーブ品種</span>
-              <span class="detail-value">
-                <% @product.olive_varieties.each do |variety| %>
-                  <span class="tag"><%= variety.name %></span>
-                <% end %>
-              </span>
-            </li>
-            <li>
-              <span class="detail-label">容量(ml)</span>
-              <span class="detail-value"><%= @product.volume %></span>
-            </li>
-            <li>
-              <span class="detail-label">参考価格(円)</span>
-              <span class="detail-value"><%= @product.reference_price %></span>
-            </li>
-          </ul>
-        </div>
+      <!-- 商品詳細情報 -->
+      <div class="product-detail-section">
+        <h2 class="italic-title">Product Info</h2>          
+        <ul class="product-detail-list">
+          <li>
+            <span class="detail-label">商品名</span>
+            <span class="detail-value"><%= @product.name %></span>
+          </li>
+          <li>
+            <span class="detail-label">原産国</span>
+            <span class="detail-value"><%= @product.country_of_origin %></span>
+          </li>
+          <li>
+            <span class="detail-label">使用オリーブ品種</span>
+            <span class="detail-value">
+              <% @product.olive_varieties.each do |variety| %>
+                <span class="tag"><%= variety.name %></span>
+              <% end %>
+            </span>
+          </li>
+          <li>
+            <span class="detail-label">容量(ml)</span>
+            <span class="detail-value"><%= @product.volume %></span>
+          </li>
+          <li>
+            <span class="detail-label">参考価格(円)</span>
+            <span class="detail-value"><%= @product.reference_price %></span>
+          </li>
+        </ul>
       </div>
 
     </li>
@@ -52,4 +45,45 @@
   <div style="text-align: right;">
     <%= link_to "編集する", edit_product_path(@product)%>
   </div>
+  <hr>
+  <div>
+    <%= render partial: "products/flavor_chart", locals: { product: @product, average_ratings: @product.average_ratings, ratings_count: @product.ratings_count } %>
+  </div>
+  <h3>あなたの評価</h3>
+
+  <%= form_with(model: [@product, @product_rating], local: true) do |f| %>
+    <div class="rating-field">
+      <%= f.label :sweet, "甘さ", class: "rating-label" %>
+      <div id="sweet-rating"></div>
+      <%= f.hidden_field :sweet %>
+    </div>
+
+    <div class="rating-field">
+      <%= f.label :fruity, "果実感", class: "rating-label" %>
+      <div id="fruity-rating"></div>
+      <%= f.hidden_field :fruity %>
+    </div>
+
+    <div class="rating-field">
+      <%= f.label :green, "青い", class: "rating-label" %>
+      <div id="green-rating"></div>
+      <%= f.hidden_field :green %>
+    </div>
+
+    <div class="rating-field">
+      <%= f.label :spicy, "辛み", class: "rating-label" %>
+      <div id="spicy-rating"></div>
+      <%= f.hidden_field :spicy %>
+    </div>
+
+    <div class="rating-field">
+      <%= f.label :bitter, "苦み", class: "rating-label" %>
+      <div id="bitter-rating"></div>
+      <%= f.hidden_field :bitter %>
+    </div>
+
+    <!-- persisted? :ActiveRecordのメソッドでオブジェクトがDBに存在すればtrue,新規ならfalse -->
+    <!-- 条件式 ? 真の場合の値 : 偽の場合の値 で、1行のif文 -->
+    <%= f.submit @product_rating.persisted? ? "評価を更新" : "評価を登録" %>
+  <% end %>
 </div>
