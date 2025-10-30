@@ -18,10 +18,6 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :olive_varieties, allow_destroy: false, reject_if: :all_blank
 
   validates :name, presence: true, length: { maximum: 100 }
-  validates :sweet_rating, :spicy_rating, :bitter_rating, :green_rating, :fruity_rating,
-            presence: true,
-            numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
-
   validates :volume, numericality: { only_integer: true }, allow_nil: true
   # numericality: true は整数・少数どちらも許可する
   validates :reference_price, numericality: true, allow_nil: true

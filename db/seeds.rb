@@ -131,11 +131,6 @@ product0 = Product.create!(
   country_of_origin: "トルコ",
   volume: 600,
   reference_price: 2300,
-  sweet_rating: 4,
-  spicy_rating: 1,
-  bitter_rating: 2,
-  green_rating: 3,
-  fruity_rating: 5
 )
 
 # 関連付け（中間テーブルに自動でレコードが作られる）
@@ -156,11 +151,6 @@ product1 = Product.create!(
   country_of_origin: "スペイン",
   volume: 250,
   reference_price: 2000,
-  sweet_rating: 4,
-  spicy_rating: 3,
-  bitter_rating: 5,
-  green_rating: 4,
-  fruity_rating: 2
 )
 
 product2 = Product.create!(
@@ -169,11 +159,6 @@ product2 = Product.create!(
   country_of_origin: "イタリア",
   volume: 250,
   reference_price: 1500,
-  sweet_rating: 3,
-  spicy_rating: 1,
-  bitter_rating: 4,
-  green_rating: 5,
-  fruity_rating: 3
 )
 
 file1 = URI.open("https://picsum.photos/300?random=2")
@@ -187,11 +172,6 @@ product3 = Product.create!(
   country_of_origin: "ポルトガル",
   volume: 260,
   reference_price: 1400,
-  sweet_rating: 3,
-  spicy_rating: 2,
-  bitter_rating: 3,
-  green_rating: 5,
-  fruity_rating: 5
 )
 
 file1 = URI.open("https://picsum.photos/300?random=4")
@@ -207,11 +187,6 @@ product4 = Product.create!(
   country_of_origin: "トルコ",
   volume: 600,
   reference_price: 2300,
-  sweet_rating: 4,
-  spicy_rating: 1,
-  bitter_rating: 2,
-  green_rating: 3,
-  fruity_rating: 5
 )
 
 file1 = URI.open("https://picsum.photos/300?random=7")
@@ -230,11 +205,6 @@ product5 = Product.create!(
   country_of_origin: "イタリア",
   volume: 260,
   reference_price: 2300,
-  sweet_rating: 5,
-  spicy_rating: 1,
-  bitter_rating: 2,
-  green_rating: 5,
-  fruity_rating: 1
 )
 
 file1 = URI.open("https://picsum.photos/300?random=2")
