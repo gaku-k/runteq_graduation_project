@@ -8,42 +8,35 @@
         <%= render "products/images", product: @product %>
       </div>
 
-      <!-- 情報エリア -->
-      <div>
-        <!-- レーダーチャート -->
-        <div>
-          <h2><%= @product.name %></h2>
-          <div class="new-pentagon-radar-chart-container">
-            <%= render partial: "products/radar_chart", locals: { product: @product } %>
-          </div>
-        </div>
-
-        <!-- 商品詳細情報 -->
-        <div class="product-detail-section">
-          <h2 class="italic-title">Product Info</h2>
-          <ul class="product-detail-list">
-            <li>
-              <span class="detail-label">原産国</span>
-              <span class="detail-value"><%= @product.country_of_origin %></span>
-            </li>
-            <li>
-              <span class="detail-label">使用オリーブ品種</span>
-              <span class="detail-value">
-                <% @product.olive_varieties.each do |variety| %>
-                  <span class="tag"><%= variety.name %></span>
-                <% end %>
-              </span>
-            </li>
-            <li>
-              <span class="detail-label">容量(ml)</span>
-              <span class="detail-value"><%= @product.volume %></span>
-            </li>
-            <li>
-              <span class="detail-label">参考価格(円)</span>
-              <span class="detail-value"><%= @product.reference_price %></span>
-            </li>
-          </ul>
-        </div>
+      <!-- 商品詳細情報 -->
+      <div class="product-detail-section">
+        <h2 class="italic-title">Product Info</h2>          
+        <ul class="product-detail-list">
+          <li>
+            <span class="detail-label">商品名</span>
+            <span class="detail-value"><%= @product.name %></span>
+          </li>
+          <li>
+            <span class="detail-label">原産国</span>
+            <span class="detail-value"><%= @product.country_of_origin %></span>
+          </li>
+          <li>
+            <span class="detail-label">使用オリーブ品種</span>
+            <span class="detail-value">
+              <% @product.olive_varieties.each do |variety| %>
+                <span class="tag"><%= variety.name %></span>
+              <% end %>
+            </span>
+          </li>
+          <li>
+            <span class="detail-label">容量(ml)</span>
+            <span class="detail-value"><%= @product.volume %></span>
+          </li>
+          <li>
+            <span class="detail-label">参考価格(円)</span>
+            <span class="detail-value"><%= @product.reference_price %></span>
+          </li>
+        </ul>
       </div>
 
     </li>
@@ -54,7 +47,7 @@
   </div>
   <hr>
   <div>
-    <%= render partial: "products/flavor_chart", locals: { average_ratings: @average_ratings, ratings_count: @ratings_count } %>
+    <%= render partial: "products/flavor_chart", locals: { product: @product, average_ratings: @product.average_ratings, ratings_count: @product.ratings_count } %>
   </div>
   <h3>あなたの評価</h3>
 

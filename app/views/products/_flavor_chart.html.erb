@@ -1,56 +1,61 @@
-<canvas id="ratingRadarChart"></canvas>
+<canvas id="FlavorChart-<%= product.id %>" 
+        data-average-ratings='<%= average_ratings.to_json %>' 
+        data-ratings-count="<%= ratings_count %>">
+</canvas>
 
 <script>
-  const ctx = document.getElementById("ratingRadarChart");
+  (function() {
+    const canvas = document.getElementById("FlavorChart-<%= product.id %>");
+    const dataObj = JSON.parse(canvas.dataset.averageRatings);
+    const ratingsCount = canvas.dataset.ratingsCount;
 
-  const data = {
-    labels: ["甘さ", "辛さ", "青さ", "フルーティー", "苦さ"],
-    datasets: [{
-      label: "<%= ratings_count %>件の評価",
-      data: [
-        <%= average_ratings[:sweet] %>,
-        <%= average_ratings[:spicy] %>,
-        <%= average_ratings[:green] %>,
-        <%= average_ratings[:fruity] %>,
-        <%= average_ratings[:bitter] %>
-      ],
-      backgroundColor: "rgba(125, 157, 118, 0.2)",
-      borderColor: "rgba(125, 157, 118, 1)",
-      pointBackgroundColor: "rgba(125, 157, 118, 1)",
-      borderWidth: 2
-    }]
-  };
-
-  new Chart(ctx, {
-    type: "radar",
-    data: data,
-    options: {
-      // オブションを付け足す。今回は左上にタイトルを付ける
-      plugins: {
-        title: {
-          display: true,
-          text: 'Flavor Chart',
-          // 'center' → 中央(デフォルト) 'end' → 右寄せ
-          align: 'start',
-          font: { size: 14 },
-        }
+    new Chart(canvas.getContext("2d"), {
+      type: "radar",
+      data: {
+        labels: ["甘さ", "辛さ", "青さ", "フルーティー", "苦さ"],
+        datasets: [{
+          label: ratingsCount + "件の評価",
+          data: [
+            dataObj.sweet,
+            dataObj.spicy,
+            dataObj.green,
+            dataObj.fruity,
+            dataObj.bitter
+          ],
+          backgroundColor: "rgba(125, 157, 118, 0.2)",
+          borderColor: "rgba(125, 157, 118, 1)",
+          pointBackgroundColor: "rgba(125, 157, 118, 1)",
+          borderWidth: 2
+        }]
       },
-      // title.padding にleftが効かない使用なためキャンバス全体に余白を作る
-      layout: {
-        padding: {
-          left: 20,
-          top: 20,
-          right: 20,
-          bottom: 20
-        }
-      },
-      scales: {
-        r: {
-          min: 0,
-          max: 5,
-          ticks: { stepSize: 1 }
+      options: {
+        // オブションを付け足す。今回は左上にタイトルを付ける
+        plugins: {
+          title: {
+            display: true,
+            text: "Flavor Chart",
+            // 'center' → 中央(デフォルト) 'end' → 右寄せ
+            align: "start",
+            font: { size: 14 } 
+          }
+        },
+        // title.padding にleftが効かない使用なためキャンバス全体に余白を作る
+        layout: {
+          padding: {
+            left: 20,
+            top: 20,
+            right: 20,
+            bottom: 20
+          }
+        },
+        scales: {
+          r: {
+            min: 0,
+            max: 5,
+            ticks: { stepSize: 1 }
+          }
         }
       }
-    }
-  });
+    });
+  })();
 </script>

@@ -3,13 +3,6 @@
 <p>商品名: <%= @draft.product.name %></p>
 <p>申請者: <%= @draft.user.name %></p>
 <p>申請内容:</p>
-<ul>
-  <li>甘味: <%= @draft.sweet_rating %></li>
-  <li>辛味: <%= @draft.spicy_rating %></li>
-  <li>苦味: <%= @draft.bitter_rating %></li>
-  <li>青い: <%= @draft.green_rating %></li>
-  <li>フルーティー: <%= @draft.fruity_rating %></li>
-</ul>
 
 <div class="image-section">
   <%= render "products/images", product: @draft %>

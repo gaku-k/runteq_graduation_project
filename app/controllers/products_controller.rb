@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   # create/updateで即時反映させるカラムを定義
   # 大文字で始まる変数 → 定数: 再代入で警告/ .fleeze → 配列を凍結し書き換え不可にする
-  IMMEDIATE_UPDATE_COLUMNS = %w[ name sweet_rating spicy_rating bitter_rating green_rating fruity_rating ].freeze
+  IMMEDIATE_UPDATE_COLUMNS = %w[ name ].freeze
 
   # before_action :autenticate_uer! メソッド: Deviseが提供する「ログインしていなければログインページにリダイレクトする」
   # except :ただし/除く
@@ -19,8 +19,6 @@ class ProductsController < ApplicationController
     # find_or_create_byと違い保存はしない
     @product_rating = @product.product_ratings.find_or_initialize_by(user: current_user)
     # メソッドはモデルに記載。レーダーチャート用の平均値, 評価件数をビューに渡す
-    @average_ratings = @product.average_ratings
-    @ratings_count = @product.ratings_count
   end
 
   def new
@@ -220,11 +218,6 @@ class ProductsController < ApplicationController
       :country_of_origin,
       :volume,
       :reference_price,
-      :sweet_rating,
-      :spicy_rating,
-      :bitter_rating,
-      :green_rating,
-      :fruity_rating,
       images: [],
       # 既存オリーブ品種の選択。配列によるデータ(id)の受け取りを許可し、既存データを再利用
       olive_variety_ids: [],
