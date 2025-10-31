@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_29_114048) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_30_111338) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -72,6 +72,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_29_114048) do
     t.integer "request_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "original_attributes"
+    t.jsonb "original_image_blobs"
     t.index ["product_id"], name: "index_product_drafts_on_product_id"
     t.index ["user_id"], name: "index_product_drafts_on_user_id"
   end
