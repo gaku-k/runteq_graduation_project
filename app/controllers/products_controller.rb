@@ -111,6 +111,19 @@ class ProductsController < ApplicationController
       # Productモデルで has_many :product_drafts と定義しているので、Railsが自動的に関連メソッド(product_drafts)を生成する
       # buildメソッド:関連モデル(ProductDraft)の新インスタンスを生成する
       @draft = @product.product_drafts.find_by(status: :pending) || @product.product_drafts.build
+      # ========================================
+      # ロールバック処理のため、update前の状態を保存する。とはいえ即時反映されるカラムだけを対象にすればよく、それ以外はrejectアクションで除外できる
+      if @draft.new_record? # .new_record? "dbに保存されていない"、"新規のレコード"ならtrue
+        original_attrs =  @product.slice(*IMMEDIATE_UPDATE_COLUMNS, :status)
+        @draft.original_attributes = original_attrs
+
+        # 画像はテーブルカラムとして保存していない。「Productに紐づいていたときのBlobのID」という参照情報を元に復元する必要がある
+        original_blobs = @product.images.attachments.map do |att|
+          { blob_id: att.blob_id, filename: att.filename.to_s }
+        end
+        @draft.original_image_blobs = original_blobs
+      end
+      # ========================================
 
       # :image　キーを含まないupdate_paramsで画像なし送信からの初期化を防ぐ
       draft_params = update_params.merge(

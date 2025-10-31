@@ -13,7 +13,7 @@
   <li>容量: <%= @draft.volume %></li>
   <li>参考価格: <%= @draft.reference_price %></li>
   <ul>
-    <%= @draft.olive_varieties.each do |variety| %>
+    <% @draft.olive_varieties.each do |variety| %>
         <li><%= variety.name %></li>
     <% end %>
   </ul>
