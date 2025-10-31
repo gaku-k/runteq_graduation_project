@@ -1,0 +1,84 @@
+/* -------------------------------------- */
+/* フローティングボタン(post作成) */
+.floating-btn {
+  position: fixed;        /* 画面に固定 */
+  bottom: 30px;           /* 下から30px */
+  right: 30px;             /* 右から30px */
+  width: 60px;            /* 幅 */
+  height: 60px;           /* 高さ */
+  background-color: #7D9D76; /* ボタンの背景色 */
+  border-radius: 50%;     /* 丸いボタンにする */
+  display: flex;          /* 中央寄せ */
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;        /* 「＋」を大きめに */
+  text-decoration: none;  /* リンクの下線を消す */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* 影をつける */
+  transition: background-color 0.3s ease;
+  z-index: 80; /* Z軸の高さヘッダーメニューは90 */
+}
+
+.floating-btn:hover {
+  background-color: #6a8c63; /* ホバー時に濃く */
+}
+
+.floating-btn i {
+  color: black
+}
+
+/* -------------------------------------- */
+/* pruducts/indexページ限定/新規商品追加 */
+/* フローティングボタン2 (product作成) */
+.products-floating-btn {
+  position: fixed;        /* 画面に固定 */
+  bottom: 110px;           /* 下から110px */
+  right: 30px;             /* 右から30px */
+  width: 60px;            /* 幅 */
+  height: 60px;           /* 高さ */
+  background-color: #7D9D76; /* ボタンの背景色 */
+  border-radius: 50%;     /* 丸いボタンにする */
+  display: flex;          /* 中央寄せ */
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;        /* 「＋」を大きめに */
+  text-decoration: none;  /* リンクの下線を消す */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* 影をつける */
+  transition: background-color 0.3s ease;
+  z-index: 80; /* Z軸の高さヘッダーメニューは90 */
+}
+
+.products-floating-btn:hover {
+  background-color: #6a8c63; /* ホバー時に濃く */
+}
+
+.products-floating-btn p {
+  color: black
+}
+
+/* -------------------------------------- */
+/* 管理者専用/admin/product_drafts.html.erbへ遷移 */
+.admin-floating-btn {
+  position: fixed;        /* 画面に固定 */
+  bottom: 30px;           /* 下から30px */
+  left: 30px;             /* 右から30px */
+  width: 60px;            /* 幅 */
+  height: 60px;           /* 高さ */
+  background-color: #ef4444; /* ボタンの背景色 */
+  border-radius: 50%;     /* 丸いボタンにする */
+  display: flex;          /* 中央寄せ */
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;        /* 「＋」を大きめに */
+  text-decoration: none;  /* リンクの下線を消す */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* 影をつける */
+  transition: background-color 0.3s ease;
+  z-index: 80; /* Z軸の高さヘッダーメニューは90 */
+}
+
+.admin-floating-btn:hover {
+  background-color: brown;
+}
+
+.admin-floating-btn p {
+  color: black
+}
