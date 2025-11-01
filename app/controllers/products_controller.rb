@@ -66,10 +66,21 @@ class ProductsController < ApplicationController
           immediate_params = extract_immediate_params(product_params)
           @product = Product.new(immediate_params)
           @product.status = :draft
-          @product.save!
+          # ===============================
+          # OliveVarietyのIDを取得する処理/accepts_nested_attributes_forによる品種テーブルへのデータ蓄積を防ぐ準備
+          # product_params から olive_varieties_attributes のハッシュを取り出す
+          new_variety_names = product_params.dig(:olive_varieties_attributes)
+                              &.to_h # ActionController::Parameters オブジェクトを、普通のRubyハッシュに変換
+                              &.reject { |_, attrs| attrs[:id].present? } # idを持っている（＝既存レコードの）要素を除外
+                              &.map { |_, attrs| attrs[:name] } # 名前だけの配列にする
+                              &.compact # 空欄除外
+                              &.uniq || [] # 重複除外
+          @product.save! # ここで新規オリーブ品種が保存されIDが振られる
 
-          # ProductDraftにproduct_idを関連付け
-          @draft.update!(product: @product)
+          new_variety_ids = OliveVariety.where(name: new_variety_names).pluck(:id) # 保存されたidを収集
+          # ===============================
+          # ProductDraftにproduct_idを関連付け/オリーブの品種idを格納,申請拒否でこれを使って品種テーブルから品種レコードを削除する狙い
+          @draft.update!(product: @product, new_olive_variety_ids: new_variety_ids)
         end
           redirect_to products_path, notice: "商品追加リクエストを管理者へ送信しました"
 
@@ -142,7 +153,26 @@ class ProductsController < ApplicationController
 
           # status: :draftをマージしなければpublished(update故の初期値)となる
           product_updates = immediate_params.merge(status: :draft)
-          @product.update!(product_updates)
+          # ================================
+          # accepts_nested_attributes_forによって新規作成されたオリーブ品種のIDを抽出。申請却下でこれをDBから削除する狙い
+          # @productは即時反映カラム(オリーブ品種はない)しか持っていない
+          # product_params から olive_varieties_attributes のハッシュを取り出す
+          new_variety_names = product_params.dig(:olive_varieties_attributes)
+                            &.to_h
+                            &.reject { |_, attrs| attrs[:id].present? }
+                            &.map { |_, attrs| attrs[:name] }
+                            &.compact
+                            &.uniq || []
+
+          @product.update!(product_updates) # ここで新規オリーブ品種が保存されIDが振られる
+          # DBから新規IDを取得
+          new_variety_ids = OliveVariety.where(name: new_variety_names).pluck(:id)
+
+          # 既存の保存済みIDを取得 (nil対策とArray変換)
+          existing_ids = @draft.new_olive_variety_ids.to_a
+          merged_ids = (existing_ids + new_variety_ids).uniq
+          # ===============================
+          @draft.update!(new_olive_variety_ids: merged_ids)
         end
           redirect_to products_path, notice: "商品更新リクエストを管理者へ送信しました"
 
