@@ -8,7 +8,8 @@ class PostsController < ApplicationController
     @q = Post.ransack(params[:q])
     # resultメソッドはparams[:q]がnilなら全件(Post.all)を返す
     # distinct: true 同じレコードが重複して出ないようにするオプション
-    @posts = @q.result(distinct: true)
+    # .order(created_at: :desc)で新しいものほど上/更新日時ならorder(updated_at: :desc)となる。逆順は(~: :asc)
+    @posts = @q.result(distinct: true).order(created_at: :desc)
   end
 
   def show
@@ -18,7 +19,14 @@ class PostsController < ApplicationController
   def new
     # 空のPostオブジェクトを作成
     @post = Post.new
-    # @post.bodyはnilとなる
+
+    # 「この商品でPostする」からの遷移を想定
+    if params[:product_id]
+      @product = Product.find(params[:product_id])
+      @post.product_name = @product.name
+      # showページで商品名をリンク化するのでidも保持させる
+      @post.product_id = @product.id
+    end
   end
 
   def create
@@ -37,10 +45,21 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+    @post = Post.find(params[:id])
+    if @post.user == current_user
+      @post.destroy
+      redirect_to posts_path, notice: "投稿を削除しました"
+    else
+      redirect_to posts_path, alert: "権限がありません"
+    end
+  end
+
   private
 
   def post_params
     params.require(:post).permit(
+      :product_id,
       :product_name,
       :body,
       :aroma_rating,

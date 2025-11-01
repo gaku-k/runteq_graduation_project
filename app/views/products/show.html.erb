@@ -42,12 +42,26 @@
     </li>
   </ul>
 
-  <div style="text-align: right;">
-    <%= link_to "編集する", edit_product_path(@product)%>
+  <div style="text-align: right; padding-right: 5px;">
+    <% unless @product.draft? %>
+      <%= link_to edit_product_path(@product) do%>
+        <i class="fa-solid fa-gears"></i>
+        <span>編集する</span>
+      <% end %>
+    <% else %>
+      <span>申請中</span>
+    <% end %>
   </div>
   <hr>
   <div>
     <%= render partial: "products/flavor_chart", locals: { product: @product, average_ratings: @product.average_ratings, ratings_count: @product.ratings_count } %>
+  </div>
+  <div>
+    <span>この商品でPostする</span>
+    <%= link_to new_product_post_path(@product),
+      class: "create-a-post" do %>
+      <i class="fas fa-pen"></i>
+    <% end %>
   </div>
   <h3>あなたの評価</h3>
 

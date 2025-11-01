@@ -1,6 +1,7 @@
 class Post < ApplicationRecord
   has_many_attached :images
   belongs_to :user
+  belongs_to :product, optional: true
 
   validates :product_name, presence: true, length: { maximum: 100 }
   validates :aroma_rating, :taste_rating, :price_rating,

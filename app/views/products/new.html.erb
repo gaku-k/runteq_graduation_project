@@ -1,5 +1,6 @@
 <div class="my-card">
-  <h1 class="italic-title">Add Info</h1>
+  <h1 class="italic-title">
+    <i class="fa-solid fa-wine-bottle"></i>New Product</h1>
 
   <%= form_with(model: @product, local: true) do |f| %>
 
@@ -36,17 +37,21 @@
       <%= f.submit "Share It!" %>
     </div>
 
+    <p>
+      以降の内容は管理者の確認を経て公開されます。承認まで少々お待ちください！
+    </p>
+
     <div>
       <div class="input-group">
         <%= f.label :country_of_origin, "原産国" %>
         <%= f.text_field :country_of_origin %>
       </div>
       <div class="input-group">
-        <%= f.label :volume, "容量" %>
+        <%= f.label :volume, "容量(ml)" %>
         <%= f.text_field :volume %>
       </div>
       <div class="input-group">
-        <%= f.label :reference_price, "参考価格" %>
+        <%= f.label :reference_price, "参考価格(円)" %>
         <%= f.number_field :reference_price %>
       </div>
     </div>
