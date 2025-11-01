@@ -32,6 +32,8 @@ Rails.application.routes.draw do
     # ネストすることで、どの商品に紐づいた評価かをURL構造で判断しやすくなる
     # またコントローラー側でparams[:product_id]から商品を特定できる
     resources :product_ratings, only: [ :create, :update ]
+    # product/showページからその商品に基づいた投稿を行う
+    resources :posts, only: [ :new ]
   end
 
   resource :user, only: [ :show ]

@@ -25,8 +25,12 @@
       <%= f.label :product_name do %>
         商品名<span class="required-star">*</span>
       <% end %>
-      <%= f.text_field :product_name %>
+      <!-- html属性readonlyをつけると「表示されるが値は編集不可」になる -->
+      <!-- 入力内容確認フォームなどでreadonly: trueがよく使われるとのこと -->
+      <%= f.text_field :product_name, readonly: @post.product_name.present? %>
     </div>
+    <!-- 隠しフォームでidを送り、showページでリンク化する -->
+    <%= f.hidden_field :product_id if @post.product_id.present?%>
 
     <p class="italic-title">Triangle Chart<span class="required-star">*</span></p>
 

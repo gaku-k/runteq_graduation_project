@@ -18,7 +18,14 @@ class PostsController < ApplicationController
   def new
     # 空のPostオブジェクトを作成
     @post = Post.new
-    # @post.bodyはnilとなる
+
+    # 「この商品でPostする」からの遷移を想定
+    if params[:product_id]
+      @product = Product.find(params[:product_id])
+      @post.product_name = @product.name
+      # showページで商品名をリンク化するのでidも保持させる
+      @post.product_id = @product.id
+    end
   end
 
   def create
@@ -41,6 +48,7 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(
+      :product_id,
       :product_name,
       :body,
       :aroma_rating,

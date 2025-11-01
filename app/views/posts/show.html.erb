@@ -9,7 +9,13 @@
 
         <div class="chart-review-wrapper"> 
           <div class="chart-section">
-            <h2 class="post-title"><%= @post.product_name %></h2>
+            <h2 class="post-title">
+              <% if @post.product_id.present? %>
+                <%= link_to @post.product_name, product_path(@post.product_id) %>
+              <% else %>
+                <%= @post.product_name %>
+              <% end %>
+            </h2>
             <%= render partial: "radar_chart", locals: { post: @post } %>
           </div>
 

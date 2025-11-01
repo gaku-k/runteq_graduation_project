@@ -49,6 +49,12 @@
   <div>
     <%= render partial: "products/flavor_chart", locals: { product: @product, average_ratings: @product.average_ratings, ratings_count: @product.ratings_count } %>
   </div>
+  <div>
+    <span>この商品でPostする</span>
+    <%= link_to new_product_post_path(@product) do%>
+      <i class="fas fa-pen"></i>
+    <% end %>
+  </div>
   <h3>あなたの評価</h3>
 
   <%= form_with(model: [@product, @product_rating], local: true) do |f| %>
