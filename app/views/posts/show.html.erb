@@ -26,6 +26,11 @@
             </article>
           </div>
         </div>
+        <div>
+          <% if @post.user == current_user %>
+            <%= link_to "削除", post_path(@post.id), method: :delete, data: { confirm: "削除しますか？" } %>
+          <% end %>
+        <div>
       </li>
   </ul>
 </div>

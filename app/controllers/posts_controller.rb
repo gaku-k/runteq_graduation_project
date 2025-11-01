@@ -44,6 +44,16 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+    @post = Post.find(params[:id])
+    if @post.user == current_user
+      @post.destroy
+      redirect_to posts_path, notice: "投稿を削除しました"
+    else
+      redirect_to posts_path, alert: "権限がありません"
+    end
+  end
+
   private
 
   def post_params
