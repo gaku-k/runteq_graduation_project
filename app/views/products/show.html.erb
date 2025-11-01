@@ -42,8 +42,11 @@
     </li>
   </ul>
 
-  <div style="text-align: right;">
-    <%= link_to "編集する", edit_product_path(@product)%>
+  <div style="text-align: right; padding-right: 5px;">
+    <%= link_to edit_product_path(@product) do%>
+      <i class="fa-solid fa-gears"></i>
+      <span>編集する</span>
+    <% end %>
   </div>
   <hr>
   <div>
@@ -51,7 +54,8 @@
   </div>
   <div>
     <span>この商品でPostする</span>
-    <%= link_to new_product_post_path(@product) do%>
+    <%= link_to new_product_post_path(@product),
+      class: "create-a-post" do %>
       <i class="fas fa-pen"></i>
     <% end %>
   </div>

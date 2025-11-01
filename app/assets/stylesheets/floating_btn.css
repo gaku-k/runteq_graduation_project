@@ -26,6 +26,27 @@
   color: black
 }
 
+/* 固定なしの汎用ボタン「この商品でpostする」などに使用 */
+.create-a-post {
+  width: 60px;
+  height: 60px;
+  background-color: #7D9D76;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+}
+
+.create-a-post:hover {
+  background-color: #6a8c63;
+}
+
+.create-a-post i {
+  color: black;
+}
 /* -------------------------------------- */
 /* pruducts/indexページ限定/新規商品追加 */
 /* フローティングボタン2 (product作成) */
