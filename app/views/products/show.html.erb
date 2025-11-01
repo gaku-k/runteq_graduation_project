@@ -43,9 +43,13 @@
   </ul>
 
   <div style="text-align: right; padding-right: 5px;">
-    <%= link_to edit_product_path(@product) do%>
-      <i class="fa-solid fa-gears"></i>
-      <span>編集する</span>
+    <% unless @product.draft? %>
+      <%= link_to edit_product_path(@product) do%>
+        <i class="fa-solid fa-gears"></i>
+        <span>編集する</span>
+      <% end %>
+    <% else %>
+      <span>申請中</span>
     <% end %>
   </div>
   <hr>
