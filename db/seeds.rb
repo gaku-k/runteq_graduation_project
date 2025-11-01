@@ -17,6 +17,7 @@ ProductOliveVariety.destroy_all
 ProductDraft.destroy_all
 Product.destroy_all
 Post.destroy_all
+OliveVariety.destroy_all
 
 # Userレコードの作成/取得
 # Userレコードの作成/取得（find_or_create_by! を使うと2回目以降の実行時に重複作成を防げる）

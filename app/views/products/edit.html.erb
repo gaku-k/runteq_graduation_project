@@ -58,8 +58,6 @@
       <!-- モーダル本体 -->
       <div data-olive-variety-modal-target="content" class="hidden">
         <div>
-          <h3>オリーブの品種を選択</h3>
-
           <% @olive_varieties.each do |v| %>
             <div>
               <%= check_box_tag "product[olive_variety_ids][]", v.id, false, id: "v_#{v.id}" %>

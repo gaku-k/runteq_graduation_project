@@ -1,23 +1,30 @@
-<h1>商品更新リクエスト詳細</h1>
+<div class="my-card">
+  <h1>商品更新リクエスト詳細</h1>
 
-<p>商品名: <%= @draft.product.name %></p>
-<p>申請者: <%= @draft.user.name %></p>
-<p>申請内容:</p>
+  <p>商品名: <%= @draft.product.name %></p>
+  <p>申請者: <%= @draft.user.name %></p>
+  <p>申請内容:<%= @draft.request_type %></p>
 
-<div class="image-section">
-  <%= render "products/images", product: @draft %>
-</div>
+  <div class="image-section">
+    <%= render "products/images", product: @draft %>
+  </div>
 
-<ul>
-  <li>原産国: <%= @draft.country_of_origin %></li>
-  <li>容量: <%= @draft.volume %></li>
-  <li>参考価格: <%= @draft.reference_price %></li>
   <ul>
-    <%= @draft.olive_varieties.each do |variety| %>
-        <li><%= variety.name %></li>
-    <% end %>
+    <li>原産国: <%= @draft.country_of_origin %></li>
+    <li>容量: <%= @draft.volume %></li>
+    <li>参考価格: <%= @draft.reference_price %></li>
+    <ul>
+      <% @draft.olive_varieties.each do |variety| %>
+          <li>オリーブ品種: <%= variety.name %></li>
+      <% end %>
+    </ul>
   </ul>
-</ul>
-
-<%= button_to "承認", approve_admin_product_draft_path(@draft), method: :patch, data: { confirm: "承認しますか？" } %>
-<%= button_to "却下", reject_admin_product_draft_path(@draft), method: :patch, data: { confirm: "却下しますか？" } %>
+  <div class="approval-or-rejection">
+    <div>
+      <%= button_to "却下", reject_admin_product_draft_path(@draft), method: :patch, data: { confirm: "却下しますか？" } %>
+    </div>
+    <div>
+      <%= button_to "承認", approve_admin_product_draft_path(@draft), method: :patch, data: { confirm: "承認しますか？" } %>
+    </div>
+  </div>
+</div>

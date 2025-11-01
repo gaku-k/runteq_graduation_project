@@ -11,6 +11,8 @@
 @import "header.css";
 @import "my_page.css";
 @import "five_star.css";
+@import "floating_btn.css";
+@import "admin_show.css";
 
 @tailwind base;
 @tailwind components;

@@ -2,6 +2,8 @@
 import $ from "jquery";
 import "jquery-raty";
 import "controllers";
+import Rails from "@rails/ujs"
+Rails.start()
 
 // --------------------------------
 // 五つ星
