@@ -10,7 +10,7 @@ class ProductsController < ApplicationController
   def index
     # @products = Product.published
     @q = Product.ransack(params[:q])
-    @products = @q.result(distinct: true)
+    @products = @q.result(distinct: true).order(created_at: :desc)
   end
 
   def show

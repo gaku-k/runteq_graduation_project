@@ -8,7 +8,8 @@ class PostsController < ApplicationController
     @q = Post.ransack(params[:q])
     # resultメソッドはparams[:q]がnilなら全件(Post.all)を返す
     # distinct: true 同じレコードが重複して出ないようにするオプション
-    @posts = @q.result(distinct: true)
+    # .order(created_at: :desc)で新しいものほど上/更新日時ならorder(updated_at: :desc)となる。逆順は(~: :asc)
+    @posts = @q.result(distinct: true).order(created_at: :desc)
   end
 
   def show
