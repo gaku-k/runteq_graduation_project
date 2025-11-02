@@ -65,11 +65,6 @@
   padding: 5px 5px 10px 5px;
 }
 
-/* 投稿タイトル共通 */
-.review-title {
-  font-weight: bold;
-}
-
 /* モバイル（～767pxまで） */
 @media (max-width: 767px) {
 .chart-container {
@@ -101,4 +96,25 @@
 
 .trash-can:hover {
   color: #000000;
+}
+
+/* ====================== */
+/* post作成ページ */
+/* ====================== */
+/* タイトル「Write a review」と送信ボタンを横並びにする */
+.post-header {
+  display: flex;
+  justify-content: space-between; /* 左右両端に分ける */
+  align-items: center;           /* 縦位置を揃える */
+  margin-bottom: 60px;
+}
+
+/* アイコンよりも右のフォームセット */
+.new-post-item {
+  flex: 1;
+  padding: 30px 5px 0px 0px;
+}
+
+.triangle-chart-input {
+  margin: 30px 0px 30px 0px;
 }

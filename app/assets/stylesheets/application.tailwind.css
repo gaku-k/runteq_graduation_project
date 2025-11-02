@@ -38,12 +38,31 @@ body {
   font-size: 20px;
 }
 
+.title-l {
+  font-size: 24px;
+}
+
 /* モバイル（～767pxまで） */
 @media (max-width: 767px) {
   .italic-title {
     font-style: italic;
     font-size: 14px;
   }
+
+  .title-l {
+    font-size: 20px;
+  }
+
+  /* my-cardの内側に仕込んで汎用的に使う */
+  .padding-wrapper {
+    padding-left: 5px;
+    padding-right: 5px
+  }
+}
+
+/* 投稿タイトル共通 */
+.bold-title {
+  font-weight: bold;
 }
 
 /* -------------------------------------- */
@@ -52,14 +71,9 @@ body {
 .input-group input[type="number"],
 .input-group textarea {
   width: 100%; /* 親要素の幅いっぱい（余白はpaddingやmarginで確保） */
-  padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #ccc; /* 1pxの枠線 */
   border-radius: 4px;
   box-sizing: border-box; /* paddingとborderを幅に含める */
-  /* 残りの幅をすべて占め、横いっぱいに広がる */
-  flex-grow: 1; 
-  /* ラベルとの間隔を確保 */
-  margin-left: 15px;
 }
 
 /* 入力項目、フィールド横並びのスタイル */
@@ -97,34 +111,30 @@ body {
   margin-bottom: 5px; /* 入力フィールドとの間に間隔を確保 */
 }
 /* --------------楕円形の送信ボタン------------- */
-/* 楕円の送信ボタン */
+/* 楕円の送信ボタンや、下部大ボタン。
+<%= f.submit "Log in" %>が、こちらも<input>要素を生成する */
 .actions input[type="submit"] {
   /* 1. ボタンの背景色 */
   background-color: #7D9D76;            
   /* 枠線は不要 */
   border: none;             
-
   /* 2. 楕円形の形状 */
   /* paddingを大きく取ることで、縦長で楕円に近い形を作る */
   padding: 12px 30px; 
   /* 四隅の半径を28.5pxにする */
   border-radius: 28.5px;    
-  
   /* その他、基本的なスタイル */
   cursor: pointer;          
   font-size: 16px;
+  /* フレックスbox内の見出しボタンを揃えたい */
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 100%;
 }
 
 /* ホバー時の色を少し濃くする */
 .actions input:hover {
   background-color: #6a8c63; /* 少し濃い緑 */
-}
-
-/* タイトル「Write a review」と送信ボタンを横並びにする */
-.post-header {
-  display: flex;
-  justify-content: space-between; /* 左右両端に分ける */
-  align-items: center;           /* 縦位置を揃える */
 }
 
 /* -------------------------------------- */
