@@ -8,8 +8,11 @@ class PostsController < ApplicationController
     @q = Post.ransack(params[:q])
     # resultメソッドはparams[:q]がnilなら全件(Post.all)を返す
     # distinct: true 同じレコードが重複して出ないようにするオプション
-    # .order(created_at: :desc)で新しいものほど上/更新日時ならorder(updated_at: :desc)となる。逆順は(~: :asc)
-    @posts = @q.result(distinct: true).order(created_at: :desc)
+    @posts = @q.result(distinct: true)
+               # 絞り込みした結果に基づくユーザーとアバターを一括で読み込む
+               .includes(user: { avatar_attachment: :blob })
+               # .order(created_at: :desc)で新しいものほど上/更新日時ならorder(updated_at: :desc)となる。逆順は(~: :asc)
+               .order(created_at: :desc)
   end
 
   def show

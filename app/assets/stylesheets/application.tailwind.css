@@ -29,19 +29,21 @@ body {
   max-width: 800px;           /* 要素の幅の最大値を800ピクセルに制限 */
   margin-left: auto;          /* 左右自動で中央寄せ */
   margin-right: auto;
-  background-color: white;    /* 背景色を白にする */           /* カードの枠と中身のコンテンツとの間にスペース */
+  background-color: white;    /* 背景色を白にする */
 }
 
-.my-card ul {
-  list-style: none;   /* 丸点を消す */
-  padding-left: 0;    /* 左の余白も消す */
-  margin: 0;          /* 不要なら上下の余白もリセット */
-}
-
-/* 斜体タイトル/ページ左上の見出しに使用 */
+/* 斜体小タイトル/ページ左上の見出しに使用 */
 .italic-title {
   font-style: italic;
   font-size: 20px;
+}
+
+/* モバイル（～767pxまで） */
+@media (max-width: 767px) {
+  .italic-title {
+    font-style: italic;
+    font-size: 14px;
+  }
 }
 
 /* -------------------------------------- */

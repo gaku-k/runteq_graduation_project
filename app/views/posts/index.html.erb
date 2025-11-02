@@ -24,29 +24,41 @@
 <br>
 
 <div class="my-card">
-  <ul class="posts-list">
+  <div class="posts-list">
     <% @posts.each do |post| %>
-      <li class="post-item">
-        <%= link_to post_path(post), class: "post-card-link" do %>
-          <div class="image-section">
-            <%= render "posts/images", post: post %>
-          </div>
-
-          <div class="chart-review-wrapper">
-            <div class="chart-section">
-              <h2 class="post-title"><%= post.product_name %></h2>
-              <%= render partial: "posts/radar_chart", locals: { post: post } %>
+      <div class="avatar-post-wrapper">
+        <div>
+          <% if post.user.avatar.attached? %>
+            <%= image_tag post.user.avatar.variant(resize_to_fill: [300, 300]),
+              class: "rounded-full user-avatar-s"%>
+          <% else %>
+            <%= image_tag "44775.jpg",
+              class: "rounded-full user-avatar-s" %>
+          <% end %>
+        </div>
+        <div class="post-item">
+          <%= link_to post_path(post), class: "post-card-link" do %>
+            <div class="image-section">
+              <%= render "posts/images", post: post %>
             </div>
 
-            <div class="review-section">
-              <article>
-                <h2 class="post-title italic-title">Review</h2>
-                <p><%= post.body %></p>
-              </article>
+            <div class="chart-review-wrapper">
+              <div class="chart-section">
+                <h2><%= post.product_name %></h2>
+                <%= render partial: "posts/radar_chart", locals: { post: post } %>
+              </div>
+
+              <div class="review-section">
+                <article>
+                  <h2 class="review-title italic-title">Review</h2>
+                  <p class="review-body"><%= post.body %></p>
+                </article>
+              </div>
             </div>
-          </div>
-        <% end %>
-      </li>
+          <!-- link_to のend -->
+          <% end %>
+        </div>
+      </div>
     <% end %>
-  </ul>
+  </div>
 </div>

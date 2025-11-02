@@ -16,11 +16,23 @@
   height: 115px;
 }
 
+/* postカードのアイコン */
+.user-avatar-s {
+  width: 35px;
+  height: 35px;
+}
+
+ /* PC版 */
 @media (min-width: 768px) {
   .user-avatar {
-    /* PC版: 縦横300pxの円形 */
     width: 200px;
     height: 200px;
   }
+
+  .user-avatar-s {
+    width: 80px;
+    height: 80px;
+  }
+
 }
 /* -------------------------------------- */
