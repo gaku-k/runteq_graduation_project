@@ -40,6 +40,7 @@ body {
 
 .title-l {
   font-size: 24px;
+  font-weight: 600;
 }
 
 /* モバイル（～767pxまで） */
@@ -51,6 +52,7 @@ body {
 
   .title-l {
     font-size: 20px;
+    font-weight: 600;
   }
 
   /* my-cardの内側に仕込んで汎用的に使う */
@@ -62,7 +64,7 @@ body {
 
 /* 投稿タイトル共通 */
 .bold-title {
-  font-weight: bold;
+  font-weight: 600; /* 通常よりは太く、boldよりは細い */
 }
 
 /* -------------------------------------- */
@@ -88,6 +90,7 @@ body {
   /* ラベルは縮まないように固定 */
   flex-shrink: 0;
   width: 100px; /* ラベルの幅を固定し、右の入力欄を揃える */
+  font-size: 15px;
 }
 
 .input-group:not(.vertical-group) input[type="text"],

@@ -1,149 +1,95 @@
 /* -------------------------------------- */
-/* 1. 商品リスト全体のレスポンシブなグリッド */
+/* 商品リスト */
 .product-list-container {
-    /* モバイル（デフォルト）: 縦一列 */
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px; /* カードの間隔 */
-    list-style: none; /* ulのデフォルトの黒点を消す */
-    padding: 0;
+  /* モバイル（デフォルト）: 縦一列 */
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 5px; /* カードの間隔 */
+  list-style: none; /* ulのデフォルトの黒点を消す */
+  padding: 0;
+  margin: auto;
+  /* 要素の幅の上限,pc版でいい感じに4枚並ぶ数値 */
+  max-width: 1200px;
 }
 
-/* PC幅以上 (md: 768px 以上を想定) */
-@media (min-width: 768px) {
-    .product-list-container {
-        /* PC: 3列表示 */
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* 2. 個別カードのスタイリング */
+/* 商品レコードの個別カード */
 .product-card {
-    background-color: white;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md に相当 */
-    border-radius: 0.5rem; /* rounded-lg に相当 */
-    overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  /* はみ出した分は非表示になる　*/
+  overflow: hidden;
 }
 
 /* カード内の画像エリアと情報エリアのレイアウト */
 .product-card-inner {
-    /* モバイル（デフォルト）: 縦並び */
-    display: flex;
-    flex-direction: row;
-}
-
-/* 幅が狭い画面では縦並びに戻す */
-@media (max-width: 480px) {
-  .product-card-inner {
-    flex-direction: column;
-  }
-}
-
-/* PC幅以上 (md: 768px 以上を想定) */
-@media (min-width: 768px) {
-    .product-card {
-        min-height: 300px;
-    }
-
-    .product-card-inner {
-        /* PC: 横並び */
-        flex-direction: row;
-        height: 100%; /* ★PCでのみ高さを親（.product-card）に合わせる */
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 3. 画像エリアと縦横比 (4:3) の設定 */
 .product-image-area {
-    width: 50%; /* モバイルでは全幅 */
-    position: relative;
-    /* 縦横比 4:3 の設定 */
-    padding-bottom: 75%; /* (3 / 4) * 100% = 75% */
-    overflow: hidden;
-    flex-shrink: 0;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
 }
 
 .product-image-area .product-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-/* PC幅以上 (md: 768px 以上を想定) */
-@media (min-width: 768px) {
-    .product-image-area {
-        /* PC: 幅を親要素の50%に設定 */
-        width: 50%;
-        /* 縦横比の計算は親要素が制御するため、padding-bottomをリセットまたは調整 */
-        padding-bottom: 0; /* flex-rowになったら高さを親に依存させる */
-        height: 100%;
-    }
-}
-
-/* 4. タイトル&レーダーチャート */
+/* 4. タイトル&タグ$レーダーチャート */
 .product-info-area {
-    padding: 16px; /* p-4 に相当 */
-    width: 100%; /* モバイルでは全幅 */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-shrink: 1; /* 縮小を許可し、スペースを調整 */
-    min-width: 0; 
+  /* 表品名の長さによる見切れ対策 */
+  width: 100%;
+  text-align: left;
+  word-wrap: break-word; /* 長い単語を途中で折る */
+  word-break: break-all; /* 英単語でも折り返し可能にする */
+}
+
+/* 商品名を左寄せ、下の段にタグを置いて右寄せ */
+.product-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* デフォルトは左寄せ */
+  width: 100%;
+}
+
+/* 単なる商品名 */
+.index-product-name {
+  margin: 0;
+  font-weight: 550; /* 通常よりは太く、boldよりは細い */
+}
+
+/* 親のproduct-headerがブロック要素を中身のサイズに合わせて小さくしている。
+width: 100%;は左寄せできる変化幅を決めている。*/
+.draft-tag-container {
+  width: 100%;
+  text-align: right;
+}
+
+.draft-tag {
+  background-color: #769D77;
+  padding: 1px 8px 1px 8px;
+  border-radius: 5px;
 }
 
 /* レーダーチャートのコンテナを中央寄せに */
 .new-pentagon-radar-chart-container {
   display: flex;               /* flexboxを使う */
   justify-content: center;     /* 水平方向に中央寄せ */
-  align-items: center;         /* 垂直方向にも中央寄せ（お好みで） */
   width: 100%;
   margin-top: 8px;             /* 少し余白を入れると見やすい */
 }
 
-.radar-chart {
-  width: 160px !important;
-  height: 160px !important;
-  display: block; /* インライン要素の左寄せを防ぐ */
-  max-width: 100%; /* はみ出し防止 */
-}
-
-/* レーダーチャートのコンテナに最大幅を設定 */
-@media (min-width: 768px) {
-    .new-pentagon-radar-chart-container {
-        /* カード全体の幅の50%を超えない、かつ300pxを超えないように制限 */
-        max-width: 300px;
-        margin: 0 auto; /* 中央寄せ */
-    }
-}
-
-@media (min-width: 768px) {
-    .product-info-area {
-        /* PC: 幅を親要素の50%に設定 */
-        width: 50%;
-    }
-}
-
-/* 5. レーダーチャートのコンテナと見切れ対策 */
-/* PC幅以上 (md: 768px 以上を想定) */
-@media (min-width: 768px) {
-    .new-pentagon-radar-chart-container {
-        /* ★修正点4: 最大幅を情報エリアの100%に制限し、はみ出しを防ぐ */
-        max-width: 100%;
-        
-        /* Chart.js のキャンバスが固定幅を持つ場合があるため、オーバーライド */
-        /* 情報エリアからパディングを引いた幅を最大値とする */
-        width: min(300px, 100%); 
-        margin: 0 auto; 
-    }
-}
-
 /* -------------------------------------- */
-/* Product.nameのリンク */
+/* Product.nameのリンク
+デフォルトで下線がきえているか…? */
 .product-name-link {
-  text-decoration: none;
-  color: #333;
+  color: #000000;
 }
 
 .product-name-link:hover {

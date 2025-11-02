@@ -40,13 +40,17 @@
           </div>
 
           <div class="product-info-area">
-            <h2>
-              <%= link_to product.name, product_path(product), class: "product-name-link"%>
-              <% if product.draft? %>
-                <span>申請中</span>
-              <% end %>
-            </h2>
-            <div class="new-pentagon-radar-chart-container flavor-chart-container">
+            <div class="product-header">
+              <h2 class="index-product-name">
+                <%= link_to product.name, product_path(product), class: "product-name-link"%>
+              </h2>
+              <div class="draft-tag-container">
+                <% if product.draft? %>
+                  <span class="draft-tag">申請中</span>
+                <% end %>
+              </div>
+            </div>
+            <div class="new-pentagon-radar-chart-container">
               <%= render partial: "products/flavor_chart", locals: { product: product, average_ratings: product.average_ratings, ratings_count: product.ratings_count } %>
             </div>
           </div>

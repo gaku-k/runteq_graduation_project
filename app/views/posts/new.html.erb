@@ -15,7 +15,7 @@
 
     <!-- アイコンとフォームを横並びにする -->
     <ul class="avatar-post-wrapper">
-      <li>
+      <li class="avatar-s-item">
         <% if current_user.avatar.attached? %>
           <%= image_tag current_user.avatar.variant(resize_to_fill: [300, 300]),
             class: "rounded-full user-avatar-s"%>

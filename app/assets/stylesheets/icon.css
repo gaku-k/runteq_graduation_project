@@ -22,6 +22,14 @@
   height: 35px;
 }
 
+/* 親要素に。アイコンに固定幅を設けて潰れ対策
+また、対抗要素にmin-width: 0;を加えると縮小幅の制約を無視でき、スペースを確保できる */
+.avatar-s-item {
+  width: 35px;
+  /* 縮小しない */
+  flex-shrink: 0;
+}
+
  /* PC版 */
 @media (min-width: 768px) {
   .user-avatar {
