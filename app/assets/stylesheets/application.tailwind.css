@@ -14,6 +14,7 @@
 @import "floating_btn.css";
 @import "admin_show.css";
 @import "product_form.css";
+@import "search_bar.css";
 
 @tailwind base;
 @tailwind components;
@@ -150,22 +151,3 @@ body {
   font-weight: bold;
   margin-left: 2px; /* ラベルとの間に少し隙間を空ける */
 }
-
-/* -------------------------------------- */
-/* 検索フォーム設定 */
-/* なぜかtailwindの構文text-whiteが反映されない */
-.custom-white-text {
-  color: white; /* または color: #FFFFFF; */
-}
-
-/* 背景画像と検索バーの下端に余白を作るためのクラス */
-.container-spacing {
-  padding-bottom: 20px; 
-}
-
-/* ホバー時のスタイル */
-.search-submit-button:hover {
-  /* 濃い背景色 */
-  background-color: #6a8c63;
-}
-/* -------------------------------------- */

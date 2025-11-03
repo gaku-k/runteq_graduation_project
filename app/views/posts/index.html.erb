@@ -2,11 +2,11 @@
 <%= render "shared/admin_floating_button" %>
 
 <!-- 背景画像セクション -->
-<div class="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-cover bg-center bg-no-repeat pt-12 sm:pt-16 container-spacing"
+<div class="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-cover bg-center bg-no-repeat pt-12 sm:pt-16 pb-5"
      style="background-image: url(<%= asset_path('lucio-patone-Gt4FnWPbjfo-unsplash.jpg') %>);">
 
   <!-- キャッチコピー -->
-  <h2 class="custom-white-text text-xl sm:text-2xl font-semibold text-center mb-6 drop-shadow-lg px-[80px]">
+  <h2 class="text-white text-xl sm:text-2xl font-semibold text-center mb-6 drop-shadow-lg px-[80px]">
     レビューから広がる、あなただけの愛用品
   </h2>
 
@@ -17,7 +17,7 @@
         placeholder: "キーワードを入力",
         class: "w-full p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-1" %>
       <%= f.submit "検索",
-        class: "search-submit-button px-4 py-2 rounded-r-lg" %>
+        class: "bg-[#7D9D76] hover:bg-[#6a8c63] px-4 py-2 rounded-r-lg" %>
     </div>
   <% end %>
 </div>
