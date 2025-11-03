@@ -1,13 +1,6 @@
 <div class="my-card">
   <div class="padding-wrapper">
-    <h1 class="title-l">
-      <i class="fa-solid fa-wine-bottle"></i>Edit Product
-    </h1>
-    <br>
-
-    <%= form_with(model: @product, local: true) do |f| %>
-
-      <% if @product.errors.any? %>
+    <% if @product.errors.any? %>
         <div id="error_explanation">
           <!-- pluralizeを(単数、複数を切り替えてくれる)使って、発生したエラーの総数を表示 -->
           <h2><%= pluralize(@product.errors.count, "error") %> が発生しました:</h2>
@@ -20,6 +13,12 @@
         </div>
       <% end %>
 
+    <%= form_with(model: @product, local: true) do |f| %>
+    
+      <h1 class="title-l icon-text-container title-margin">
+        <i class="fa-solid fa-wine-bottle"></i>Edit Product
+      </h1>
+
       <div class="field input-group">
         <%= f.label :product_name do %>
           商品名<span class="required-star">*</span>
@@ -28,7 +27,7 @@
       </div>
 
       <div class="field">
-        <%= f.label :images, "画像を追加" %><br>
+        <%= f.label :images, "＋画像を追加" %><br>
         <!-- multiple: true は複数選択の許可 -->
         <%= f.file_field :images, multiple: true %>
         <!-- %= file_field_tag "product[images][]", multiple: true % -->
@@ -41,8 +40,8 @@
         <%= f.submit "Share It!" %>
       </div>
 
-      <p>
-        以降の内容は管理者の確認を経て公開されます。承認まで少々お待ちください！
+      <p class="notice">
+        以降の内容は管理者による超簡易的なチェックを経て反映されます。公開まで少々お待ちください！
       </p>
 
       <div>
@@ -61,7 +60,7 @@
       </div>
 
       <div data-controller="olive-variety-modal">
-        <button type="button" data-action="click->olive-variety-modal#open" class="btn">オリーブの品種を選択</button>
+        <button type="button" data-action="click->olive-variety-modal#open" class="variety-selection">オリーブの品種を選択</button>
 
         <!-- モーダル本体 -->
         <div data-olive-variety-modal-target="content" class="hidden">
@@ -77,7 +76,10 @@
           </div>
         </div>
       </div>
-      <br>
+      
+      <p class="notice">
+        新しく品種を追加する際は、まず「オリーブの品種を選択」ボタンを使って、同名の品種がすでに登録されていないかをご確認ください。同一名の品種は重複して登録できません。
+      </p>
 
       <div class="field input-group vertical-group">
         <!-- 新しい品種を追加 -->
@@ -108,7 +110,7 @@
         </div>
       </div>
 
-      <div class="actions" style="text-align: right;">
+      <div class="actions title-margin" style="text-align: right;">
         <%= f.submit "Share It!" %>
       </div>
     <% end %>

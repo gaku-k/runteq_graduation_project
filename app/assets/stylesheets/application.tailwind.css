@@ -13,6 +13,7 @@
 @import "five_star.css";
 @import "floating_btn.css";
 @import "admin_show.css";
+@import "product_form.css";
 
 @tailwind base;
 @tailwind components;

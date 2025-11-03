@@ -1,0 +1,28 @@
+/* アイコンとテキストをインライン要素(テキストと同様に扱われる)として一体化
+さらに垂直方向中央揃えや間隔も制御できる */
+.icon-text-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* ↑を汎用的に使うため、new/editでは別に用意した */
+.title-margin {
+  margin-bottom: 40px;
+}
+
+/* 管理者チャックの説明 */
+.notice {
+  text-align: center;
+  margin: 10px 0px 50px 0px;
+  color:rgb(60, 60, 60);
+  font-size: 16px;
+  text-decoration:underline solid black;
+}
+
+.variety-selection {
+  border: 1px solid rgb(60, 60, 60); /* 1pxの枠線 */
+  background-color: #f0f0f0;
+  padding: 0px 7px 0px 7px;
+  border-radius: 5px;
+}
