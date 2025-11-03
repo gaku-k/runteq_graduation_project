@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  # 1ページあたりの件数
+  BOOK_COUNT = 24
   # before_action :autenticate_uer! メソッド: Deviseが提供する「ログインしていなければログインページにリダイレクトする」
   # except :ただし/除く
   before_action :authenticate_user!, except: [ :index, :show ]
@@ -13,6 +15,10 @@ class PostsController < ApplicationController
                .includes(user: { avatar_attachment: :blob })
                # .order(created_at: :desc)で新しいものほど上/更新日時ならorder(updated_at: :desc)となる。逆順は(~: :asc)
                .order(created_at: :desc)
+               # ページネーション追加
+               .page(params[:page])
+               # 1ページあたりの件数
+               .per(BOOK_COUNT)
   end
 
   def show

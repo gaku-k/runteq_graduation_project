@@ -22,8 +22,8 @@
     </div>
   <% end %>
 </div>
-<br>
 
+<turbo-frame id="products">
   <ul class="product-list-container">
     <% @products.each do |product| %>
       <li class="product-card">
@@ -58,3 +58,8 @@
       </li>
     <% end %>        
   </ul>
+
+  <div class="pagination">
+    <%= paginate @products %>
+  </div>
+</turbo-frame>

@@ -21,44 +21,49 @@
     </div>
   <% end %>
 </div>
-<br>
 
-<div class="my-card">
-  <div class="posts-list">
-    <% @posts.each do |post| %>
-      <div class="avatar-post-wrapper">
-        <div>
-          <% if post.user.avatar.attached? %>
-            <%= image_tag post.user.avatar.variant(resize_to_fill: [300, 300]),
-              class: "rounded-full user-avatar-s"%>
-          <% else %>
-            <%= image_tag "44775.jpg",
-              class: "rounded-full user-avatar-s" %>
-          <% end %>
-        </div>
-        <div class="post-item">
-          <%= link_to post_path(post), class: "post-card-link" do %>
-            <div class="image-section">
-              <%= render "posts/images", post: post %>
-            </div>
-
-            <div class="chart-review-wrapper">
-              <div class="chart-section">
-                <h2><%= post.product_name %></h2>
-                <%= render partial: "posts/radar_chart", locals: { post: post } %>
+</turbo-frame>
+  <div class="my-card">
+    <div class="posts-list">
+      <% @posts.each do |post| %>
+        <div class="avatar-post-wrapper">
+          <div>
+            <% if post.user.avatar.attached? %>
+              <%= image_tag post.user.avatar.variant(resize_to_fill: [300, 300]),
+                class: "rounded-full user-avatar-s"%>
+            <% else %>
+              <%= image_tag "44775.jpg",
+                class: "rounded-full user-avatar-s" %>
+            <% end %>
+          </div>
+          <div class="post-item">
+            <%= link_to post_path(post), class: "post-card-link" do %>
+              <div class="image-section">
+                <%= render "posts/images", post: post %>
               </div>
 
-              <div class="review-section">
-                <article>
-                  <h2 class="bold-title italic-title">Review</h2>
-                  <p class="review-body"><%= post.body %></p>
-                </article>
+              <div class="chart-review-wrapper">
+                <div class="chart-section">
+                  <h2><%= post.product_name %></h2>
+                  <%= render partial: "posts/radar_chart", locals: { post: post } %>
+                </div>
+
+                <div class="review-section">
+                  <article>
+                    <h2 class="bold-title italic-title">Review</h2>
+                    <p class="review-body"><%= post.body %></p>
+                  </article>
+                </div>
               </div>
-            </div>
-          <!-- link_to のend -->
-          <% end %>
+            <!-- link_to のend -->
+            <% end %>
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
-</div>
+
+  <div class="pagination">
+    <%= paginate @posts %>
+  </div>
+</turbo-frame>
