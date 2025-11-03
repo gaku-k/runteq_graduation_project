@@ -58,10 +58,3 @@
   /* 入力欄の縦幅を設定 */
   height: 35px;
 }
-
-/* 下部大ボタン。<%= f.submit "Log in" %>が、こちらも<input>要素を生成する */
-.actions input[type="submit"] {
-  width: 100%;
-  /* 入力欄とボタン間でスペースがほしい */
-  margin-top: 24px;
-}

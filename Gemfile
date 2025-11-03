@@ -40,6 +40,9 @@ gem "devise"
 # 検索・ソート
 gem "ransack"
 
+# ページネーション
+gem "kaminari"
+
 # CSS bundling with Tailwind
 gem "cssbundling-rails"
 

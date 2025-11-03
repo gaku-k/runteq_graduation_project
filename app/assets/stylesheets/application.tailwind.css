@@ -13,6 +13,7 @@
 @import "five_star.css";
 @import "floating_btn.css";
 @import "admin_show.css";
+@import "product_form.css";
 
 @tailwind base;
 @tailwind components;
@@ -29,19 +30,44 @@ body {
   max-width: 800px;           /* 要素の幅の最大値を800ピクセルに制限 */
   margin-left: auto;          /* 左右自動で中央寄せ */
   margin-right: auto;
-  background-color: white;    /* 背景色を白にする */           /* カードの枠と中身のコンテンツとの間にスペース */
+  background-color: white;    /* 背景色を白にする */
 }
 
-.my-card ul {
-  list-style: none;   /* 丸点を消す */
-  padding-left: 0;    /* 左の余白も消す */
-  margin: 0;          /* 不要なら上下の余白もリセット */
-}
-
-/* 斜体タイトル/ページ左上の見出しに使用 */
+/* 斜体小タイトル/ページ左上の見出しに使用 */
 .italic-title {
   font-style: italic;
   font-size: 20px;
+  font-weight: 600;
+}
+
+.title-l {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* モバイル（～767pxまで） */
+@media (max-width: 767px) {
+  .italic-title {
+    font-style: italic;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .title-l {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  /* my-cardの内側に仕込んで汎用的に使う */
+  .padding-wrapper {
+    padding-left: 5px;
+    padding-right: 5px
+  }
+}
+
+/* 投稿タイトル共通 */
+.bold-title {
+  font-weight: 600; /* 通常よりは太く、boldよりは細い */
 }
 
 /* -------------------------------------- */
@@ -50,14 +76,9 @@ body {
 .input-group input[type="number"],
 .input-group textarea {
   width: 100%; /* 親要素の幅いっぱい（余白はpaddingやmarginで確保） */
-  padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #ccc; /* 1pxの枠線 */
   border-radius: 4px;
   box-sizing: border-box; /* paddingとborderを幅に含める */
-  /* 残りの幅をすべて占め、横いっぱいに広がる */
-  flex-grow: 1; 
-  /* ラベルとの間隔を確保 */
-  margin-left: 15px;
 }
 
 /* 入力項目、フィールド横並びのスタイル */
@@ -72,6 +93,8 @@ body {
   /* ラベルは縮まないように固定 */
   flex-shrink: 0;
   width: 100px; /* ラベルの幅を固定し、右の入力欄を揃える */
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .input-group:not(.vertical-group) input[type="text"],
@@ -92,37 +115,33 @@ body {
 .vertical-group label {
   /* 縦並びなので、幅いっぱいに広がる必要なし */
   display: block; 
-  margin-bottom: 5px; /* 入力フィールドとの間に間隔を確保 */
+  font-weight: 600;
 }
 /* --------------楕円形の送信ボタン------------- */
-/* 楕円の送信ボタン */
+/* 楕円の送信ボタンや、下部大ボタン。
+<%= f.submit "Log in" %>が、こちらも<input>要素を生成する */
 .actions input[type="submit"] {
   /* 1. ボタンの背景色 */
   background-color: #7D9D76;            
   /* 枠線は不要 */
   border: none;             
-
   /* 2. 楕円形の形状 */
   /* paddingを大きく取ることで、縦長で楕円に近い形を作る */
   padding: 12px 30px; 
   /* 四隅の半径を28.5pxにする */
   border-radius: 28.5px;    
-  
   /* その他、基本的なスタイル */
   cursor: pointer;          
   font-size: 16px;
+  /* フレックスbox内の見出しボタンを揃えたい */
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 100%;
 }
 
 /* ホバー時の色を少し濃くする */
 .actions input:hover {
   background-color: #6a8c63; /* 少し濃い緑 */
-}
-
-/* タイトル「Write a review」と送信ボタンを横並びにする */
-.post-header {
-  display: flex;
-  justify-content: space-between; /* 左右両端に分ける */
-  align-items: center;           /* 縦位置を揃える */
 }
 
 /* -------------------------------------- */
@@ -134,22 +153,3 @@ body {
   font-weight: bold;
   margin-left: 2px; /* ラベルとの間に少し隙間を空ける */
 }
-
-/* -------------------------------------- */
-/* 検索フォーム設定 */
-/* なぜかtailwindの構文text-whiteが反映されない */
-.custom-white-text {
-  color: white; /* または color: #FFFFFF; */
-}
-
-/* 背景画像と検索バーの下端に余白を作るためのクラス */
-.container-spacing {
-  padding-bottom: 20px; 
-}
-
-/* ホバー時のスタイル */
-.search-submit-button:hover {
-  /* 濃い背景色 */
-  background-color: #6a8c63;
-}
-/* -------------------------------------- */

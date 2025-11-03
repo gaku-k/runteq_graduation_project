@@ -1,113 +1,118 @@
 <div class="my-card">
-  <h1 class="italic-title">
-    <i class="fa-solid fa-wine-bottle"></i>Edit Product
-  </h1>
-
-  <%= form_with(model: @product, local: true) do |f| %>
-
+  <div class="padding-wrapper">
     <% if @product.errors.any? %>
-      <div id="error_explanation">
-        <!-- pluralizeを(単数、複数を切り替えてくれる)使って、発生したエラーの総数を表示 -->
-        <h2><%= pluralize(@product.errors.count, "error") %> が発生しました:</h2>
-        <ul>
-          <!-- @product のバリデーションに基づいて、Rilsがエラーを生成 -->
-          <% @product.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
+        <div id="error_explanation">
+          <!-- pluralizeを(単数、複数を切り替えてくれる)使って、発生したエラーの総数を表示 -->
+          <h2><%= pluralize(@product.errors.count, "error") %> が発生しました:</h2>
+          <ul>
+            <!-- @product のバリデーションに基づいて、Rilsがエラーを生成 -->
+            <% @product.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+    <%= form_with(model: @product, local: true) do |f| %>
+    
+      <h1 class="title-l icon-text-container title-margin">
+        <i class="fa-solid fa-wine-bottle"></i>Edit Product
+      </h1>
+
+      <div class="field input-group">
+        <%= f.label :product_name do %>
+          商品名<span class="required-star">*</span>
+        <% end %>
+        <%= f.text_field :name %>
+      </div>
+
+      <div class="field">
+        <%= f.label :images, "＋画像を追加" %><br>
+        <!-- multiple: true は複数選択の許可 -->
+        <%= f.file_field :images, multiple: true %>
+        <!-- %= file_field_tag "product[images][]", multiple: true % -->
+      </div>
+
+      <!-- プレビュー表示用 -->
+      <div id="preview"></div>
+
+      <div class="actions" style="text-align: right;">
+        <%= f.submit "Share It!" %>
+      </div>
+
+      <p class="notice">
+        以降の内容は管理者による超簡易的なチェックを経て反映されます。公開まで少々お待ちください！
+      </p>
+
+      <div>
+        <div class="input-group">
+          <%= f.label :country_of_origin, "原産国" %>
+          <%= f.text_field :country_of_origin %>
+        </div>
+        <div class="input-group">
+          <%= f.label :volume, "容量(ml)" %>
+          <%= f.text_field :volume %>
+        </div>
+        <div class="input-group">
+          <%= f.label :reference_price, "参考価格(円)" %>
+          <%= f.number_field :reference_price %>
+        </div>
+      </div>
+
+      <div data-controller="olive-variety-modal">
+        <button type="button" data-action="click->olive-variety-modal#open" class="variety-selection">オリーブの品種を選択</button>
+
+        <!-- モーダル本体 -->
+        <div data-olive-variety-modal-target="content" class="hidden">
+          <div>
+            <% @olive_varieties.each do |v| %>
+              <div>
+                <%= check_box_tag "product[olive_variety_ids][]", v.id, false, id: "v_#{v.id}" %>
+                <%= label_tag "v_#{v.id}", v.name %>
+              </div>
+            <% end %>
+
+            <button type="button" data-action="click->olive-variety-modal#close">閉じる</button>
+          </div>
+        </div>
+      </div>
+      
+      <p class="notice">
+        新しく品種を追加する際は、まず「オリーブの品種を選択」ボタンを使って、同名の品種がすでに登録されていないかをご確認ください。同一名の品種は重複して登録できません。
+      </p>
+
+      <div class="field input-group vertical-group">
+        <!-- 新しい品種を追加 -->
+        <div data-controller="add-variety">
+          <%= label_tag "new_olive_variety_name", "新しい品種" %>
+
+          <!-- 入力欄をまとめる領域 -->
+          <div data-add-variety-target="fields">
+            <div class="variety-field mb-2 flex items-center gap-2">
+              <!--[0]はRailsが行を識別するための値であり、0は単なる開始点-->
+              <%= text_field_tag "product[olive_varieties_attributes][0][name]", nil, class: "border p-1 rounded w-full" %>
+              <button type="button" data-action="click->add-variety#removeField" class="text-red-500">−</button>
+            </div>
+          </div>
+
+          <!-- テンプレート（非表示） -->
+          <template data-add-variety-target="template">
+            <div class="variety-field mb-2 flex items-center gap-2">
+              <%= text_field_tag "product[olive_varieties_attributes][__INDEX__][name]", nil, class: "border p-1 rounded w-full" %>
+              <button type="button" data-action="click->add-variety#removeField" class="text-red-500">−</button>
+            </div>
+          </template>
+
+          <!-- 追加ボタン -->
+          <button type="button" data-action="click->add-variety#addField" class="text-blue-600 font-bold mt-2">
+            ＋ 品種を追加
+          </button>
+        </div>
+      </div>
+
+      <div class="actions title-margin" style="text-align: right;">
+        <%= f.submit "Share It!" %>
       </div>
     <% end %>
-
-    <div class="field input-group">
-      <%= f.label :product_name do %>
-        商品名<span class="required-star">*</span>
-      <% end %>
-      <%= f.text_field :name %>
-    </div>
-
-    <div class="field">
-      <%= f.label :images, "画像を追加" %><br>
-      <!-- multiple: true は複数選択の許可 -->
-      <%= f.file_field :images, multiple: true %>
-      <!-- %= file_field_tag "product[images][]", multiple: true % -->
-    </div>
-
-    <!-- プレビュー表示用 -->
-    <div id="preview"></div>
-
-    <div class="actions" style="text-align: right;">
-      <%= f.submit "Share It!" %>
-    </div>
-
-    <p>
-      以降の内容は管理者の確認を経て公開されます。承認まで少々お待ちください！
-    </p>
-
-    <div>
-      <div class="input-group">
-        <%= f.label :country_of_origin, "原産国" %>
-        <%= f.text_field :country_of_origin %>
-      </div>
-      <div class="input-group">
-        <%= f.label :volume, "容量(ml)" %>
-        <%= f.text_field :volume %>
-      </div>
-      <div class="input-group">
-        <%= f.label :reference_price, "参考価格(円)" %>
-        <%= f.number_field :reference_price %>
-      </div>
-    </div>
-
-    <div data-controller="olive-variety-modal">
-      <button type="button" data-action="click->olive-variety-modal#open" class="btn">オリーブの品種を選択</button>
-
-      <!-- モーダル本体 -->
-      <div data-olive-variety-modal-target="content" class="hidden">
-        <div>
-          <% @olive_varieties.each do |v| %>
-            <div>
-              <%= check_box_tag "product[olive_variety_ids][]", v.id, false, id: "v_#{v.id}" %>
-              <%= label_tag "v_#{v.id}", v.name %>
-            </div>
-          <% end %>
-
-          <button type="button" data-action="click->olive-variety-modal#close">閉じる</button>
-        </div>
-      </div>
-    </div>
-    <br>
-
-    <div class="field input-group vertical-group">
-      <!-- 新しい品種を追加 -->
-      <div data-controller="add-variety">
-        <%= label_tag "new_olive_variety_name", "新しい品種" %>
-
-        <!-- 入力欄をまとめる領域 -->
-        <div data-add-variety-target="fields">
-          <div class="variety-field mb-2 flex items-center gap-2">
-            <!--[0]はRailsが行を識別するための値であり、0は単なる開始点-->
-            <%= text_field_tag "product[olive_varieties_attributes][0][name]", nil, class: "border p-1 rounded w-full" %>
-            <button type="button" data-action="click->add-variety#removeField" class="text-red-500">−</button>
-          </div>
-        </div>
-
-        <!-- テンプレート（非表示） -->
-        <template data-add-variety-target="template">
-          <div class="variety-field mb-2 flex items-center gap-2">
-            <%= text_field_tag "product[olive_varieties_attributes][__INDEX__][name]", nil, class: "border p-1 rounded w-full" %>
-            <button type="button" data-action="click->add-variety#removeField" class="text-red-500">−</button>
-          </div>
-        </template>
-
-        <!-- 追加ボタン -->
-        <button type="button" data-action="click->add-variety#addField" class="text-blue-600 font-bold mt-2">
-          ＋ 品種を追加
-        </button>
-      </div>
-    </div>
-
-    <div class="actions" style="text-align: right;">
-      <%= f.submit "Share It!" %>
-    </div>
-  <% end %>
+  </div>
 </div>

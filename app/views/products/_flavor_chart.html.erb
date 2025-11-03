@@ -12,7 +12,7 @@
     new Chart(canvas.getContext("2d"), {
       type: "radar",
       data: {
-        labels: ["甘さ", "辛さ", "青さ", "フルーティー", "苦さ"],
+        labels: ["甘み", "辛み", "青い", "果実感", "苦み"],
         datasets: [{
           label: ratingsCount + "件の評価",
           data: [
@@ -29,6 +29,8 @@
         }]
       },
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
         // オブションを付け足す。今回は左上にタイトルを付ける
         plugins: {
           title: {

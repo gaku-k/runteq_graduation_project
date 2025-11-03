@@ -2,6 +2,8 @@ class ProductsController < ApplicationController
   # create/updateで即時反映させるカラムを定義
   # 大文字で始まる変数 → 定数: 再代入で警告/ .fleeze → 配列を凍結し書き換え不可にする
   IMMEDIATE_UPDATE_COLUMNS = %w[ name ].freeze
+  # 1ページあたりの件数
+  BOOK_COUNT = 24
 
   # before_action :autenticate_uer! メソッド: Deviseが提供する「ログインしていなければログインページにリダイレクトする」
   # except :ただし/除く
@@ -10,7 +12,12 @@ class ProductsController < ApplicationController
   def index
     # @products = Product.published
     @q = Product.ransack(params[:q])
-    @products = @q.result(distinct: true).order(created_at: :desc)
+    @products = @q.result(distinct: true)
+                  .order(created_at: :desc)
+                  # ページネーション追加
+                  .page(params[:page])
+                  # 1ページあたりの件数
+                  .per(BOOK_COUNT)
   end
 
   def show

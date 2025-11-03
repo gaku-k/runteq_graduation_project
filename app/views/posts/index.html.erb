@@ -2,11 +2,11 @@
 <%= render "shared/admin_floating_button" %>
 
 <!-- 背景画像セクション -->
-<div class="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-cover bg-center bg-no-repeat pt-12 sm:pt-16 container-spacing"
+<div class="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-cover bg-center bg-no-repeat pt-12 sm:pt-16 pb-5"
      style="background-image: url(<%= asset_path('lucio-patone-Gt4FnWPbjfo-unsplash.jpg') %>);">
 
   <!-- キャッチコピー -->
-  <h2 class="custom-white-text text-xl sm:text-2xl font-semibold text-center mb-6 drop-shadow-lg px-[80px]">
+  <h2 class="text-white text-xl sm:text-2xl font-semibold text-center mb-6 drop-shadow-lg px-[80px]">
     レビューから広がる、あなただけの愛用品
   </h2>
 
@@ -17,36 +17,53 @@
         placeholder: "キーワードを入力",
         class: "w-full p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-1" %>
       <%= f.submit "検索",
-        class: "search-submit-button px-4 py-2 rounded-r-lg" %>
+        class: "bg-[#7D9D76] hover:bg-[#6a8c63] px-4 py-2 rounded-r-lg" %>
     </div>
   <% end %>
 </div>
-<br>
 
-<div class="my-card">
-  <ul class="posts-list">
-    <% @posts.each do |post| %>
-      <li class="post-item">
-        <%= link_to post_path(post), class: "post-card-link" do %>
-          <div class="image-section">
-            <%= render "posts/images", post: post %>
+</turbo-frame>
+  <div class="my-card">
+    <div class="posts-list">
+      <% @posts.each do |post| %>
+        <div class="avatar-post-wrapper">
+          <div>
+            <% if post.user.avatar.attached? %>
+              <%= image_tag post.user.avatar.variant(resize_to_fill: [300, 300]),
+                class: "rounded-full user-avatar-s"%>
+            <% else %>
+              <%= image_tag "44775.jpg",
+                class: "rounded-full user-avatar-s" %>
+            <% end %>
           </div>
+          <div class="post-item">
+            <%= link_to post_path(post), class: "post-card-link" do %>
+              <div class="image-section">
+                <%= render "posts/images", post: post %>
+              </div>
 
-          <div class="chart-review-wrapper">
-            <div class="chart-section">
-              <h2 class="post-title"><%= post.product_name %></h2>
-              <%= render partial: "posts/radar_chart", locals: { post: post } %>
-            </div>
+              <div class="chart-review-wrapper">
+                <div class="chart-section">
+                  <h2><%= post.product_name %></h2>
+                  <%= render partial: "posts/radar_chart", locals: { post: post } %>
+                </div>
 
-            <div class="review-section">
-              <article>
-                <h2 class="post-title italic-title">Review</h2>
-                <p><%= post.body %></p>
-              </article>
-            </div>
+                <div class="review-section">
+                  <article>
+                    <h2 class="bold-title italic-title">Review</h2>
+                    <p class="review-body"><%= post.body %></p>
+                  </article>
+                </div>
+              </div>
+            <!-- link_to のend -->
+            <% end %>
           </div>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-</div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <%= paginate @posts %>
+  </div>
+</turbo-frame>

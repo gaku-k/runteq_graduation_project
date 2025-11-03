@@ -34,8 +34,20 @@
   </div>
 
   <h2 class="italic-title">My Posts</h2>
-  <div>
+  <hr>
+  <div class="posts-list">
     <% @user.posts.each do |post| %>
+      <div class="avatar-post-wrapper">
+        <div>
+          <% if post.user.avatar.attached? %>
+            <%= image_tag post.user.avatar.variant(resize_to_fill: [300, 300]),
+              class: "rounded-full user-avatar-s"%>
+          <% else %>
+            <%= image_tag "44775.jpg",
+              class: "rounded-full user-avatar-s" %>
+          <% end %>
+        </div>
+
       <div class="post-item">
         <%= link_to post_path(post), class: "post-card-link" do %>
           <div class="image-section">
@@ -57,8 +69,7 @@
           </div>
         <% end %>
       </div>
+      </div>
     <% end %>
-
-
   </div>
 </div>
