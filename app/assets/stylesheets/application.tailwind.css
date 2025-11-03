@@ -14,7 +14,6 @@
 @import "floating_btn.css";
 @import "admin_show.css";
 @import "product_form.css";
-@import "search_bar.css";
 
 @tailwind base;
 @tailwind components;
@@ -38,6 +37,7 @@ body {
 .italic-title {
   font-style: italic;
   font-size: 20px;
+  font-weight: 600;
 }
 
 .title-l {
@@ -50,6 +50,7 @@ body {
   .italic-title {
     font-style: italic;
     font-size: 14px;
+    font-weight: 600;
   }
 
   .title-l {
@@ -93,6 +94,7 @@ body {
   flex-shrink: 0;
   width: 100px; /* ラベルの幅を固定し、右の入力欄を揃える */
   font-size: 15px;
+  font-weight: 600;
 }
 
 .input-group:not(.vertical-group) input[type="text"],
@@ -113,7 +115,7 @@ body {
 .vertical-group label {
   /* 縦並びなので、幅いっぱいに広がる必要なし */
   display: block; 
-  margin-bottom: 5px; /* 入力フィールドとの間に間隔を確保 */
+  font-weight: 600;
 }
 /* --------------楕円形の送信ボタン------------- */
 /* 楕円の送信ボタンや、下部大ボタン。
