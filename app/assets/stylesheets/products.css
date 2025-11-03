@@ -72,13 +72,13 @@ width: 100%;は左寄せできる変化幅を決めている。*/
 }
 
 .draft-tag {
-  background-color: #769D77;
+  background-color: #969696;
   padding: 1px 8px 1px 8px;
   border-radius: 5px;
 }
 
 /* レーダーチャートのコンテナを中央寄せに */
-.new-pentagon-radar-chart-container {
+.index-flavorchart-container {
   display: flex;               /* flexboxを使う */
   justify-content: center;     /* 水平方向に中央寄せ */
   width: 100%;
@@ -99,29 +99,52 @@ width: 100%;は左寄せできる変化幅を決めている。*/
 /* ====================================== */
 /* pruducts/showページ */
 
-/* 品種の表示 */
-.tag {
-  background-color: #f0f4f8;
-  color: #333;
-  border-radius: 4px;
-  padding: 2px 6px;
-  margin-right: 4px;
-  font-size: 0.9rem;
+/* レーダーチャート&postボタン */
+.chart-post-container {
+  display: flex;
+  align-items: center;
 }
 
+.show-flavorchart-container {
+  /* 既存の修正 */
+  flex-shrink: 1;
+  max-width: 250px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* レーダーチャート本体 */
+.show-flavorchart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* テキストとpostボタンのコンテナ */
+.post-from-product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* テキスト */
+.post-text {
+  text-align: center;
+  padding-left: 3px;
+  padding-right: 3px;
+  font-style: italic;
+}
 /* -------------------------------------- */
 .product-detail-section {
   /* PCでは残り幅を占有しつつ、縮小を許可します */
   flex: 1 1 0; /* 成長:1, 縮小:1, ベース:0。残り幅を均等に占めます */
   background-color: rgba(240, 240, 240, 1);
-  padding: 16px 20px;
+  padding: 10px 15px;
   border-radius: 8px;
-  margin-top: 12px;
+  margin-top: 5px;
 }
 
-/* タイトルの余白を詰める */
+/* 商品情報タイトル */
 .product-detail-section h2 {
-  margin-top: 0;              /* デフォルトのh2上余白を削除 */
   margin-bottom: 10px;        /* タイトル下のスペースを程よく */
   font-size: 1.2rem;
   font-weight: 600;
@@ -129,13 +152,13 @@ width: 100%;は左寄せできる変化幅を決めている。*/
 
 /* 商品詳細情報の各項目 */
 .product-detail-list {
-  list-style: none; /* 丸点を消す */
   padding: 0;
   margin: 0;
   width: 100%;
-  max-width: 400px; /* 任意。整った幅を設定 */
+  max-width: 600px; /* 枠に対して情報が占める幅 */
 }
 
+/* ラベル&値 */
 .product-detail-list li {
   display: flex;
   align-items: flex-start;
@@ -147,11 +170,17 @@ width: 100%;は左寄せできる変化幅を決めている。*/
   width: 140px; /* ラベル列の幅を統一して揃える */
   font-weight: 600;
   color: #333;
+  /* 値の文字数によってはラベルの縮小するので制限 */
+  flex-shrink: 0;
 }
 
 .detail-value {
   flex: 1;
   color: #555;
   padding-left: 12px; /* ラベルと値の間隔 */
+  /* 縮小制約解除、親の幅を超えても必要に応じて縮小 */
+  min-width: 0;
+  /* スペースのない長い文字列が単語の途中でも折り返される*/
+  overflow-wrap: break-word;
 }
 /* -------------------------------------- */

@@ -1,5 +1,4 @@
 <div class="my-card">
-  <h1>商品詳細</h1>
 
   <ul>
     <li>
@@ -8,9 +7,24 @@
         <%= render "products/images", product: @product %>
       </div>
 
+      <div class="chart-post-container">
+        <div class="show-flavorchart-container">
+          <%= render partial: "products/flavor_chart", locals: { product: @product, average_ratings: @product.average_ratings, ratings_count: @product.ratings_count } %>
+        </div>
+        <div  class="post-from-product">
+          <span class="post-text">この商品でRevewする</span>
+          <div>
+            <%= link_to new_product_post_path(@product),
+              class: "create-a-post" do %>
+              <i class="fas fa-pen"></i>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
       <!-- 商品詳細情報 -->
       <div class="product-detail-section">
-        <h2 class="italic-title">Product Info</h2>          
+        <h2>Product Info</h2>          
         <ul class="product-detail-list">
           <li>
             <span class="detail-label">商品名</span>
@@ -24,7 +38,7 @@
             <span class="detail-label">使用オリーブ品種</span>
             <span class="detail-value">
               <% @product.olive_varieties.each do |variety| %>
-                <span class="tag"><%= variety.name %></span>
+                <span><%= variety.name %></span>
               <% end %>
             </span>
           </li>
@@ -45,25 +59,21 @@
   <div style="text-align: right; padding-right: 5px;">
     <% unless @product.draft? %>
       <%= link_to edit_product_path(@product) do%>
-        <i class="fa-solid fa-gears"></i>
-        <span>編集する</span>
+        <div class="icon-text-container">
+          <i class="fa-solid fa-gears"></i>
+          <span>編集する</span>
+        </div>
       <% end %>
     <% else %>
-      <span>申請中</span>
+      <span class="draft-tag">申請中</span>
     <% end %>
   </div>
   <hr>
-  <div>
-    <%= render partial: "products/flavor_chart", locals: { product: @product, average_ratings: @product.average_ratings, ratings_count: @product.ratings_count } %>
-  </div>
-  <div>
-    <span>この商品でPostする</span>
-    <%= link_to new_product_post_path(@product),
-      class: "create-a-post" do %>
-      <i class="fas fa-pen"></i>
-    <% end %>
-  </div>
-  <h3>あなたの評価</h3>
+
+  <h3 class="bold-title">あなたの評価を登録！</h3>
+  <p class="notice">
+    すべての項目（甘さ・果実感・苦味・辛味・香り）に評価をつけてください。5つの値が揃っていない場合は登録できません。
+  </p>
 
   <%= form_with(model: [@product, @product_rating], local: true) do |f| %>
     <div class="rating-field">
@@ -96,8 +106,10 @@
       <%= f.hidden_field :bitter %>
     </div>
 
-    <!-- persisted? :ActiveRecordのメソッドでオブジェクトがDBに存在すればtrue,新規ならfalse -->
-    <!-- 条件式 ? 真の場合の値 : 偽の場合の値 で、1行のif文 -->
-    <%= f.submit @product_rating.persisted? ? "評価を更新" : "評価を登録" %>
+    <div class="actions title-margin btn-margin">
+      <!-- persisted? :ActiveRecordのメソッドでオブジェクトがDBに存在すればtrue,新規ならfalse -->
+      <!-- 条件式 ? 真の場合の値 : 偽の場合の値 で、1行のif文 -->
+      <%= f.submit @product_rating.persisted? ? "更新" : "登録" %>
+    </div>
   <% end %>
 </div>

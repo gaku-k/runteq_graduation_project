@@ -11,12 +11,16 @@
   margin-bottom: 40px;
 }
 
+.btn-margin {
+  margin-top: 40px;
+}
+
 /* 管理者チャックの説明 */
 .notice {
   text-align: center;
   margin: 10px 0px 50px 0px;
   color:rgb(60, 60, 60);
-  font-size: 16px;
+  font-size: 14px;
   text-decoration:underline solid black;
 }
 
