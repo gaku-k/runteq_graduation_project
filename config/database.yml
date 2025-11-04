@@ -19,7 +19,4 @@ test:
 
 production:
   <<: *default
-  username: runteq_graduation_project
-  password: <%= ENV["RUNTEQ_GRADUATION_PROJECT_DATABASE_PASSWORD"] %>
-  host: db
-  database: runteq_graduation_project_production
+  url: <%= ENV["DATABASE_URL"] %>
