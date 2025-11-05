@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  get "users/show"
+  get "pages/terms"
+  get "pages/privacy"
+  get "pages/contact"
   # devise_for :users
   # どのCを使うかを明示的に表しており、デフォルトのままだとコマンドで生成したカスタムCを使ってくれない
   devise_for :users, controllers: {
@@ -49,5 +51,13 @@ Rails.application.routes.draw do
         patch :reject
       end
     end
+  end
+
+  # 複数の静的ページ
+  # :pages というコントローラを前提に、3アクションを定義
+  controller :pages do
+    get :terms
+    # get :privacy
+    # get :contact
   end
 end
