@@ -14,6 +14,7 @@
 @import "floating_btn.css";
 @import "admin_show.css";
 @import "product_form.css";
+@import "pages.css";
 
 @tailwind base;
 @tailwind components;

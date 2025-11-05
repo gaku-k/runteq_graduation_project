@@ -1,0 +1,32 @@
+.pages-wrapper h1 {
+  font-size: 24px;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.pages-wrapper h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.pages-wrapper ul {
+  /* tailwindの実装で消えた黒点を復活させたい */
+  list-style: disc;
+  /* 黒点をリストの外側に出すことで、段落の頭と重ならない
+  なくても変わらないか？ */
+  list-style-position: outside;
+  /* 重要。黒点はリストの余白部分に表示される。つまりないと見えない */
+  padding-left: 1.5rem;
+}
+
+.pages-wrapper ol {
+  list-style: decimal;
+  list-style-position: outside;
+  padding-left: 1.5rem;
+}
+
+.email-wrapper {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

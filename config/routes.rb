@@ -57,7 +57,7 @@ Rails.application.routes.draw do
   # :pages というコントローラを前提に、3アクションを定義
   controller :pages do
     get :terms
-    # get :privacy
-    # get :contact
+    get :privacy
+    get :contact
   end
 end
