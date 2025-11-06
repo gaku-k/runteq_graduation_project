@@ -40,6 +40,8 @@ Rails.application.routes.draw do
 
   resource :user, only: [ :show ]
 
+  resource :contact, only: [ :new, :create ]
+
   # namespaxe はURLとコントローラーをグループ化する機能「admin/ で始まるURL → Admin名前空間のコントローラに送る」
   namespace :admin do
     resources :product_drafts, only: [ :index, :show ] do
@@ -54,10 +56,9 @@ Rails.application.routes.draw do
   end
 
   # 複数の静的ページ
-  # :pages というコントローラを前提に、3アクションを定義
+  # :pages というコントローラを前提に、2つのアクションを定義
   controller :pages do
     get :terms
     get :privacy
-    get :contact
   end
 end
