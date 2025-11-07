@@ -41,6 +41,9 @@ Rails.application.routes.draw do
 
   # namespaxe はURLとコントローラーをグループ化する機能「admin/ で始まるURL → Admin名前空間のコントローラに送る」
   namespace :admin do
+    get "contacts/index"
+    get "contacts/show"
+    resources :contacts, only: [ :index, :show ]
     resources :product_drafts, only: [ :index, :show ] do
       # member: id持ち個別レコードに対して、approve、rejectというアクションを追加
       member do
