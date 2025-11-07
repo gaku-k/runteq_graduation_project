@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get "pages/terms"
-  get "pages/privacy"
-  get "pages/contact"
   # devise_for :users
   # どのCを使うかを明示的に表しており、デフォルトのままだとコマンドで生成したカスタムCを使ってくれない
   devise_for :users, controllers: {
@@ -40,7 +37,7 @@ Rails.application.routes.draw do
 
   resource :user, only: [ :show ]
 
-  resource :contact, only: [ :new, :create ]
+  resources :contacts, only: [ :new, :create ]
 
   # namespaxe はURLとコントローラーをグループ化する機能「admin/ で始まるURL → Admin名前空間のコントローラに送る」
   namespace :admin do
