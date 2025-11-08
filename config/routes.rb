@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get "users/show"
   # devise_for :users
   # どのCを使うかを明示的に表しており、デフォルトのままだとコマンドで生成したカスタムCを使ってくれない
   devise_for :users, controllers: {
@@ -38,8 +37,13 @@ Rails.application.routes.draw do
 
   resource :user, only: [ :show ]
 
+  resources :contacts, only: [ :new, :create ]
+
   # namespaxe はURLとコントローラーをグループ化する機能「admin/ で始まるURL → Admin名前空間のコントローラに送る」
   namespace :admin do
+    get "contacts/index"
+    get "contacts/show"
+    resources :contacts, only: [ :index, :show ]
     resources :product_drafts, only: [ :index, :show ] do
       # member: id持ち個別レコードに対して、approve、rejectというアクションを追加
       member do
@@ -49,5 +53,12 @@ Rails.application.routes.draw do
         patch :reject
       end
     end
+  end
+
+  # 複数の静的ページ
+  # :pages というコントローラを前提に、2つのアクションを定義
+  controller :pages do
+    get :terms
+    get :privacy
   end
 end

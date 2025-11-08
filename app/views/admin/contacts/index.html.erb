@@ -1,0 +1,22 @@
+<h1>お問い合わせ一覧</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>ユーザー名</th>
+      <th>お問い合わせ種別</th>
+      <th>作成日</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @contacts.each do |contact| %>
+      <tr>
+        <td><%= link_to contact.id, admin_contact_path(contact) %></td>
+        <td><%= contact.user&.name || "未ログイン" %></td>
+        <td><%= contact.inquiry_type %></td>
+        <td><%= l(contact.created_at, format: :short) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

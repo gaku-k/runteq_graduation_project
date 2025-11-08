@@ -1,0 +1,72 @@
+<div class="my-card auth-card-container">
+  <div class="auth-card">
+    <%= form_with model: @contact, local: true do |f| %>
+    
+    <% if @contact.errors.any? %>
+      <div id="error_explanation">
+        <!-- pluralizeを(単数、複数を切り替えてくれる)使って、発生したエラーの総数を表示 -->
+        <h2><%= pluralize(@contact.errors.count, "error") %> が発生しました:</h2>
+        <ul>
+          <% @contact.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <h2>お問合せフォーム</h2>
+      <% if current_user %>
+        <%= f.hidden_field :user_id %>
+      <% end %>
+
+      <h3>
+        お問い合わせの種類<span class="required-star">*</span>
+      </h3>
+      <div class="inquiry-type-group">
+        <!-- 構文collection_radio_buttons(attribute, collection, value_method, text_method) -->
+        <!-- ユーザーに表示される選択肢はtext_methodの配列。そこで選択されたラベルに対応する値がvalue_methodとして、inquiry_typeカラムのenumのキーに充填され、その値(0や1など)が返る -->
+        <%= f.collection_radio_buttons(:inquiry_type,
+          {
+            "機能追加・改善の提案" => :suggestion,
+            "不具合の報告" => :bug,
+            "レビュー・投稿に関するお問い合わせ" => :review,
+            "アカウントに関するお問い合わせ" => :account,
+            "利用規約やプライバシーに関するお問い合わせ" => :rules,
+            "その他" => :other
+          },
+          :last, :first) do |box| %>
+          <div class="radio-item">
+            <%= box.radio_button %>
+            <%= box.label %>
+          </div>         
+        <% end %>
+      </div>
+
+      <div class="field">
+        <%= f.label :name do %>
+          お名前<span class="required-star">*</span>
+        <% end %>
+        <%= f.text_field :name, readonly: current_user.present? %>
+      </div>
+
+      <div class="field">
+        <%= f.label :email do %>
+          メールアドレス<span class="required-star">*</span>
+        <% end %>
+        <%= f.email_field :email, readonly: current_user.present? %>
+      </div>
+
+      <div class="field">
+        <%= f.label :message do %>
+          お問い合わせ内容<span class="required-star">*</span>
+        <% end %>
+        <!-- text_areaはtext_fieldとは違い改行に対応できる。rowsで枠の高さを調整 -->
+        <%= f.text_area :message, rows: 6, class: "text-area" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "送信" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -80,8 +80,6 @@
 /* 管理者専用/admin/product_drafts.html.erbへ遷移 */
 .admin-floating-btn {
   position: fixed;        /* 画面に固定 */
-  bottom: 30px;           /* 下から30px */
-  left: 30px;             /* 右から30px */
   width: 60px;            /* 幅 */
   height: 60px;           /* 高さ */
   background-color: #ef4444; /* ボタンの背景色 */
@@ -102,4 +100,16 @@
 
 .admin-floating-btn p {
   color: black
+}
+
+/* draftに上がってきた申請一覧を確認 */
+.draft-index {
+  bottom: 30px;           /* 下から30px */
+  left: 30px;             /* 右から30px */
+}
+
+/* お問い合わせ一覧を確認 */
+.contact-index {
+  bottom: 110px;           /* 下から110px */
+  left: 30px;
 }

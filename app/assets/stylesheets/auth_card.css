@@ -4,7 +4,7 @@
   width: 100%;
   /* ただし、最大幅は556pxで留まる */
   max-width: 556px;
-  background-color: #f0f0f0;
+  background-color: white;
   /* 内部のコンテンツへの余白。上に32px, 左右に24px, 下に24px */
   padding: 32px 24px 24px;
   /* 
@@ -13,6 +13,7 @@
   margin-right: auto;
   */
   margin: auto;
+  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* auth-catdの親コンテナ */
@@ -57,4 +58,27 @@
   width: 100%;
   /* 入力欄の縦幅を設定 */
   height: 35px;
+  border: 1px solid #ccc;
+}
+
+/* ======================== */
+/* お問い合わせのtext_areaに適用 */
+
+.text-area {
+  width : 100%;
+  border: 1px solid #ccc;
+}
+
+/* ラジオボタン */
+.inquiry-type-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2列に分ける */
+  gap: 0.5rem 1rem; /* 上下・左右の間隔 */
+  margin-top: 0.5rem;
+}
+
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; /* ボタンとラベルの間隔 */
 }

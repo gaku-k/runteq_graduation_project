@@ -1,8 +1,14 @@
 <!-- &. :nil(enumで定義されていない)ならエラーを出さずにnilを返す -->
 <% if current_user&.admin? %>
-  <%= link_to admin_product_drafts_path, class: "admin-floating-btn" do %>
-    <p>✔︎</p>
+  <%= link_to admin_product_drafts_path, class: "admin-floating-btn draft-index" do %>
+    <i class="fa-solid fa-truck"></i>
   <% end %>
 <% end %>
 <!-- Q ぼっち演算子を使わずにif の部分をreturn unlessにしたらどうだろう？ -->
 <!-- A ビューでreturnで終了すると、それ以降が描画されなくなる -->
+
+<% if current_user&.admin? %>
+  <%= link_to admin_contacts_path, class: "admin-floating-btn contact-index" do %>
+    <i class="fa-solid fa-envelope"></i>
+  <% end %>
+<% end %>
