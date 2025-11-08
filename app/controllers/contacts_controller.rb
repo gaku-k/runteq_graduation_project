@@ -11,6 +11,8 @@ class ContactsController < ApplicationController
 
   def create
     @contact = Contact.new(contact_params)
+    # idをセットすることで初めて
+    @contact.user_id = current_user.id if current_user
     if @contact.save
       redirect_to posts_path, success: "メッセージを送信しました！"
     else
@@ -26,7 +28,7 @@ class ContactsController < ApplicationController
       :name,
       :email,
       :message,
-      :inquire_type
+      :inquiry_type,
     )
   end
 end

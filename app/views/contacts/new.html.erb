@@ -19,22 +19,26 @@
         <%= f.hidden_field :user_id %>
       <% end %>
 
-      <div>
-        <h3>
-          お問い合わせの種類<span class="required-star">*</span>
-        </h3>
+      <h3>
+        お問い合わせの種類<span class="required-star">*</span>
+      </h3>
+      <div class="inquiry-type-group">
         <!-- 構文collection_radio_buttons(attribute, collection, value_method, text_method) -->
         <!-- ユーザーに表示される選択肢はtext_methodの配列。そこで選択されたラベルに対応する値がvalue_methodとして、inquiry_typeカラムのenumのキーに充填され、その値(0や1など)が返る -->
         <%= f.collection_radio_buttons(:inquiry_type,
-          { "機能追加・改善の提案" => "suggestion",
-            "不具合の報告" => "bug",
-            "レビュー・投稿に関するお問い合わせ" => "review",
-            "アカウントに関するお問い合わせ" => "account",
-            "利用規約やプライバシーに関するお問い合わせ" => "rules",
-            "その他" => "other"},
+          {
+            "機能追加・改善の提案" => :suggestion,
+            "不具合の報告" => :bug,
+            "レビュー・投稿に関するお問い合わせ" => :review,
+            "アカウントに関するお問い合わせ" => :account,
+            "利用規約やプライバシーに関するお問い合わせ" => :rules,
+            "その他" => :other
+          },
           :last, :first) do |box| %>
-          <%= box.radio_button %>
-          <%= box.label %>         
+          <div class="radio-item">
+            <%= box.radio_button %>
+            <%= box.label %>
+          </div>         
         <% end %>
       </div>
 

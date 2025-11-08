@@ -1,7 +1,9 @@
 class Contact < ApplicationRecord
+  belongs_to :user, optional: true
   validates :name, presence: true, unless: :user_id?
   validates :email, presence: true, unless: :user_id?
   validates :message, presence: true
+  validates :inquiry_type, presence: true
 
   enum :inquiry_type, {
     suggestion: 0,

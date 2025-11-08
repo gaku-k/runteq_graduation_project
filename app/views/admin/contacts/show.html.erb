@@ -1,2 +1,31 @@
-<h1>Admin::Contacts#show</h1>
-<p>Find me in app/views/admin/contacts/show.html.erb</p>
+<h1>お問い合わせ詳細ページ</h1>
+
+<p>利用状況：
+  <% if @contact.user.present? %>
+    <%= "ユーザー" %>
+  <% else %>
+    <%= "非ユーザー" %>
+  <% end %>
+</p>
+
+<p>名前：<%= @contact.name %></p>
+<p>メールアドレス：<%= @contact.email %></p>
+<p>お問い合わせの種類：
+  <% case @contact.inquiry_type %>
+    <% when "suggestion" %>
+      <%= "機能追加・改善の提案" %>
+    <% when "bug" %>
+      <%= "不具合の報告" %>
+    <% when "review" %>
+      <%= "レビュー・投稿に関するお問い合わせ" %>
+    <% when "account" %>
+      <%= "アカウントに関するお問い合わせ" %>
+    <% when "rules" %>
+      <%= "利用規約やプライバシーに関するお問い合わせ" %>
+    <% when "other" %>
+      <%= "その他" %>
+  <% end %>
+</p>
+<br>
+<h2>お問い合わせ内容</h2>
+  <%= @contact.message %>
