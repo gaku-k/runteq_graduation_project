@@ -1,14 +1,13 @@
 class Post < ApplicationRecord
   has_many_attached :images
+
   belongs_to :user
   belongs_to :product, optional: true
 
-  validates :product_name, presence: true, length: { maximum: 100 }
-  validates :aroma_rating, :taste_rating, :price_rating,
-            presence: true,
-            numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
-  validates :body, length: { maximum: 1000 }
+  validates :product_name, length: { maximum: 100 }, allow_nil: true
+  validates :body, length: { maximum: 280 }
   validate :images_count_within_limit
+  validate :body_or_images_required
 
   # Ransack経由で検索やソートに使っていいカラムを指定している
   def self.ransackable_attributes(auth_object = nil)
@@ -27,6 +26,13 @@ class Post < ApplicationRecord
     if images.attached? && images.count > 4
       errors.add(:images, "は4枚まで添付できます")
       # newページの@post.errorsに格納され、表示される
+    end
+  end
+
+  def body_or_images_required
+    if body.blank? && !images.attached?
+      errors.add(:body, "または画像をアップロードしてください")
+      errors.add(:images, "または画像をアップロードしてください")
     end
   end
 end

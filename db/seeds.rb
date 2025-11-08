@@ -39,9 +39,6 @@ post1 = Post.create!(
   user: user,
   product_name: "オリーブオイルA",
   body: "これはサンプルレビューです。",
-  aroma_rating: 3,
-  taste_rating: 3,
-  price_rating: 3
 )
 # 幅300pxのランダムなダミー画像をダウンロードして file に格納
 file1 = URI.open("https://picsum.photos/300")
@@ -55,9 +52,6 @@ post2 = Post.create!(
   user: user,
   product_name: "オリーブオイルB",
   body: "こちらは別のサンプルレビューです。",
-  aroma_rating: 4,
-  taste_rating: 2,
-  price_rating: 5
 )
 
 file2 = URI.open("https://picsum.photos/301") # 画像URLを変えると別の画像が取れる
@@ -67,9 +61,6 @@ post3 = Post.create!(
   user: user,
   product_name: "オリーブオイルC",
   body: "画像が2枚のサンプルです。",
-  aroma_rating: 4,
-  taste_rating: 3,
-  price_rating: 5
 )
 
 # ?random=数字 を使うと毎回違う画像が取得できる
@@ -85,9 +76,6 @@ post4 = Post.create!(
   user: user,
   product_name: "オリーブオイルD",
   body: "画像が3枚のサンプルです。",
-  aroma_rating: 5,
-  taste_rating: 4,
-  price_rating: 4
 )
 
 file1 = URI.open("https://picsum.photos/300?random=4")
