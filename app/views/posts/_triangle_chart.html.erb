@@ -1,10 +1,10 @@
 <div class="chart-container">
-  <canvas id="rating-chart-<%= product_rating.id %>"></canvas>
+  <canvas id="rating-chart-<%= post_id %>"></canvas>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const ctx = document.getElementById('rating-chart-<%= product_rating.id %>').getContext('2d');
+  const ctx = document.getElementById('rating-chart-<%= post_id %>').getContext('2d');
   
   new Chart(ctx, {
     type: 'radar',

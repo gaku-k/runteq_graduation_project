@@ -50,7 +50,7 @@
                   <% if product_rating.present? %>
                     <div class="chart-section">
                       <h2><%= post.product_name %></h2>
-                      <%= render partial: "posts/triangle_chart", locals: { product_rating: product_rating } %>
+                      <%= render partial: "posts/triangle_chart", locals: { post_id: post.id, product_rating: product_rating } %>
                     </div>
                   <% end %>
                 <% end %>              
