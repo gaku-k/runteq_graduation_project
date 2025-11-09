@@ -74,12 +74,17 @@
 
   <div style="text-align: right; padding-right: 5px;">
     <% unless @product.draft? %>
+      <% if current_user&.admin? %>
+        <%= link_to "削除", product_path(@product), method: :delete, data: { confirm: "削除しますか？" } %>
+      <% end %>
+
       <%= link_to edit_product_path(@product) do%>
         <div class="icon-text-container">
           <i class="fa-solid fa-gears"></i>
           <span>編集する</span>
         </div>
       <% end %>
+
     <% else %>
       <span class="draft-tag">申請中</span>
     <% end %>
