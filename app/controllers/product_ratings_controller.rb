@@ -33,7 +33,10 @@ class ProductRatingsController < ApplicationController
       :spicy,
       :green,
       :fruity,
-      :bitter
+      :bitter,
+      # hiddenフィールドで送信される仮想属性(ProductRatingモデル参照)
+      # ストロングパラメーターを設定する場所はフォームの場所とは関係なく、createやupdateを処理するコントローラーのプライベートメソッド内
+      :product_page_rating
     )
   end
 end

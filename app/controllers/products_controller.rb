@@ -8,6 +8,7 @@ class ProductsController < ApplicationController
   # before_action :autenticate_uer! メソッド: Deviseが提供する「ログインしていなければログインページにリダイレクトする」
   # except :ただし/除く
   before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :admin_only, only: [ :destroy ]
 
   def index
     # @products = Product.published
@@ -191,6 +192,15 @@ class ProductsController < ApplicationController
     end
   end
 
+  def destroy
+    @product = Product.find(params[:id])
+    if @product.destroy
+      redirect_to products_path, notice: "商品を削除しました"
+    else
+      render show, alert: "商品削除に失敗しました"
+    end
+  end
+
   private
 
   def extract_immediate_params(params)
@@ -259,6 +269,12 @@ class ProductsController < ApplicationController
       else
         draft.images.attach(item)
       end
+    end
+  end
+
+  def admin_only
+    unless current_user&.admin?
+      redirect_to root_path, alert: "権限がありません。"
     end
   end
 

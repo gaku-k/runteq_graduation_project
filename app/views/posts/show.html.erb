@@ -17,22 +17,19 @@
         </div>
 
         <div class="chart-review-wrapper"> 
-          <div class="chart-section">
-            <h2>
-              <% if @post.product_id.present? %>
-                <%= link_to @post.product_name, product_path(@post.product_id) %>
-              <% else %>
-                <%= @post.product_name %>
-              <% end %>
-            </h2>
-            <%= render partial: "radar_chart", locals: { post: @post } %>
-          </div>
+          <% if @post.product_id.present? %>
+            <div class="chart-section">
+              <%= link_to @post.product_name, product_path(@post.product_id) %>
 
-          <div class="review-section">
-            <article>
-              <h2 class="bold-title italic-title">Review</h2>
-              <p><%= @post.body %></p>
-            </article>
+              <% product_rating = @post.product.product_ratings.find_by(user: @post.user) %>
+              <% if product_rating.present? %>
+                <%= render partial: "posts/triangle_chart", locals: { post_id: @post.id, product_rating: product_rating } %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <div class="review-section"> 
+            <p><%= @post.body %></p>
           </div>
         </div>
         

@@ -33,91 +33,6 @@ user2 = User.find_or_create_by!(email: "hogehoge@gmail.com") do |u|
   u.role = 0
 end
 
-
-# 1件目
-post1 = Post.create!(
-  user: user,
-  product_name: "オリーブオイルA",
-  body: "これはサンプルレビューです。",
-  aroma_rating: 3,
-  taste_rating: 3,
-  price_rating: 3
-)
-# 幅300pxのランダムなダミー画像をダウンロードして file に格納
-file1 = URI.open("https://picsum.photos/300")
-# ActiveStorage の has_many_attached :images に画像を追加する処理
-# io: file → ダウンロードした画像データを渡す
-# content_type: "image/jpg" → MIMEタイプ（ブラウザが画像と認識するための情報）
-post1.images.attach(io: file1, filename: "sample1.jpg", content_type: "image/jpg")
-
-# 2件目
-post2 = Post.create!(
-  user: user,
-  product_name: "オリーブオイルB",
-  body: "こちらは別のサンプルレビューです。",
-  aroma_rating: 4,
-  taste_rating: 2,
-  price_rating: 5
-)
-
-file2 = URI.open("https://picsum.photos/301") # 画像URLを変えると別の画像が取れる
-post2.images.attach(io: file2, filename: "sample2.jpg", content_type: "image/jpg")
-
-post3 = Post.create!(
-  user: user,
-  product_name: "オリーブオイルC",
-  body: "画像が2枚のサンプルです。",
-  aroma_rating: 4,
-  taste_rating: 3,
-  price_rating: 5
-)
-
-# ?random=数字 を使うと毎回違う画像が取得できる
-file1 = URI.open("https://picsum.photos/300?random=2")
-file2 = URI.open("https://picsum.photos/300?random=3")
-post3.images.attach(io: file1, filename: "sample2_1.jpg", content_type: "image/jpg")
-post3.images.attach(io: file2, filename: "sample2_2.jpg", content_type: "image/jpg")
-
-# ----------------------
-# 画像3枚
-# ----------------------
-post4 = Post.create!(
-  user: user,
-  product_name: "オリーブオイルD",
-  body: "画像が3枚のサンプルです。",
-  aroma_rating: 5,
-  taste_rating: 4,
-  price_rating: 4
-)
-
-file1 = URI.open("https://picsum.photos/300?random=4")
-file2 = URI.open("https://picsum.photos/300?random=5")
-file3 = URI.open("https://picsum.photos/300?random=6")
-post4.images.attach(io: file1, filename: "sample3_1.jpg", content_type: "image/jpg")
-post4.images.attach(io: file2, filename: "sample3_2.jpg", content_type: "image/jpg")
-post4.images.attach(io: file3, filename: "sample3_3.jpg", content_type: "image/jpg")
-
-# ----------------------
-# 画像4枚
-# ----------------------
-post5 = Post.create!(
-  user: user,
-  product_name: "オリーブオイルE",
-  body: "画像が4枚のサンプルです。",
-  aroma_rating: 2,
-  taste_rating: 5,
-  price_rating: 3
-)
-
-file1 = URI.open("https://picsum.photos/300?random=7")
-file2 = URI.open("https://picsum.photos/300?random=8")
-file3 = URI.open("https://picsum.photos/300?random=9")
-file4 = URI.open("https://picsum.photos/300?random=10")
-post5.images.attach(io: file1, filename: "sample4_1.jpg", content_type: "image/jpg")
-post5.images.attach(io: file2, filename: "sample4_2.jpg", content_type: "image/jpg")
-post5.images.attach(io: file3, filename: "sample4_3.jpg", content_type: "image/jpg")
-post5.images.attach(io: file4, filename: "sample4_4.jpg", content_type: "image/jpg")
-
 # ----------------------
 # 商品サンプルデータ
 # ----------------------
@@ -210,3 +125,112 @@ product5 = Product.create!(
 
 file1 = URI.open("https://picsum.photos/300?random=2")
 product5.images.attach(io: file1, filename: "sample2_2.jpg", content_type: "image/jpg")
+
+# ----------------------
+# 投稿サンプルデータ
+# ----------------------
+# 1件目
+post1 = Post.create!(
+  user: user,
+  product_id: product0.id,
+  product_name: product0.name,
+  body: "これはサンプルレビューです。",
+)
+# 幅300pxのランダムなダミー画像をダウンロードして file に格納
+file1 = URI.open("https://picsum.photos/300")
+# ActiveStorage の has_many_attached :images に画像を追加する処理
+# io: file → ダウンロードした画像データを渡す
+# content_type: "image/jpg" → MIMEタイプ（ブラウザが画像と認識するための情報）
+post1.images.attach(io: file1, filename: "sample1.jpg", content_type: "image/jpg")
+
+product_rating = ProductRating.find_or_initialize_by(
+  user: user,
+  product: product0
+)
+
+# 評価値の設定 (0から5の範囲を想定)
+product_rating.aroma = 4
+product_rating.taste = 5
+product_rating.price = 3
+
+# データベースに保存（作成または更新）
+if product_rating.save
+  puts "✅ ProductRating for User ID #{user.id} and Product ID #{product0.id} has been saved/updated."
+else
+  puts "❌ Error saving ProductRating: #{product_rating.errors.full_messages.join(', ')}"
+end
+
+
+# 2件目
+post2 = Post.create!(
+  user: user,
+  product_id: product0.id,
+  product_name: product0.name,
+  body: "こちらは別のサンプルレビューです。",
+)
+
+file2 = URI.open("https://picsum.photos/301") # 画像URLを変えると別の画像が取れる
+post2.images.attach(io: file2, filename: "sample2.jpg", content_type: "image/jpg")
+
+post3 = Post.create!(
+  user: user,
+  product_id: product1.id,
+  product_name: product1.name,
+  body: "画像が2枚のサンプルです。",
+)
+
+# ?random=数字 を使うと毎回違う画像が取得できる
+file1 = URI.open("https://picsum.photos/300?random=2")
+file2 = URI.open("https://picsum.photos/300?random=3")
+post3.images.attach(io: file1, filename: "sample2_1.jpg", content_type: "image/jpg")
+post3.images.attach(io: file2, filename: "sample2_2.jpg", content_type: "image/jpg")
+
+product_rating = ProductRating.find_or_initialize_by(
+  user: user,
+  product: product1
+)
+
+# 評価値の設定 (0から5の範囲を想定)
+product_rating.aroma = 2
+product_rating.taste = 1
+product_rating.price = 5
+
+# データベースに保存（作成または更新）
+if product_rating.save
+  puts "✅ ProductRating for User ID #{user.id} and Product ID #{product0.id} has been saved/updated."
+else
+  puts "❌ Error saving ProductRating: #{product_rating.errors.full_messages.join(', ')}"
+end
+# ----------------------
+# 画像3枚
+# ----------------------
+post4 = Post.create!(
+  user: user,
+  product_id: product1.id,
+  product_name: product1.name,
+  body: "画像が3枚のサンプルです。",
+)
+
+file1 = URI.open("https://picsum.photos/300?random=4")
+file2 = URI.open("https://picsum.photos/300?random=5")
+file3 = URI.open("https://picsum.photos/300?random=6")
+post4.images.attach(io: file1, filename: "sample3_1.jpg", content_type: "image/jpg")
+post4.images.attach(io: file2, filename: "sample3_2.jpg", content_type: "image/jpg")
+post4.images.attach(io: file3, filename: "sample3_3.jpg", content_type: "image/jpg")
+
+# ----------------------
+# 画像4枚
+# ----------------------
+post5 = Post.create!(
+  user: user,
+  body: "画像が4枚のサンプルです。",
+)
+
+file1 = URI.open("https://picsum.photos/300?random=7")
+file2 = URI.open("https://picsum.photos/300?random=8")
+file3 = URI.open("https://picsum.photos/300?random=9")
+file4 = URI.open("https://picsum.photos/300?random=10")
+post5.images.attach(io: file1, filename: "sample4_1.jpg", content_type: "image/jpg")
+post5.images.attach(io: file2, filename: "sample4_2.jpg", content_type: "image/jpg")
+post5.images.attach(io: file3, filename: "sample4_3.jpg", content_type: "image/jpg")
+post5.images.attach(io: file4, filename: "sample4_4.jpg", content_type: "image/jpg")

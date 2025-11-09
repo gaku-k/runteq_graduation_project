@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   resources :posts, only: [ :index, :show, :new, :create, :destroy ]
-  resources :products, only: [ :index, :show, :new, :create, :edit, :update ] do
+  resources :products, only: [ :index, :show, :new, :create, :edit, :update, :destroy ] do
     # ネストすることで、どの商品に紐づいた評価かをURL構造で判断しやすくなる
     # またコントローラー側でparams[:product_id]から商品を特定できる
     resources :product_ratings, only: [ :create, :update ]

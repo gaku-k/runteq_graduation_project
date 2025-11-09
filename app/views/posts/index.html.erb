@@ -43,16 +43,20 @@
               </div>
 
               <div class="chart-review-wrapper">
-                <div class="chart-section">
-                  <h2><%= post.product_name %></h2>
-                  <%= render partial: "posts/radar_chart", locals: { post: post } %>
-                </div>
+    
+                <% if post.product.present? %>
+                  <!-- 1ユーザー1商品1評価値を実現するためにProductRatingsテーブルにはpost_idがない。つなりPostと直接的なアソシエーションがない -->
+                  <% product_rating = post.product.product_ratings.find_by(user: post.user) %>
+                  <% if product_rating.present? %>
+                    <div class="chart-section">
+                      <h2><%= post.product_name %></h2>
+                      <%= render partial: "posts/triangle_chart", locals: { post_id: post.id, product_rating: product_rating } %>
+                    </div>
+                  <% end %>
+                <% end %>              
 
                 <div class="review-section">
-                  <article>
-                    <h2 class="bold-title italic-title">Review</h2>
-                    <p class="review-body"><%= post.body %></p>
-                  </article>
+                  <p class="review-body"><%= post.body %></p>
                 </div>
               </div>
             <!-- link_to のend -->

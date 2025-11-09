@@ -1,10 +1,10 @@
 <div class="chart-container">
-  <canvas id="chart-<%= post.id %>"></canvas>
+  <canvas id="rating-chart-<%= post_id %>"></canvas>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const ctx = document.getElementById('chart-<%= post.id %>').getContext('2d');
+  const ctx = document.getElementById('rating-chart-<%= post_id %>').getContext('2d');
   
   new Chart(ctx, {
     type: 'radar',
@@ -12,7 +12,11 @@ document.addEventListener("DOMContentLoaded", function() {
       labels: ['香り', '味', '価格'],
       datasets: [{
         label: 'Triangle Chart', 
-        data: [<%= post.aroma_rating %>, <%= post.taste_rating %>, <%= post.price_rating %>],
+        data: [
+          <%= product_rating.aroma %>,
+          <%= product_rating.taste %>,
+          <%= product_rating.price %>
+        ],
         fill: true,
         backgroundColor: 'rgba(125, 157, 118, 0.2)',
         borderColor: 'rgba(125, 157, 118, 1)',
