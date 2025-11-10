@@ -47,4 +47,12 @@ class User < ApplicationRecord
   has_one_attached :avatar
 
   validates :name, presence: true, length: { minimum: 2, maximum: 30 }
+
+  # スコープ名recoverableを定義/User.recoverableと書けるようになる
+  # -> { ... }：ラムダ色(無名関数)でこの中にスコープの条件を書く。つまりroleがadminでないレコードを取得している
+  # 用途は？：パスワードリセット機能で用いて、管理者のアカウントは変更されないように除外する。
+  # なぜスコープ？：モデルファイルに一行追加するだけで、Deviseの内部処理（ユーザー検索とリセットトークン生成）からAdminユーザーが完全に除外される。
+  scope :recoverable, -> { where.not(role: :admin) }
+  # 本来はこのスコープ追加と:recoverableの機能の許可ができていればsuper(デフォルト)で機能するらしいのだが、これがなぜか機能しない
+  # 対応としてコントローラーのオーバーライドを適応してadminをブロックする
 end
