@@ -22,9 +22,8 @@
       </div>
 
       <div>
-        <h2>Email ID</h2>
-        <!-- helpers/users_helper.rbのヘルパーメソッド -->
-        <%= masked_email(@user.email) %>
+        <h2>ID</h2>
+        <%= @user.public_id %>
       </div>
     </div>
   </div>

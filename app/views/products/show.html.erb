@@ -28,7 +28,7 @@
           <%= render partial: "products/flavor_chart", locals: { product: @product, average_ratings: @product.average_ratings, ratings_count: @product.ratings_count } %>
         </div>
         <div  class="post-from-product">
-          <span class="post-text">この商品でRevewする</span>
+          <span class="post-text">この商品でPostする</span>
           <div>
             <%= link_to new_product_post_path(@product),
               class: "create-a-post" do %>

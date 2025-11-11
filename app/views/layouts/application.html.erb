@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "App" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "Olive Base" %></title>
+    <meta name="description" content="Olive Baseは、オリーブオイルを評価・共有できるレビューサイトです。">
+    <meta property="og:site_name" content="Olive Base">
+    <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Olive Base' %>">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -10,15 +13,15 @@
     <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <%= javascript_importmap_tags %>
+    <!-- AI生成アイコン -->
+    <%= favicon_link_tag 'favicon.png', type: 'image/png' %>
+    <link rel="apple-touch-icon" href="<%= asset_path('favicon.png') %>">
   </head>
 
   <body>
