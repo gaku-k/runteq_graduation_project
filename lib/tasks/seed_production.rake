@@ -1,5 +1,5 @@
 # このタスクはデプロイ時にadminユーザーを作成するために使用する
-# renderの
+# renderのStart Commandで設定している
 namespace :seed do
   desc "Renderでプロダクション用シードを実行する"
   task production: :environment do

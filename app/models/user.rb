@@ -36,6 +36,8 @@ class User < ApplicationRecord
   # :omniauthable :対応C omniauth_callbacks_controller.rb
   # 用途 :外部サービス連携認証（Google, Twitterなど)
 
+  before_validation :generate_public_id
+
   enum :role, { general: 0, admin: 1 }
 
   has_many :posts, dependent: :destroy
@@ -47,6 +49,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
 
   validates :name, presence: true, length: { minimum: 2, maximum: 30 }
+  validates :public_id, presence: true, uniqueness: true
 
   # スコープ名recoverableを定義/User.recoverableと書けるようになる
   # -> { ... }：ラムダ色(無名関数)でこの中にスコープの条件を書く。つまりroleがadminでないレコードを取得している
@@ -55,4 +58,10 @@ class User < ApplicationRecord
   scope :recoverable, -> { where.not(role: :admin) }
   # 本来はこのスコープ追加と:recoverableの機能の許可ができていればsuper(デフォルト)で機能するらしいのだが、これがなぜか機能しない
   # 対応としてコントローラーのオーバーライドを適応してadminをブロックする
+
+  private
+  def generate_public_id
+    # public_idが存在しなければ自動生成する
+    self.public_id ||= SecureRandom.hex(6)
+  end
 end

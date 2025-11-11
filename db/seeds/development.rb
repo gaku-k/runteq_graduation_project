@@ -15,12 +15,16 @@ user = User.find_or_create_by!(email: "test@example.com") do |u|
   u.password = "password"
   u.name = "gaku"
   u.role = :admin # または u.role = 1 でもDB上は問題ない
+  u.public_id = "olivebase777"
 end
 
 user2 = User.find_or_create_by!(email: "hogehoge@gmail.com") do |u|
   u.password = "password"
   u.name = "らんてくん"
   u.role = 0
+  # before_createはバリデーションより後に呼ばれるから指定しないとpresence: trueに引っかかる
+  # before_validationはバリデーション前なので指定しなくても生成される
+  # u.public_id = "olivetree777"
 end
 
 # ----------------------
