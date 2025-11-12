@@ -35,9 +35,12 @@ Rails.application.routes.draw do
     resources :posts, only: [ :new ]
   end
 
+  # /users/:id の:id部分がpublic_idに置き換わる.
+  # param(単数)であり、URLヘルパーが生成するパスのプレースホルダー（:id）の名前を :public_id に変更する効果がある
+  # 実際にこのプレースホルダーにどの値を埋めるかは、Userモデルのto_paramメソッドの役割
+  resources :users, param: :public_id, only: [ :show ]
+  # マイページへのヘルパーをmy_page_pathに指定/コントローラーはusers/#showのまま
   resource :user, only: [ :show ]
-  # /users/:id の:id部分がpublic_idに置き換わる。コントローラーも代わる
-  # resources :users, params: :public_id, only: [ :show ]
   resources :contacts, only: [ :new, :create ]
 
   # namespaxe はURLとコントローラーをグループ化する機能「admin/ で始まるURL → Admin名前空間のコントローラに送る」

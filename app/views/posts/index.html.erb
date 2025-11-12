@@ -27,15 +27,19 @@
     <div class="posts-list">
       <% @posts.each do |post| %>
         <div class="avatar-post-wrapper">
+
           <div>
-            <% if post.user.avatar.attached? %>
-              <%= image_tag post.user.avatar.variant(resize_to_fill: [300, 300]),
-                class: "rounded-full user-avatar-s"%>
-            <% else %>
-              <%= image_tag "44775.jpg",
-                class: "rounded-full user-avatar-s" %>
+            <%= link_to user_path(post.user) do %>
+              <% if post.user.avatar.attached? %>
+                <%= image_tag post.user.avatar.variant(resize_to_fill: [300, 300]),
+                  class: "rounded-full user-avatar-s"%>
+              <% else %>
+                <%= image_tag "44775.jpg",
+                  class: "rounded-full user-avatar-s" %>
+              <% end %>
             <% end %>
           </div>
+    
           <div class="post-item">
             <%= link_to post_path(post), class: "post-card-link" do %>
               <div class="image-section">
