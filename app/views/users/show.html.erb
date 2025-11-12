@@ -27,9 +27,11 @@
     </div>
   </div>
 
-  <div class="profile-link-container">
-    <%= link_to "プロフィール編集", edit_user_registration_path, class: "edit-profile-button" %>
-  </div>
+  <% if @user == current_user %>
+    <div class="profile-link-container">
+      <%= link_to "プロフィール編集", edit_user_registration_path, class: "edit-profile-button" %>
+    </div>
+  <% end %>
 
   <hr>
   
