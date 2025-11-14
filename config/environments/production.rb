@@ -23,7 +23,7 @@ Rails.application.configure do
   # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
   # falseならRailsのpublic/ディレクトリ以下のファイルを配信しない。trueなら配信する
   # Renderなら環境変数 = trueになる。「Railsがどの環境でどう動くか」を外からコントロールできるようにしている
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
@@ -83,8 +83,26 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  # trueでメール送信エラー時に例外を発生させる
+  config.action_mailer.raise_delivery_errors = true
+
+  # パスワード再設定のフォームや、メール内で生成されるすべてのリンクのベースURLを指定する
+  config.action_mailer.default_url_options = { host: "olive-base.onrender.com", protocol: "https" }
+
+  # SMTP(メール送信の標準プロトコル)サーバーを使って送信するという宣言.環境変数は.envからも確認できる
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "gmail.com",
+    # フルメールアドレス
+    user_name: ENV["GMAIL_USERNAME"],
+    # アプリパスワード。Rails(アプリ)側がGoogleアカウントにアクセスするときに用いる
+    # Rails側が提示する値（アプリパスワード）と、Google側で作った値が一致すればアクセス許可
+    password: ENV["GMAIL_PASSWORD"],
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
