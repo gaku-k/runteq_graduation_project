@@ -59,6 +59,13 @@ class User < ApplicationRecord
   # 本来はこのスコープ追加と:recoverableの機能の許可ができていればsuper(デフォルト)で機能するらしいのだが、これがなぜか機能しない
   # 対応としてコントローラーのオーバーライドを適応してadminをブロックする
 
+  # RailsはURLを生成する時にpublic_idを使うようになる/ルーティングのparam: と連動しているらしい
+  def to_param
+    # to_paramメソッドを定義しない場合、Railsはデフォルトでid.to_s（IDの文字列）を使う
+    # public_idを返すように定義することで、user_path(post.user)としたときに、URLのパス部分にpost.user.public_idの値が埋めこまれる
+    public_id
+  end
+
   private
   def generate_public_id
     # public_idが存在しなければ自動生成する

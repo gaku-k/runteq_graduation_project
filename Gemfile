@@ -58,7 +58,9 @@ gem "image_processing", "~> 1.2"
 # リサイズ、フォーマット変換など
 gem "mini_magick"
 # クラウドストレージへの配送係
-gem "aws-sdk-s3", require: false
+# gem "aws-sdk-s3", require: false
+# s3は有料ということで、無料で使うサービスを探す
+gem "cloudinary"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -71,6 +73,9 @@ group :development, :test do
   gem "rubocop", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rails-omakase", require: false
+
+  # 環境変数をRailsで簡単に使うためのライブラリ
+  gem "dotenv-rails"
 end
 
 group :development do
