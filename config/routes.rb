@@ -36,8 +36,7 @@ Rails.application.routes.draw do
   end
 
   resource :user, only: [ :show ]
-  # /users/:id の:id部分がpublic_idに置き換わる。コントローラーも代わる
-  # resources :users, params: :public_id, only: [ :show ]
+
   resources :contacts, only: [ :new, :create ]
 
   # namespaxe はURLとコントローラーをグループ化する機能「admin/ で始まるURL → Admin名前空間のコントローラに送る」

@@ -1,7 +1,7 @@
 <header class="desktop-header-container">
   <div class="desktop-header">
-    <h3><%= link_to "My Page", current_user ? user_path(current_user) : new_user_session_path %></h3>
-    <h3><%= link_to "Post List", posts_path %></h3>
+    <h3><%= link_to "My Page", user_path(current_user) %></h3>
+    <h3><%= link_to "Review List", posts_path %></h3>
     <h3><%= link_to "Olive Oil List", products_path %></h3>
 
     <div class="header-right-menu">
@@ -42,8 +42,8 @@
       <!-- コントローラーで操作する要素"menu" -->
       <nav data-hamburger-target="menu" class="mobile-nav hidden">
         <ul>
-          <li><%= link_to "My Page", current_user ? user_path(current_user) : new_user_session_path %></li>
-          <li><%= link_to "Post List", posts_path %></li>
+          <li><%= link_to "My Page", user_path(current_user) %></li>
+          <li><%= link_to "Review List", posts_path %></li>
           <li><%= link_to "Olive Oil List", products_path %></li>
         </ul>
         <ul>

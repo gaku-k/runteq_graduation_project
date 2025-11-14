@@ -37,9 +37,6 @@ gem "bootsnap", require: false
 # 認証
 gem "devise"
 
-# 翻訳
-# gem "rails-i18n"
-
 # 検索・ソート
 gem "ransack"
 
