@@ -43,6 +43,9 @@ gem "devise"
 # 検索・ソート
 gem "ransack"
 
+# メールサーバー
+gem "sendgrid-ruby"
+
 # ページネーション
 gem "kaminari"
 

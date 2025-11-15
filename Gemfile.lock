@@ -324,6 +324,7 @@ GEM
     ruby-vips (2.2.5)
       ffi (~> 1.12)
       logger
+    ruby_http_client (3.5.5)
     rubyzip (3.2.2)
     securerandom (0.4.1)
     selenium-webdriver (4.38.0)
@@ -332,6 +333,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
+    sendgrid-ruby (6.7.0)
+      ruby_http_client (~> 3.4)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -401,6 +404,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rails-omakase
   selenium-webdriver
+  sendgrid-ruby
   sprockets-rails
   stimulus-rails
   turbo-rails
