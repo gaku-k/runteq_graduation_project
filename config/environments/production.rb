@@ -96,7 +96,6 @@ Rails.application.configure do
     port: 587,
     # deviseでも記載している存在しないアドレス
     domain: "olive-base.onrender.com",
-    # フルメールアドレス
     user_name: "apikey",
     # SendGridで作成したAPIキー/.envにも記載した
     password: ENV["SENDGRID_API_KEY"],

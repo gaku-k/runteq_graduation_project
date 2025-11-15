@@ -1,0 +1,7 @@
+Rails.logger.info "--- ENVIRONMENT VARIABLE CHECK ---"
+Rails.logger.info "CLOUDINARY_API_KEY is set to: #{ENV["CLOUDINARY_API_KEY"].present?}"
+Rails.logger.info "CLOUDINARY_API_SECRET is set to: #{ENV["CLOUDINARY_API_SECRET"].present?}"
+Rails.logger.info "CLOUDINARY_CLOUD_NAME is set to: #{ENV["CLOUDINARY_CLOUD_NAME"].present?}"
+Rails.logger.info "SENDGRID_API_KEY is set to: #{ENV["SENDGRID_API_KEY"].present?}"
+Rails.logger.info "ADMIN_NAME is set to: #{ENV["ADMIN_NAME"].present?}"
+Rails.logger.info "--- END OF CHECK ---"
