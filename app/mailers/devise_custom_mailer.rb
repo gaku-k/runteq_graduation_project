@@ -1,58 +1,18 @@
+# app/mailers/devise_custom_mailer.rb
 class DeviseCustomMailer < Devise::Mailer
-  # DeviseのURLヘルパー(new_user_session_url, edit_user_password_urlを使いたい場合
+  # DeviseのURLヘルパーを使いたい場合
   include Devise::Controllers::UrlHelpers
+  include Devise::Mailers::Helpers 
 
+  # Deviseのデフォルトメソッドをオーバーライド
   def reset_password_instructions(record, token, opts={})
-    # record: 対象ユーザーオブジェクト token: パスワードリセット用トークン opts: 宛名などのオブション
-    opts[:to] = record.email
-    opts[:subject] = "パスワードリセットの手順"
-
-    # SendGridのAPIを使ってメールを送信
-    send_devise_mail(record, token, opts)
+    # headers_for, mail メソッドは Devise と ActionMailer の標準機能
+    # これにより、ActionMailerが config/environments/production.rb の設定に従って送信する
+    mail headers_for(:reset_password_instructions, record, opts).merge(to: record.email, subject: "パスワードリセットの手順")
   end
 
-  private
-
-  def send_devise_mail(record, token, opts)
-    mail_body = render_to_string(
-      template: "users/mailer/reset_password_instructions",
-      # デフォルトレイアウトを指定。
-      layout: "mailer",
-      locals: {
-        resource: record,
-        token: token,
-        opts: opts
-      }
-    )
-
-    # 2. SendGrid::Mailオブジェクトの作成
-    mail = SendGrid::Mail.new
-    mail.from = SendGrid::Email.new(email: "olivebase.info@gmail.com", name: "olive-base.onrender.com")
-    mail.subject = opts[:subject]
-
-    # 宛先の設定
-    personalization = SendGrid::Personalization.new
-    personalization.add_to(SendGrid::Email.new(email: opts[:to]))
-    mail.add_personalization(personalization)
-
-    # SendGrid APIを使って送信するメールの本文（コンテンツ）を設定する処理
-    # typeでコンテンツの種類、メールクライアントに「この本文はHTMLとして解釈してください」と伝える
-    # mail_body: render_to_stringによってレンダリングされていたHTML形式のメール本文
-    mail.add_content(SendGrid::Content.new(type: "text/html", value: mail_body))
-
-    # 3. APIクライアントの作成と送信
-    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
-
-    # 例: DeviseCustomMailer または SendGridクライアント初期化周辺
-    Rails.logger.info "DEBUG: SENDGRID_API_KEY presence: #{ENV['SENDGRID_API_KEY'].present?}"
-    Rails.logger.info "DEBUG: SENDGRID_API_KEY length: #{ENV['SENDGRID_API_KEY']&.length}"
-
-    begin
-      # 実際にメールを送信するHTTPリクエストを実行
-      response = sg.client.mail._send.post(request_body: mail.to_json)
-      Rails.logger.info "SendGrid Response: #{response.status_code}"
-    rescue Exception => e
-      Rails.logger.error "SendGrid Error: #{e.message}"
-    end
+  # Fromアドレスを明示的に指定する場合
+  def from(opts)
+    "olivebase.info@gmail.com"
   end
 end

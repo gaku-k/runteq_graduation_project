@@ -3,8 +3,6 @@ Rails.logger.info "CLOUDINARY_API_KEY is set to: #{ENV["CLOUDINARY_API_KEY"].pre
 Rails.logger.info "CLOUDINARY_API_SECRET is set to: #{ENV["CLOUDINARY_API_SECRET"].present?}"
 Rails.logger.info "CLOUDINARY_CLOUD_NAME is set to: #{ENV["CLOUDINARY_CLOUD_NAME"].present?}"
 Rails.logger.info "SENDGRID_API_KEY is set to: #{ENV["SENDGRID_API_KEY"].present?}"
-    # 例: DeviseCustomMailer または SendGridクライアント初期化周辺
-Rails.logger.info "DEBUG: SENDGRID_API_KEY presence: #{ENV['SENDGRID_API_KEY'].present?}"
 Rails.logger.info "DEBUG: SENDGRID_API_KEY length: #{ENV['SENDGRID_API_KEY']&.length}"
 Rails.logger.info "ADMIN_NAME is set to: #{ENV["ADMIN_NAME"].present?}"
 Rails.logger.info "--- END OF CHECK ---"
