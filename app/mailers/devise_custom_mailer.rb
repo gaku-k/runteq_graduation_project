@@ -42,6 +42,11 @@ class DeviseCustomMailer < Devise::Mailer
 
     # 3. APIクライアントの作成と送信
     sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+
+    # 例: DeviseCustomMailer または SendGridクライアント初期化周辺
+    Rails.logger.info "DEBUG: SENDGRID_API_KEY presence: #{ENV['SENDGRID_API_KEY'].present?}"
+    Rails.logger.info "DEBUG: SENDGRID_API_KEY length: #{ENV['SENDGRID_API_KEY']&.length}"
+
     begin
       # 実際にメールを送信するHTTPリクエストを実行
       response = sg.client.mail._send.post(request_body: mail.to_json)
