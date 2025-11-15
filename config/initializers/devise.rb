@@ -26,8 +26,6 @@ Devise.setup do |config|
   # with default "from" parameter.
   config.mailer_sender = "noreply@olive-base.onrender.com"
 
-  config.mailer = "DeviseCustomMailer"
-
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 

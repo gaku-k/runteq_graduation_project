@@ -89,6 +89,20 @@ Rails.application.configure do
   # パスワード再設定のフォームや、メール内で生成されるすべてのリンクのベースURLを指定する
   config.action_mailer.default_url_options = { host: "olive-base.onrender.com", protocol: "https" }
 
+  # SMTP(メール送信の標準プロトコル)サーバーを使って送信するという宣言.環境変数は.envからも確認できる
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: "smtp.sendgrid.net",
+    port: 587,
+    # deviseでも記載している存在しないアドレス
+    domain: "olive-base.onrender.com",
+    user_name: "apikey",
+    # SendGridで作成したAPIキー/.envにも記載した
+    password: ENV["SENDGRID_API_KEY"],
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
