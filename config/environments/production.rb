@@ -91,9 +91,6 @@ Rails.application.configure do
 
   # SMTP(メール送信の標準プロトコル)サーバーを使って送信するという宣言.環境変数は.envからも確認できる
   config.action_mailer.delivery_method = :sendgrid
-  config.action_mailer.smtp_settings = {
-    api_key: ENV['SENDGRID_API_KEY']
-  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
