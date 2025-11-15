@@ -32,7 +32,7 @@ class DeviseCustomMailer < Devise::Mailer
 
     # 宛先の設定
     personalization = SendGrid::Personalization.new
-    personalization.to = SendGrid::Email.new(email: opts[:to])
+    personalization.add_to = SendGrid::Email.new(email: opts[:to])
     mail.add_personalization(personalization)
 
     # SendGrid APIを使って送信するメールの本文（コンテンツ）を設定する処理
