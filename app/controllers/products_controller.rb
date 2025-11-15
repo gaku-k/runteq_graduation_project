@@ -225,23 +225,33 @@ class ProductsController < ApplicationController
 
   # admin用:画像なしで更新した場合に元ある画像をパージしないための処理
   def perform_image_update(product, new_images)
-    return unless new_images.present?
+    return unless new_images.present? || params[:product].key?(:images)
 
-    total_after_attach = product.images.size + new_images.size
-    excess = total_after_attach - 4
+    existing_attachments = product.images.attachments.to_a
+    # 送信された新しい画像と既存画像を結合
+    combined_images = existing_attachments + new_images
+    # 最終的にProductDraftに添付したい画像（最新の4枚）
+    images_to_attach = combined_images.last(4)
 
-    # excess > 0 であるか/追加文含めて4枚以上であるか
-    if excess.positive?
-      # 「Productとファイルの関係を表すテーブルの行」を直接操作するもの.「どの画像がいつ紐づいたか」を操作できる
-      attachments_to_purge = product.images.attachments
-        .reject { |att| att.created_at.nil? }
-        .sort_by(&:created_at)
-        .first(excess)
+    # 関連を一度削除することで、最終的に紐づけたい状態を確実に反映させる
+    draft.images.attachments.destroy_all
 
-      # .eachメソッドの短縮版。attachments_to_purge(配列)に対してpurgeを繰り返す
-      attachments_to_purge.each(&:purge)
+    images_to_attach.each do |item|
+      # object.is_a?() オブジェクトの型を調べるメソッド
+      if item.is_a?(ActiveStorage::Attachment)
+        # 既存のProductの画像（Attachment）の場合
+        # Blob（実際のファイルデータ）をコピーせずに、そのBlobを参照する新しいAttachmentを作成する
+        ActiveStorage::Attachment.create!(
+          name: "images",
+          record: draft,
+          blob: item.blob # 既存のBlobを再利用
+        )
+      else
+        # 新規にアップロードされたファイルの場合 (ActionDispatch::Http::UploadedFile)
+        # これは新しいBlobとして保存される
+        draft.images.attach(item)
+      end
     end
-    product.images.attach(new_images)
   end
 
   # 非admin用:画像なしで更新した場合に元ある画像をパージしないための処理

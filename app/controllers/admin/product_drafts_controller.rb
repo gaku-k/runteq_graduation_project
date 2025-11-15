@@ -25,6 +25,8 @@ class Admin::ProductDraftsController < ApplicationController
         @draft.product.update!(status: :published)
         @draft.update!(status: :approved)
       end
+      # トランザクション成功後、ProductDraftに紐づいていた画像を削除
+      purge_draft_images
       redirect_to admin_product_drafts_path, notice: "商品申請を承認し、商品を公開しました"
 
     rescue ActiveRecord::RecordInvalid => e
@@ -64,6 +66,9 @@ class Admin::ProductDraftsController < ApplicationController
         end
       end
 
+      # トランザクション成功後、ProductDraftに紐づいていた画像を削除
+      purge_draft_images
+
       # リダイレクトメッセージを分岐
       if @draft.request_type == "create_request"
           alert_message = "新規商品申請を却下し、作成されたProductを完全に削除しました。"
@@ -100,10 +105,11 @@ class Admin::ProductDraftsController < ApplicationController
 
       @draft.images.attachments.each do |attachment|
         blob = attachment.blob
-        @draft.product.images.attach(
-          io: StringIO.new(blob.download), # Blobの実体データをダウンロード
-          filename: blob.filename,
-          content_type: blob.content_type
+
+        ActiveStorage::Attachment.create!(
+        name: "images", # has_many_attached :images の関連付け名
+        record: @draft.product, # 紐づけるモデルインスタンス
+        blob: blob # ProductDraftが参照していたActiveStorage::Blobオブジェクトを再利用
         )
       end
     end
@@ -155,6 +161,12 @@ class Admin::ProductDraftsController < ApplicationController
     # new_olive_variety_idsには新規作成されたIDのみが入っているため、無条件で削除しても安全
     OliveVariety.where(id: variety_ids).destroy_all
     @draft.update_column(:new_olive_variety_ids, [])
+  end
+
+  def purge_draft_images
+    # destroy_all は ActiveStorage::Attachment レコードを削除するが、Blobは残る
+    # purge_later は Blob（Cloudinary上のファイル）を非同期で削除し、その前に Attachment を削除する
+    @draft.images.attachments.each(&:purge_later)
   end
 
   def authorize_admin
