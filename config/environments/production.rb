@@ -92,14 +92,14 @@ Rails.application.configure do
   # SMTP(メール送信の標準プロトコル)サーバーを使って送信するという宣言.環境変数は.envからも確認できる
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
+    address: "smtp.sendgrid.net",
     port: 587,
-    domain: "gmail.com",
+    # deviseでも記載している存在しないアドレス
+    domain: "olive-base.onrender.com",
     # フルメールアドレス
-    user_name: ENV["GMAIL_USERNAME"],
-    # アプリパスワード。Rails(アプリ)側がGoogleアカウントにアクセスするときに用いる
-    # Rails側が提示する値（アプリパスワード）と、Google側で作った値が一致すればアクセス許可
-    password: ENV["GMAIL_PASSWORD"],
+    user_name: "apikey",
+    # SendGridで作成したAPIキー/.envにも記載した
+    password: ENV["SENDGRID_API_KEY"],
     authentication: :plain,
     enable_starttls_auto: true
   }
