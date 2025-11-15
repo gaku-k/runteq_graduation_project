@@ -9,14 +9,15 @@ class DeviseCustomMailer < Devise::Mailer
   end
 
   # Deviseのメール送信をフックするプライベートメソッド
-  def reset_password_instructions(record, token, opts={})
-    # Devise::Mailerが提供する headers_for は使用する。
+  def reset_password_instructions(record, token)
+    # Devise::Mailerが提供する headers_for は使用するが、optsは空で渡す
+    # opts が渡されないため、headers_for のために空のハッシュを定義する
+    opts = {}
     headers = headers_for(:reset_password_instructions, record, opts)
     
     mail_message = mail(to: record.email, 
                         subject: "パスワードリセットの手順",
-                        template_name: 'reset_password_instructions',
-                        **opts)
+                        template_name: 'reset_password_instructions')
 
     # SendGrid::Mailオブジェクトを構築
     sg_mail = SendGrid::Mail.new
