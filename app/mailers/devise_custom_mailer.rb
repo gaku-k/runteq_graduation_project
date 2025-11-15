@@ -5,10 +5,13 @@ class DeviseCustomMailer < Devise::Mailer
   include Devise::Mailers::Helpers 
 
   # Deviseのデフォルトメソッドをオーバーライド
-  def reset_password_instructions(record, token, opts={})
-    # headers_for, mail メソッドは Devise と ActionMailer の標準機能
-    # これにより、ActionMailerが config/environments/production.rb の設定に従って送信する
-    mail headers_for(:reset_password_instructions, record, opts).merge(to: record.email, subject: "パスワードリセットの手順")
+  # バージョンによっては第3引数 (opts) が渡されないケースがあるらしい。Deviseの最新バージョンに対応するため、*args で予期しない引数をすべて受け取る
+  def reset_password_instructions(record, token, *args)
+    # ActionMailerの mail メソッドを使って送信
+    mail to: record.email, 
+         subject: "パスワードリセットの手順",
+         # Deviseがレンダリングするビューを指定
+         template_name: "reset_password_instructions"
   end
 
   # Fromアドレスを明示的に指定する場合
