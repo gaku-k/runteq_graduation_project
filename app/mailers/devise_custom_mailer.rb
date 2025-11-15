@@ -15,7 +15,8 @@ class DeviseCustomMailer < Devise::Mailer
     
     mail_message = mail(to: record.email, 
                         subject: "パスワードリセットの手順",
-                        template_name: 'reset_password_instructions')
+                        template_name: 'reset_password_instructions',
+                        **opts)
 
     # SendGrid::Mailオブジェクトを構築
     sg_mail = SendGrid::Mail.new
