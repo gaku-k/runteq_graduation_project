@@ -19,9 +19,9 @@ class DeviseCustomMailer < Devise::Mailer
       # デフォルトレイアウトを指定。
       layout: "mailer",
       locals: {
-        @resource: record,
-        @token: token,
-        @opts: opts
+        resource: record,
+        token: token,
+        opts: opts
       }
     )
 
