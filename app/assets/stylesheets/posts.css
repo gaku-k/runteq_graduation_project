@@ -40,6 +40,11 @@
   object-fit: cover; /* 画像を枠いっぱいにしつつ、縦横比を保持 */
 }
 
+.productname-link {
+  color: blue;
+  text-decoration: underline;
+}
+
 /* チャート＋レビューは縦並び */
 .chart-review-wrapper {
   display: flex;

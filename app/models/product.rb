@@ -3,7 +3,7 @@ class Product < ApplicationRecord
   has_many :olive_varieties, through: :product_olive_varieties
   has_many :posts
   has_many_attached :images
-  has_many :product_drafts
+  has_many :product_drafts, dependent: :destroy
   has_many :product_ratings, dependent: :destroy
   # 「特定商品の評価者」というアソシエーションを付与。実際にはuserを指定していることをsourceで明記
   has_many :rated_users, through: :product_ratings, source: :user

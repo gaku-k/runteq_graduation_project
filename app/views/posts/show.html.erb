@@ -22,7 +22,7 @@
         <div class="chart-review-wrapper"> 
           <% if @post.product_id.present? %>
             <div class="chart-section">
-              <%= link_to @post.product_name, product_path(@post.product_id) %>
+              <%= link_to @post.product_name, product_path(@post.product_id), class: "productname-link"%>
 
               <% product_rating = @post.product.product_ratings.find_by(user: @post.user) %>
               <% if product_rating.present? %>
