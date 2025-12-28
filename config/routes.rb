@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "comments/create"
+  get "comments/destroy"
   # devise_for :users
   # どのCを使うかを明示的に表しており、デフォルトのままだとコマンドで生成したカスタムCを使ってくれない
   devise_for :users, controllers: {
@@ -26,14 +28,21 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :posts, only: [ :index, :show, :new, :create, :destroy ]
+  resources :posts, only: [ :index, :show, :new, :create, :destroy ] do
+    resources :comments, only: [ :create ]
+  end
+
   resources :products, only: [ :index, :show, :new, :create, :edit, :update, :destroy ] do
     # ネストすることで、どの商品に紐づいた評価かをURL構造で判断しやすくなる
     # またコントローラー側でparams[:product_id]から商品を特定できる
     resources :product_ratings, only: [ :create, :update ]
     # product/showページからその商品に基づいた投稿を行う
     resources :posts, only: [ :new ]
+    resources :comments, only: [ :create ]
   end
+
+  # destroyはネストしないほうが良い。間違いではないが、孫コメントなどで直接post/productにぶら下がっていない場合、削除対象の特定ロジックが壊れやすくなるらしい
+  resources :comments, only: :destroy
 
   # マイページへのヘルパーをmy_page_pathに指定/コントローラーはusers/#showのまま
   # なくてもusersでカバーできるが、マイページはクリーンな/userというルーティングの意図が伝わりやすい
