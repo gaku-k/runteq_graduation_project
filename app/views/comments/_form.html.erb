@@ -1,0 +1,4 @@
+<%= form_with model: [commentable, Comment.new], local: true do |f| %>
+  <%= f.text_area :body, rows: 3 %>
+  <%= f.submit "コメントする" %>
+<% end %>
