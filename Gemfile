@@ -56,14 +56,17 @@ gem "cssbundling-rails"
 gem "bootstrap"
 
 # 画像処理
-# リサイズ
+# リサイズ・クロップをRails向けに定義。“画像変換用メソッド”が使えるようになる
 gem "image_processing", "~> 1.2"
-# リサイズ、フォーマット変換など
+# 明示的に書かなくともimage_processing が内部的に使用する。加工処理のコマンドを実行する
 gem "mini_magick"
 # クラウドストレージへの配送係
 # gem "aws-sdk-s3", require: false
 # s3は有料ということで、無料で使うサービスを探す
 gem "cloudinary"
+
+# コメントの階層構造を効率的に扱える
+gem "ancestry"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
