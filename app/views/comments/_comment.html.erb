@@ -1,0 +1,17 @@
+<div><%= comment.user.name %></div>
+<div><%= comment.body %></div>
+
+<!-- 返信フォーム -->
+<!-- 親コメントのid = comment.idをparent_idにセットして、返信するようにしている。-->
+<%= render "comments/form",
+  commentable: commentable,
+  parent_id: comment.id
+%>
+
+<!-- 子コメント -->
+<% comment.children.each do |child| %>
+  <%= render "comments/comment",
+    comment: child,
+    commentable: commentable
+  %>
+<% end %>

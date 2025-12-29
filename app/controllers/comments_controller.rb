@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
     # もしフォームからparent_idが送られてきたら(概念。Commentsテーブルにはないがancestryを計算するための材料になる)
     if params[:parent_id]
       parent = Comment.find(params[:parent_id])
-      # 親への返信を生成するための箱を用意。ancestryが追加してくれるメソッド
+      # 親への返信を生成するための箱を用意。ancestryが追加してくれる関連付けメソッド
       @comment = parent.children.build(comment_params)
       @comment.commentable = @commentable
     else

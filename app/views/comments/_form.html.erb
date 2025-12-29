@@ -1,4 +1,9 @@
 <%= form_with model: [commentable, Comment.new], local: true do |f| %>
+  <!-- parent_id = 親コメントidはコメント単品のパーシャルで定義 -->
+  <% if defined?(parent_id) && parent_id.present? %>
+    <%= f.hidden_field :parent_id, value: parent_id %>
+  <% end %>
+
   <%= f.text_area :body, rows: 3 %>
-  <%= f.submit "コメントする" %>
+  <%= f.submit "送信" %>
 <% end %>

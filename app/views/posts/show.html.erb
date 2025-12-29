@@ -48,5 +48,13 @@
     <% end %>
   </div>
 
+  <div>コメント</div>
   <%= render "comments/form", commentable: @post %>
+
+  <% @comments.each do |comment| %>
+    <%= render "comments/comment",
+      comment: comment,
+      commentable: @post
+    %>
+  <% end %>
 </div>
