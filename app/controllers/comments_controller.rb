@@ -1,5 +1,7 @@
 class CommentsController < ApplicationController
   before_action :set_commentable, only: [ :create ]
+  before_action :authenticate_user!, only: [ :create, :destroy ]
+
   def create
     # もしフォームからparent_idが送られてきたら(概念。Commentsテーブルにはないがancestryを計算するための材料になる)
     if params[:parent_id]
