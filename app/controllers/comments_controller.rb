@@ -21,6 +21,15 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    @comment = Comment.find(params[:id])
+    commentable = @comment.commentable
+
+    if @comment.user == current_user
+      @comment.destroy
+      redirect_to commentable, notice: "コメントを削除しました。"
+    else
+      redirect_to commentable, danger: "権限がありません。"
+    end
   end
 
   private

@@ -42,7 +42,7 @@ Rails.application.routes.draw do
   end
 
   # destroyはネストしないほうが良い。間違いではないが、孫コメントなどで直接post/productにぶら下がっていない場合、削除対象の特定ロジックが壊れやすくなるらしい
-  resources :comments, only: :destroy
+  resources :comments, only: [ :destroy ]
 
   # マイページへのヘルパーをmy_page_pathに指定/コントローラーはusers/#showのまま
   # なくてもusersでカバーできるが、マイページはクリーンな/userというルーティングの意図が伝わりやすい
