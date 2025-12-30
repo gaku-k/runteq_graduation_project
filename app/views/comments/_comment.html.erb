@@ -1,19 +1,53 @@
-<div><%= comment.user.name %></div>
-<div><%= comment.body %></div>
-<% if comment.user == current_user %>
-  <%= link_to "削除",
-    comment_path(comment),
-    method: :delete,
-    data: { confirm: "削除しますか？" }
-  %>
-<% end %>
+<div data-controller="reply">
+  <div class="comment-container">
+    <div class="comment-item-r">
+      <%= link_to user_path(comment.user) do %>
+        <% if comment.user.avatar.attached? %>
+          <%= image_tag commnet.user.avatar.variant(resize_to_fill: [300, 300]),
+            class: "rounded-full user-avatar-s"%>
+        <% else %>
+          <%= image_tag "44775.jpg",
+            class: "rounded-full user-avatar-s" %>
+        <% end %>
+      <% end %>
+    </div>
 
-<!-- 返信フォーム -->
-<!-- 親コメントのid = comment.idをparent_idにセットして、返信するようにしている。-->
-<%= render "comments/form",
-  commentable: commentable,
-  parent_id: comment.id
-%>
+    <div class="comment-item-l">
+      <div class="comment-user-name">
+        <%= comment.user.name %>
+      </div>
+      <div class="comment-body">
+        <%= comment.body %>
+      </div>
+    </div>
+  </div>
+
+  <div class="reaction-container">
+    <button
+      type="button"
+      data-action="click->reply#toggle">
+      <i class="fa-solid fa-reply"></i>
+    </button>
+
+    <% if comment.user == current_user %>
+      <%= link_to comment_path(comment),
+        method: :delete,
+        data: { confirm: "削除しますか？" },
+        class: "trash-can" do%>
+        <i class="fas fa-trash"></i>
+      <% end %>
+    <% end %>  
+  </div>
+
+  <!-- 返信フォーム -->
+  <div class="hidden" data-reply-target="form">
+    <!-- 親コメントのid = comment.idをparent_idにセットして、返信するようにしている。-->
+    <%= render "comments/form",
+      commentable: commentable,
+      parent_id: comment.id
+    %>
+  </div>
+</div>
 
 <!-- 子コメント -->
 <% comment.children.each do |child| %>

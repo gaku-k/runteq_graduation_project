@@ -4,6 +4,14 @@
     <%= f.hidden_field :parent_id, value: parent_id %>
   <% end %>
 
-  <%= f.text_area :body, rows: 3 %>
-  <%= f.submit "送信" %>
+  <div class="comment-form-container">
+    <div class="comment-text">
+      <%= f.text_area :body, rows: 3 %>
+    </div>
+    <div class="comment-submit">
+      <%= f.button type: "submit" do %>
+        <i class="fa-solid fa-paper-plane"></i>
+      <% end %>
+    </div>
+  </div>
 <% end %>
