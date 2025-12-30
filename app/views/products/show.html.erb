@@ -136,4 +136,14 @@
       <%= f.submit @product_rating.persisted? ? "更新" : "登録" %>
     </div>
   <% end %>
+
+  <div>コメント</div>
+  <%= render "comments/form", commentable: @product %>
+
+  <% @comments.each do |comment| %>
+    <%= render "comments/comment",
+      comment: comment,
+      commentable: @product
+    %>
+  <% end %>
 </div>

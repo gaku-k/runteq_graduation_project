@@ -25,6 +25,8 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    # where(ancestry: nil): トップレベルのコメントのみ取得し、子コメントはancestry経由でたどる
+    @comments = @post.comments.includes(:user).where(ancestry: nil)
   end
 
   def new

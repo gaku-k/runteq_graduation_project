@@ -27,6 +27,7 @@ class ProductsController < ApplicationController
     # find_or_create_byと違い保存はしない
     @product_rating = @product.product_ratings.find_or_initialize_by(user: current_user)
     # メソッドはモデルに記載。レーダーチャート用の平均値, 評価件数をビューに渡す
+    @comments = @product.comments.includes(:user).where(ancestry: nil)
   end
 
   def new

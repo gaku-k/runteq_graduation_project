@@ -96,7 +96,6 @@
 
 .trash-can {
   margin-left: auto; /* 自動余白で右へ押し出す */
-  color: #727272;
 }
 
 .trash-can:hover {

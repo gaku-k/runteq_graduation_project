@@ -42,9 +42,19 @@
 
   <div class="reaction-container">
     <% if @post.user == current_user %>
-      <%= link_to post_path(@post.id),method: :delete, data: { confirm: "削除しますか？" }, class: "trash-can" do %>
+      <%= link_to post_path(@post.id), method: :delete, data: { confirm: "削除しますか？" }, class: "trash-can" do %>
         <i class="fas fa-trash"></i>
       <% end %>
     <% end %>
   </div>
+
+  <div>コメント</div>
+  <%= render "comments/form", commentable: @post %>
+
+  <% @comments.each do |comment| %>
+    <%= render "comments/comment",
+      comment: comment,
+      commentable: @post
+    %>
+  <% end %>
 </div>

@@ -15,6 +15,7 @@
 @import "admin_show.css";
 @import "product_form.css";
 @import "pages.css";
+@import "comment.css";
 
 @tailwind base;
 @tailwind components;

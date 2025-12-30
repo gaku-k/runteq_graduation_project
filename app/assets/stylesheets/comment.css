@@ -1,0 +1,56 @@
+.comment-container {
+  display: flex;
+  gap: 8px;
+}
+
+.comment-item-r {
+  width: 35px;
+  /* 縮小しない */
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.comment-item-l {
+
+  display: flex;
+  flex-direction: column;
+  /* 最小の制約を無視し、対抗要素のアイコンの形状を保護する狙い */
+  min-width: 0;
+}
+
+/* ユーザー名と本文にメリハリ */
+.comment-user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.comment-body {
+  font-size: 1rem;
+  color: #555;
+  word-break: break-word;
+}
+
+/* ------------------ */
+/* 送信フォーム */
+.hidden {
+  display: none;
+}
+
+.comment-form-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+}
+
+.comment-text textarea {
+  width: 100%;
+  background-color: #d9d9d9;
+  padding: 5px;
+}
+
+.comment-submit {
+  display: inline-block;
+  text-align: right;
+}

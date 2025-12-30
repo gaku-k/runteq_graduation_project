@@ -1,0 +1,17 @@
+<%= form_with model: [commentable, Comment.new], local: true do |f| %>
+  <!-- parent_id = 親コメントidはコメント単品のパーシャルで定義 -->
+  <% if defined?(parent_id) && parent_id.present? %>
+    <%= f.hidden_field :parent_id, value: parent_id %>
+  <% end %>
+
+  <div class="comment-form-container">
+    <div class="comment-text">
+      <%= f.text_area :body, rows: 3 %>
+    </div>
+    <div class="comment-submit">
+      <%= f.button type: "submit" do %>
+        <i class="fa-solid fa-paper-plane"></i>
+      <% end %>
+    </div>
+  </div>
+<% end %>
