@@ -1,6 +1,7 @@
 class Post < ApplicationRecord
   has_many_attached :images
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :like_posts, dependent: :destroy
 
   belongs_to :user
   belongs_to :product, optional: true

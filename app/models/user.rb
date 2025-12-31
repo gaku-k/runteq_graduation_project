@@ -48,6 +48,7 @@ class User < ApplicationRecord
   has_many :contacts, dependent: :destroy
   has_one_attached :avatar
   has_many :comments, dependent: :destroy
+  has_many :like_posts, dependent: :destroy
 
   validates :name, presence: true, length: { minimum: 2, maximum: 30 }
   validates :public_id, presence: true, uniqueness: true
