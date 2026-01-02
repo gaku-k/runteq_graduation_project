@@ -46,6 +46,16 @@
         <i class="fas fa-trash"></i>
       <% end %>
     <% end %>
+
+    <% if current_user.liked_post?(@post) %>
+      <%= button_to "いいね解除",
+        post_like_posts_path(@post),
+        method: :delete %>
+    <% else %>
+      <%= button_to "いいね",
+        post_like_posts_path(@post),
+        method: :post %>
+    <% end %>
   </div>
 
   <div>コメント</div>

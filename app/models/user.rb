@@ -68,6 +68,11 @@ class User < ApplicationRecord
     public_id
   end
 
+  # ビューモデルで'currentユーザーが'その投稿をいいねしているかを判定する
+  def liked_post?(post)
+    like_posts.exists?(post_id: post.id)
+  end
+
   private
   def generate_public_id
     # public_idが存在しなければ自動生成する
