@@ -48,6 +48,7 @@ class User < ApplicationRecord
   has_many :contacts, dependent: :destroy
   has_one_attached :avatar
   has_many :comments, dependent: :destroy
+  has_many :like_posts, dependent: :destroy
 
   validates :name, presence: true, length: { minimum: 2, maximum: 30 }
   validates :public_id, presence: true, uniqueness: true
@@ -65,6 +66,11 @@ class User < ApplicationRecord
     # to_paramメソッドを定義しない場合、Railsはデフォルトでid.to_s（IDの文字列）を使う
     # public_idを返すように定義することで、user_path(post.user)としたときに、URLのパス部分にpost.user.public_idの値が埋めこまれる
     public_id
+  end
+
+  # ビューモデルで'currentユーザーが'その投稿をいいねしているかを判定する
+  def liked_post?(post)
+    like_posts.exists?(post_id: post.id)
   end
 
   private

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "like_posts/create"
+  get "like_posts/destroy"
   get "comments/create"
   get "comments/destroy"
   # devise_for :users
@@ -30,6 +32,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   resources :posts, only: [ :index, :show, :new, :create, :destroy ] do
     resources :comments, only: [ :create ]
+    resource :like_posts, only: [ :create, :destroy ]
   end
 
   resources :products, only: [ :index, :show, :new, :create, :edit, :update, :destroy ] do

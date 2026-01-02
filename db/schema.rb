@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_28_022206) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_31_002229) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -64,6 +64,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_022206) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_contacts_on_user_id"
+  end
+
+  create_table "like_posts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "post_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["post_id"], name: "index_like_posts_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_like_posts_on_user_id_and_post_id", unique: true
+    t.index ["user_id"], name: "index_like_posts_on_user_id"
   end
 
   create_table "olive_varieties", force: :cascade do |t|
@@ -160,6 +170,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_022206) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "users"
   add_foreign_key "contacts", "users"
+  add_foreign_key "like_posts", "posts"
+  add_foreign_key "like_posts", "users"
   add_foreign_key "product_drafts", "products"
   add_foreign_key "product_drafts", "users"
   add_foreign_key "product_olive_varieties", "product_drafts"
