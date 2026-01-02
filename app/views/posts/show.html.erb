@@ -41,20 +41,20 @@
   </div>
 
   <div class="reaction-container">
-    <% if @post.user == current_user %>
-      <%= link_to post_path(@post.id), method: :delete, data: { confirm: "削除しますか？" }, class: "trash-can" do %>
-        <i class="fas fa-trash"></i>
+    <% if user_signed_in? && current_user.liked_post?(@post) %>
+      <%= button_to post_like_posts_path(@post), method: :delete do %>
+        <i class="fa-solid fa-heart"></i>
+      <% end %>
+    <% else %>
+      <%= button_to post_like_posts_path(@post), method: :post do %>
+        <i class="fa-regular fa-heart"></i>
       <% end %>
     <% end %>
 
-    <% if current_user.liked_post?(@post) %>
-      <%= button_to "いいね解除",
-        post_like_posts_path(@post),
-        method: :delete %>
-    <% else %>
-      <%= button_to "いいね",
-        post_like_posts_path(@post),
-        method: :post %>
+    <% if @post.user == current_user %>
+      <%= button_to post_path(@post.id), method: :delete, data: { confirm: "削除しますか？" }, class: "trash-can" do %>
+        <i class="fas fa-trash"></i>
+      <% end %>
     <% end %>
   </div>
 
