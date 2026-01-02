@@ -94,6 +94,12 @@
   justify-content: space-between; /* 今後メニューが並ぶことを見越してみる */
 }
 
+/* いいねアイコンと数横並び */
+.like-wrapper {
+  display: flex;
+  gap: 1px;
+}
+
 .trash-can {
   margin-left: auto; /* 自動余白で右へ押し出す */
 }
