@@ -1,18 +1,14 @@
 Rails.application.routes.draw do
-  get "like_posts/create"
-  get "like_posts/destroy"
-  get "comments/create"
-  get "comments/destroy"
   # devise_for :users
   # どのCを使うかを明示的に表しており、デフォルトのままだとコマンドで生成したカスタムCを使ってくれない
   devise_for :users, controllers: {
     # 左: Deviseのコントローラーを　右: 自分のアプリ内のコントローターに置き換えている
     registrations: "users/registrations",
     sessions: "users/sessions",
-    passwords: "users/passwords"
+    passwords: "users/passwords",
     # 必要に応じて以下も追加
     # confirmations: "users/confirmations",
-    # omniauth_callbacks: "users/omniauth_callbacks",
+    omniauth_callbacks: "users/omniauth_callbacks"
     # unlocks: "users/unlocks"
   }
 

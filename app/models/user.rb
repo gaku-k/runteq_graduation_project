@@ -3,7 +3,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   # :database_authenticatable :対応C sessions_controller.rb
   # 用途 :ログイン/ログアウト
@@ -34,7 +35,7 @@ class User < ApplicationRecord
   # 用途 :アカウントロック解除（不正ログイン防止のためのアカウントロック）
 
   # :omniauthable :対応C omniauth_callbacks_controller.rb
-  # 用途 :外部サービス連携認証（Google, Twitterなど)
+  # 用途 :外部サービス連携認証（Google, Twitterなど)/googleログイン実装で使用した
 
   before_validation :generate_public_id
 
@@ -71,6 +72,16 @@ class User < ApplicationRecord
   # ビューモデルで'currentユーザーが'その投稿をいいねしているかを判定する
   def liked_post?(post)
     like_posts.exists?(post_id: post.id)
+  end
+
+  # Googleから受け取った情報を元にユーザーを探す、または作成するメソッド/「どのサービス（provider）の」「どのID（uid）か」
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      # passwordだけgoogleログイン専用ユーザー用に、Deviseがランダムな文字列を用意している。ユーザーはパスワードを入力しない。
+      user.password = Devise.friendly_token[0, 20]
+      user.name = auth.info.name
+    end
   end
 
   private

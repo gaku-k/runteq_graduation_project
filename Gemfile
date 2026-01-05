@@ -37,6 +37,11 @@ gem "bootsnap", require: false
 # 認証
 gem "devise"
 
+# googleログインで必要
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
+
 # 翻訳
 # gem "rails-i18n"
 
