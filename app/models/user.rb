@@ -76,12 +76,30 @@ class User < ApplicationRecord
 
   # Googleから受け取った情報を元にユーザーを探す、または作成するメソッド/「どのサービス（provider）の」「どのID（uid）か」
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      # passwordだけgoogleログイン専用ユーザー用に、Deviseがランダムな文字列を用意している。ユーザーはパスワードを入力しない。
-      user.password = Devise.friendly_token[0, 20]
-      user.name = auth.info.name
+    user = find_by(provider: auth.provider, uid: auth.uid)
+    # 過去に同じSNSでログインしていればuserを返して終了
+    return user if user
+
+    # SNS未連携、emailはDBに存在する場合、重複を防ぐために情報を更新する
+    user = find_by(email: auth.info.email)
+
+    if user
+      user.update!(
+        provider: auth.provider,
+        uid: auth.uid
+      )
+    else
+      user = create!(
+        provider: auth.provider,
+        uid: auth.uid,
+        email: auth.info.email,
+        # passwordだけgoogleログイン専用ユーザー用に、Deviseがランダムな文字列を用意している。ユーザーはパスワードを入力しない。
+        password: Devise.friendly_token[0, 20],
+        name: auth.info.name
+      )
     end
+    # updateの戻り値はtrue。明示的にuserオブジェクトを返す必要がある
+    user
   end
 
   private
