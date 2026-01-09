@@ -5,4 +5,6 @@ Rails.logger.info "CLOUDINARY_CLOUD_NAME is set to: #{ENV["CLOUDINARY_CLOUD_NAME
 Rails.logger.info "SENDGRID_API_KEY is set to: #{ENV["SENDGRID_API_KEY"].present?}"
 Rails.logger.info "DEBUG: SENDGRID_API_KEY length: #{ENV['SENDGRID_API_KEY']&.length}"
 Rails.logger.info "ADMIN_NAME is set to: #{ENV["ADMIN_NAME"].present?}"
+Rails.logger.info "GOOGLE_CLIENT_ID is set to: #{ENV["GOOGLE_CLIENT_ID"].present?}"
+Rails.logger.info "GOOGLE_CLIENT_SECRET is set to: #{ENV["GOOGLE_CLIENT_SECRET"].present?}"
 Rails.logger.info "--- END OF CHECK ---"
