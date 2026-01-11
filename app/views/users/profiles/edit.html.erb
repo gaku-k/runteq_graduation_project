@@ -1,0 +1,28 @@
+<div class="auth-card-container">
+  <div class="auth-card">
+    <h2>プロフィール編集</h2>
+
+    <%= form_with model: @user,
+              url: users_profile_path,
+              method: :patch,
+              local: true do |f| %>
+
+      <%= render "users/shared/error_messages", resource: @user %>
+
+      <div>
+        <%= f.label :avatar %>
+        <%= f.file_field :avatar %>
+      </div>
+
+      <div class="field">
+        <%= f.label :name %><br />
+        <!-- autofocus: true: 開いたら自動でカーソルが当たる -->
+        <%= f.text_field :name, autofocus: true %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Update", class: "w-full" %>
+      </div>
+    <% end %>
+  </div>
+</div>

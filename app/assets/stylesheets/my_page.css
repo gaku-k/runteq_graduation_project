@@ -13,21 +13,26 @@
   gap: 1rem;
 }
 
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* マイページ下線との間隔 */
+  margin-bottom: 8px;
+}
+
 .profile-link-container {
-  /* 幅をコンテンツに合わせる */
-  width: fit-content;
-  /* divがブロック要素なので親がFlexboxでないと余白ができない 
-  だから上の設定が必要 */
   margin-left: auto;
-  padding-right: 16px;
+  padding-right: 14px;
 }
 
 .edit-profile-button {
-  /* ブロック要素のままでは要素が縦に並び余白がない。
-  だからインライン要素(要素が横に並ぶ)を加える */
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
   /* 角を丸くする */
-  border-radius: 10px;
+  border-radius: 13px;
   background-color: #7D9D76;
   color: black;
   padding: 4px 16px;
