@@ -102,6 +102,11 @@ class User < ApplicationRecord
     user
   end
 
+  # 情報分裂を防ぐため、パスワード、email変更ページを利用不可にする
+  def google_account?
+    provider == "google_oauth2"
+  end
+
   private
   def generate_public_id
     # public_idが存在しなければ自動生成する

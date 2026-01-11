@@ -27,11 +27,19 @@
     </div>
   </div>
 
-  <% if @user == current_user %>
-    <div class="profile-link-container">
-      <%= link_to "プロフィール編集", edit_user_registration_path, class: "edit-profile-button" %>
-    </div>
-  <% end %>
+  <div class="profile-actions">
+    <% if @user == current_user %>
+      <div class="profile-link-container">
+        <%= link_to "プロフィール編集", edit_users_profile_path, class: "edit-profile-button" %>
+      </div>
+
+      <% unless current_user.google_account? %>
+        <div class="profile-link-container">
+          <%= link_to "ログイン情報の変更", edit_user_registration_path, class: "edit-profile-button" %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
 
   <hr>
   

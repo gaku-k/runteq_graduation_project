@@ -5,6 +5,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [ :create ]
   # updateではユーザーのcurrent_passwordを求める。その他必須パラメーターに違いがあるのでcreateとupdateで場合わけする
   before_action :configure_account_update_params, only: [ :update ]
+  # Googleログインユーザーはパス変更、email変更不可
+  before_action :reject_google_user, only: [ :edit, :update ]
 
   # GET /resource/sign_up
   # def new
@@ -60,6 +62,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def after_sign_up_path_for(resource)
     # ユーザーがアクセスしようとしていたページ(Stored Location)か、それがなければルートURLに移動する
     super(resource)
+  end
+
+  def reject_google_user
+    # google_account? はUserモデルのカスタムメソッド。
+    if current_user.google_account?
+      redirect_to root_path, alert: "Googleログインの方はパスワード変更はできません"
+    end
   end
 
   # The path used after sign up for inactive accounts.

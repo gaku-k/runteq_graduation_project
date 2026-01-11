@@ -5,17 +5,6 @@
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= render "users/shared/error_messages", resource: resource %>
 
-      <div>
-        <%= f.label :avatar %>
-        <%= f.file_field :avatar %>
-      </div>
-
-      <div class="field">
-        <%= f.label :name %><br />
-        <!-- autofocus: true: 開いたら自動でカーソルが当たる -->
-        <%= f.text_field :name, autofocus: true %>
-      </div>
-
       <div class="field">
         <%= f.label :email %><br />
         <!-- autocomplete: "email" : 過去に入力したメールアドレス候補が出る-->
