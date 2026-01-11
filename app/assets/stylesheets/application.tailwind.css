@@ -146,6 +146,32 @@ body {
   background-color: #6a8c63; /* 少し濃い緑 */
 }
 
+/* goggeアカウントでログインボタン */
+.oauth-buttons {
+  margin-top: 16px;
+}
+
+.oauth-buttons form button:hover {
+  background-color: #6a8c63;
+}
+
+.oauth-buttons form button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: inset 3px;
+  border-color: #7D9D76;
+  padding: 9px 30px;
+  border-radius: 28.5px;
+  cursor: pointer;          
+  font-size: 16px;
+  /* フレックスbox内の見出しボタンを揃えたい */
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 100%;
+}
+
 /* -------------------------------------- */
 
 /* 赤いアスタリスクで入力必須を表現 */
