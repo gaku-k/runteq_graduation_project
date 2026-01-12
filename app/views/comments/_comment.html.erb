@@ -3,7 +3,7 @@
     <div class="comment-item-r">
       <%= link_to user_path(comment.user) do %>
         <% if comment.user.avatar.attached? %>
-          <%= image_tag commnet.user.avatar.variant(resize_to_fill: [300, 300]),
+          <%= image_tag comment.user.avatar.variant(resize_to_fill: [300, 300]),
             class: "rounded-full user-avatar-s"%>
         <% else %>
           <%= image_tag "44775.jpg",
