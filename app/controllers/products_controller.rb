@@ -230,27 +230,23 @@ class ProductsController < ApplicationController
 
     existing_attachments = product.images.attachments.to_a
     # 送信された新しい画像と既存画像を結合
-    combined_images = existing_attachments + new_images
+    combined_images = existing_attachments + (new_images || [])
     # 最終的にProductDraftに添付したい画像（最新の4枚）
     images_to_attach = combined_images.last(4)
 
     # 関連を一度削除することで、最終的に紐づけたい状態を確実に反映させる
-    draft.images.attachments.destroy_all
+    product.images.detach
 
     images_to_attach.each do |item|
       # object.is_a?() オブジェクトの型を調べるメソッド
       if item.is_a?(ActiveStorage::Attachment)
         # 既存のProductの画像（Attachment）の場合
         # Blob（実際のファイルデータ）をコピーせずに、そのBlobを参照する新しいAttachmentを作成する
-        ActiveStorage::Attachment.create!(
-          name: "images",
-          record: draft,
-          blob: item.blob # 既存のBlobを再利用
-        )
+        product.images.attach(item.blob)
       else
         # 新規にアップロードされたファイルの場合 (ActionDispatch::Http::UploadedFile)
         # これは新しいBlobとして保存される
-        draft.images.attach(item)
+        product.images.attach(item)
       end
     end
   end
