@@ -1,7 +1,9 @@
 class Post < ApplicationRecord
-  has_many_attached :images
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :like_posts, dependent: :destroy
+  has_many_attached :images
+  # Concernsで共通化したwebp化処理
+  include WebpAttachable
 
   belongs_to :user
   belongs_to :product, optional: true
@@ -23,6 +25,16 @@ class Post < ApplicationRecord
   end
 
   private
+
+  # モデル側で指定したアタッチメント名を動的に指定し、webp化(Concerns)
+  def attachments
+    images.attachments
+  end
+
+  # webp化し際attachする。上は繰り返し処理の列挙用。
+  def attachable
+    images
+  end
 
   def images_count_within_limit
     if images.attached? && images.count > 4

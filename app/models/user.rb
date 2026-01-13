@@ -47,9 +47,11 @@ class User < ApplicationRecord
   # 「特定ユーザーが評価した」商品というアソシエーションを付与。実際にはproductを指定していることをsourceで明記
   has_many :rated_products, through: :product_ratings, source: :product
   has_many :contacts, dependent: :destroy
-  has_one_attached :avatar
   has_many :comments, dependent: :destroy
   has_many :like_posts, dependent: :destroy
+  has_one_attached :avatar
+  # Concernsで共通化したwebp化処理
+  include WebpAttachable
 
   validates :name, presence: true, length: { minimum: 2, maximum: 30 }
   validates :public_id, presence: true, uniqueness: true
@@ -108,6 +110,19 @@ class User < ApplicationRecord
   end
 
   private
+
+  # webp化にループ処理がある。この時avatarに画像がない場合は空配列を、ある場合はその値をnilなどを含まず確実に一つの値だけを渡したい
+  def attachments
+    # 空配列[]にeachメソッドを用いても何も返さない
+    return [] unless avatar.attached?
+    [ avatar.attachment ]
+  end
+
+  # webp化し際attachする。上は繰り返し処理の列挙用。
+  def attachable
+    avatar
+  end
+
   def generate_public_id
     # public_idが存在しなければ自動生成する
     self.public_id ||= SecureRandom.hex(6)
