@@ -13,6 +13,7 @@ RUN apt-get update -qq && \
       curl \
       libjemalloc2 \
       libvips \
+      imagemagick \
       postgresql-client \
       tzdata
 
