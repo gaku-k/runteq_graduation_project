@@ -108,6 +108,7 @@ class ProductsController < ApplicationController
     @olive_varieties = OliveVariety.where.not(name: nil)
   end
 
+  # 保存の成否に success = true/false をおき、trueかつ新規画像があれば最後にwebp化する。
   def update
     @product = Product.find(params[:id])
 
@@ -120,15 +121,17 @@ class ProductsController < ApplicationController
       # 引数は元のストロングパラメーター(product_params)ではなく上述のimagesのキーを除外したパラメーターを渡す
       # has_many_attachedの場合、imagesをnilで更新すると空の配列で更新しようとする(Active Recordのデフォルト動作)
       if @product.update(update_params)
+        success = true
         redirect_to products_path, success: "商品情報が即座に更新されました"
       else
+        success = false
         flash.now[:danger] = "商品追加に失敗しました"
         @olive_varieties = OliveVariety.where.not(name: nil)
         render :edit, status: :unprocessable_entity
       end
 
     else
-      # Productモデルで has_many :product_drafts と定義しているので、Railsが自動的に関連メソッド(product_drafts)を生成する
+      # Productモデルで has_many :product_drafts と定義
       # buildメソッド:関連モデル(ProductDraft)の新インスタンスを生成する
       @draft = @product.product_drafts.find_by(status: :pending) || @product.product_drafts.build
       # ========================================
@@ -183,12 +186,21 @@ class ProductsController < ApplicationController
           # ===============================
           @draft.update!(new_olive_variety_ids: merged_ids)
         end
+          success = true
           redirect_to products_path, notice: "商品更新リクエストを管理者へ送信しました"
 
       rescue ActiveRecord::RecordInvalid => e
+        success = false
         flash.now[:danger] = "商品追加に失敗しました"
         @olive_varieties = OliveVariety.where.not(name: nil)
         render :edit, status: :unprocessable_entity
+      end
+    end
+
+    if success
+      # 新規の画像があればwebp化処理
+      if product_params[:images].present?
+        @product.convert_images_to_webp!
       end
     end
   end
@@ -230,27 +242,23 @@ class ProductsController < ApplicationController
 
     existing_attachments = product.images.attachments.to_a
     # 送信された新しい画像と既存画像を結合
-    combined_images = existing_attachments + new_images
+    combined_images = existing_attachments + (new_images || [])
     # 最終的にProductDraftに添付したい画像（最新の4枚）
     images_to_attach = combined_images.last(4)
 
     # 関連を一度削除することで、最終的に紐づけたい状態を確実に反映させる
-    draft.images.attachments.destroy_all
+    product.images.detach
 
     images_to_attach.each do |item|
       # object.is_a?() オブジェクトの型を調べるメソッド
       if item.is_a?(ActiveStorage::Attachment)
         # 既存のProductの画像（Attachment）の場合
         # Blob（実際のファイルデータ）をコピーせずに、そのBlobを参照する新しいAttachmentを作成する
-        ActiveStorage::Attachment.create!(
-          name: "images",
-          record: draft,
-          blob: item.blob # 既存のBlobを再利用
-        )
+        product.images.attach(item.blob)
       else
         # 新規にアップロードされたファイルの場合 (ActionDispatch::Http::UploadedFile)
         # これは新しいBlobとして保存される
-        draft.images.attach(item)
+        product.images.attach(item)
       end
     end
   end

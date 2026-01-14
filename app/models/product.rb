@@ -2,12 +2,14 @@ class Product < ApplicationRecord
   has_many :product_olive_varieties, dependent: :destroy
   has_many :olive_varieties, through: :product_olive_varieties
   has_many :posts
-  has_many_attached :images
   has_many :product_drafts, dependent: :destroy
   has_many :product_ratings, dependent: :destroy
   # 「特定商品の評価者」というアソシエーションを付与。実際にはuserを指定していることをsourceで明記
   has_many :rated_users, through: :product_ratings, source: :user
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many_attached :images
+  # Concernsで共通化したwebp化処理
+  include WebpAttachable
 
   # 非公開(保留中)か、公開済みか。
   enum :status, { draft: 0, published: 1 }
@@ -55,6 +57,16 @@ class Product < ApplicationRecord
   end
 
   private
+
+  # モデル側で指定したアタッチメント名を動的に指定し、webp化(Concerns)
+  def attachments
+    images.attachments
+  end
+
+  # webp化し際attachする。上は繰り返し処理の列挙用。
+  def attachable
+    images
+  end
 
   def images_count_within_limit
     if images.attached? && images.count > 4
