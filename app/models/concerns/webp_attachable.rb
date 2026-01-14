@@ -4,15 +4,15 @@ module WebpAttachable
   extend ActiveSupport::Concern
 
   # Concernをextendすることで各クラスを主語にしたクラスメソッド(やインスタンスメソッド)を再利用できる.
-  # selfは定義時点で固定される。のでこれは誤解 → includeしたクラスならselfの部分を各クラスが補填する
+  # self(主語)は定義地点で固定される。のでこれは誤解 → includeしたクラスならselfの部分を各クラスが補填する
   included do
     # include先のクラスモデルに後付けされる処理
-    after_create_commit :convert_images_to_webp
+    # updateの場合、ループ中のattachで内部的にupdate暴発し無限ループするため、コントローラーで明示的に呼ぶ
+    after_create_commit :convert_images_to_webp!
   end
 
-  private
-
-  def convert_images_to_webp
+  # アップロード画像を破壊的にwebp化
+  def convert_images_to_webp!
     # ループ元を固定させて、繰り返し処理の対象を限定(attachなどでループ中に増える)
     original_attachments = attachments.to_a
 
@@ -41,6 +41,8 @@ module WebpAttachable
       end
     end
   end
+
+  private
 
   def attachments
     # 各クラス内でimages.attachments/avatar.attachmentという風に定義され、定義が見つからない場合はこちらが呼ばれる。
