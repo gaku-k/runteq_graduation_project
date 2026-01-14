@@ -1,6 +1,6 @@
 module WebpAttachable
-  # ActiveSupport::Concern の機能を Publishable に extend して、include 時の振る舞いを拡張している
-  # extendだからActiveSupport::Concernをクラスメソッド化している...というわけではないらしい
+  # include: モジュールの機能を自分自身（WebpAttachable）に取り込む。
+  # extend: ActiveSupport::Concernが持っている機能を使って、WebpAttachableを「Concern」という特別な存在にアップグレードする。
   extend ActiveSupport::Concern
 
   # Concernをextendすることで各クラスを主語にしたクラスメソッド(やインスタンスメソッド)を再利用できる.
