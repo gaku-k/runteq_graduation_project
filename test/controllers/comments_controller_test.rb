@@ -1,13 +1,24 @@
 require "test_helper"
 
 class CommentsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
+  setup do
+    @user = users(:one)
+    @post = posts(:one)
+    @comment = comments(:one)
+    sign_in @user
+  end
+
   test "should get create" do
-    get comments_create_url
-    assert_response :success
+    post post_comments_path, params: {
+      comment: { body: "テストコメント" }
+    }
+    assert_response :redirect
   end
 
   test "should get destroy" do
-    get comments_destroy_url
-    assert_response :success
+    delete comment_path(@comment)
+    assert_response :redirect
   end
 end

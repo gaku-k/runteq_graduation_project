@@ -1,13 +1,21 @@
 require "test_helper"
 
 class LikePostsControllerTest < ActionDispatch::IntegrationTest
-  test "should get create" do
-    get like_posts_create_url
-    assert_response :success
+  include Devise::Test::IntegrationHelpers
+
+  setup do
+    @user = users(:one)
+    @post = posts(:one)
+    sign_in @user
   end
 
-  test "should get destroy" do
-    get like_posts_destroy_url
-    assert_response :success
+  test "should create like" do
+    post post_like_posts_path(@post)
+    assert_response :redirect
+  end
+
+  test "should destroy like" do
+    delete post_like_posts_path(@post)
+    assert_response :redirect
   end
 end

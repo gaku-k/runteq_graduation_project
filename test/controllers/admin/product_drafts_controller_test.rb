@@ -4,6 +4,7 @@ class Admin::ProductDraftsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
+    @draft = product_drafts(:one)
     sign_in users(:admin)
   end
 
@@ -13,7 +14,7 @@ class Admin::ProductDraftsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get show" do
-    get admin_product_draft_path(draft)
+    get admin_product_draft_path(@draft)
     assert_response :success
   end
 end
