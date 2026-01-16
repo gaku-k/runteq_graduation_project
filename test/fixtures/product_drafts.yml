@@ -8,11 +8,6 @@ one:
   country_of_origin: MyString
   volume: 1
   reference_price: 9.99
-  sweet_rating: 1
-  spicy_rating: 1
-  bitter_rating: 1
-  green_rating: 1
-  fruity_rating: 1
   request_type: 1
 
 two:
@@ -23,9 +18,4 @@ two:
   country_of_origin: MyString
   volume: 1
   reference_price: 9.99
-  sweet_rating: 1
-  spicy_rating: 1
-  bitter_rating: 1
-  green_rating: 1
-  fruity_rating: 1
   request_type: 1
