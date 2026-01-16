@@ -11,10 +11,10 @@ jobs:
 
     env:
       RAILS_ENV: test
-      PGHOST: db
+      PGHOST: localhost
       PGUSER: postgres
       PGPASSWORD: postgres
-      DATABASE_URL: postgres://postgres:postgres@db:5432/runteq_graduation_project_test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/runteq_graduation_project_test
       HEADLESS_CHROME: "true"
 
     services:
