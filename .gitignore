@@ -41,3 +41,6 @@
 
 # db/seeds/production.rbをgit管理から外す
 #/db/seeds/production.rb
+
+# Rails / Ruby プロジェクトでは通常：vendor/bundle は Git管理しない
+vendor/bundle
