@@ -77,4 +77,9 @@ Rails.application.routes.draw do
     get :terms
     get :privacy
   end
+
+  # http://localhost:3000/letter_opener にアクセスすると、LetterOpenerWebのメール確認画面が表示される
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 end

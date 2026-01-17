@@ -13,7 +13,7 @@ namespace :records do
       # mailers/以下、AdminMailer クラスのnotification_email(draft_count, contact_count)を呼ぶ
       # mailer ディレクトリは「メール送信という責務をまとめるための場所」/上記の引数をインスタンスとして渡す”メール専用のコントローラーとも言える”
       AdminMailer.notification_email(draft_count, contact_count).deliver_now
-      puts "通知メールを送信しました。(Drafts: #{draft_count}, Contacts: #{contact_count})"
+      puts "通知メールを送信しました。(商品申請: #{draft_count}, お問い合わせ: #{contact_count})"
     else
       puts "新規レコードがないため、メールは送信しませんでした。"
     end
