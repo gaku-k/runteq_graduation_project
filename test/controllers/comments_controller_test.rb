@@ -5,13 +5,13 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     @user = users(:one)
-    @post = posts(:one)
+    @post = Post.create!(user: @user. body: "test")
     @comment = comments(:one)
     sign_in @user
   end
 
   test "should get create" do
-    post post_comments_path, params: {
+    post post_comments_path(@post), params: {
       comment: { body: "テストコメント" }
     }
     assert_response :redirect
