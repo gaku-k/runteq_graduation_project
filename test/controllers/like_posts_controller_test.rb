@@ -5,7 +5,7 @@ class LikePostsControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     @user = users(:one)
-    @post = Post.create!(user: @user. body: "test")
+    @post = Post.create!(user: @user, body: "test")
     sign_in @user
   end
 
