@@ -1,3 +1,4 @@
+# ci(Continuous Integration)：コードを変更するたびに自動でテストやチェックを回す仕組み/GitHub Actions はそれを実装するためのサービス
 name: CI
 
 on:
