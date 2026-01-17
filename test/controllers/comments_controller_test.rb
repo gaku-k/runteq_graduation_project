@@ -5,19 +5,23 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     @user = users(:one)
-    @post = Post.create!(user: @user, body: "test")
-    @comment = comments(:one)
+    @post = posts(:one)
+    @comment = Comment.create!(
+      user: @user,
+      body: "test",
+      commentable: @post
+    )
     sign_in @user
   end
 
-  test "should get create" do
+  test "should create comment" do
     post post_comments_path(@post), params: {
       comment: { body: "テストコメント" }
     }
     assert_response :redirect
   end
 
-  test "should get destroy" do
+  test "should destroy comment" do
     delete comment_path(@comment)
     assert_response :redirect
   end
