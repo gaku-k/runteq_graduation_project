@@ -24,9 +24,12 @@ class Admin::ProductDraftsController < ApplicationController
         reflect_draft_to_product
         @draft.product.update!(status: :published)
         @draft.update!(status: :approved)
+
+        # 承認後に Product の画像を WebP 化する(申請時はできていない)
+        @draft.product.convert_images_to_webp!
       end
       # トランザクション成功後、ProductDraftに紐づいていた画像を削除
-      purge_draft_images
+      @draft.images.purge_later if @draft.images.attached?
       redirect_to admin_product_drafts_path, notice: "商品申請を承認し、商品を公開しました"
 
     rescue ActiveRecord::RecordInvalid => e
@@ -61,14 +64,14 @@ class Admin::ProductDraftsController < ApplicationController
           product_to_destroy = @draft.product
           # 外部キーを削除することで、参照元を削除可能にする
           @draft.update!(status: :rejected, product_id: nil)
-          # ローカル変数を使ってProductを削除(※product_idをnilにしているので、@draft.productではオブジェクトを見つけられない)
+
+          # product_idをnilにしているので、@draft.productではオブジェクトを見つけられない
+          product_to_destroy.images.purge_later if product_to_destroy.images.attached?
           product_to_destroy.destroy!
+          # draftに紐づいた画像を削除
+          @draft.images.purge_later if @draft.images.attached?
         end
       end
-
-      # トランザクション成功後、ProductDraftに紐づいていた画像を削除
-      purge_draft_images
-
       # リダイレクトメッセージを分岐
       if @draft.request_type == "create_request"
           alert_message = "新規商品申請を却下し、作成されたProductを完全に削除しました。"
@@ -117,7 +120,8 @@ class Admin::ProductDraftsController < ApplicationController
 
   # Productを元の属性とステータスにロールバック
   def rollback_product_attributes
-    original_attrs = @draft.original_attributes
+    # imagesはカラムではないので{"images" => "値2"}とは渡せないから省く。
+    original_attrs = @draft.original_attributes.except("images")
     # original_attributesカラム実装前の古いProductDraftレコード(があると仮定)には当カラムが存在しないのでスキップする必要がある
     # 予期せぬ状態変化によってnilになり得るオブジェクトには、このように存在チェックを行うことで堅牢性を保証するとのこと
     return unless original_attrs.present? # return unless 条件：条件が真の時処理を'続ける'
@@ -129,26 +133,26 @@ class Admin::ProductDraftsController < ApplicationController
 
   # Productの画像を元の状態に復元
   def rollback_product_images
-    original_image_blobs = @draft.original_image_blobs
-    return unless original_image_blobs.present?
+    return unless @draft.original_image_blobs.present?
 
-    # 1. Productの現在の画像を全て削除/提出前の元の画像セットを再アタッチする準備
-    @draft.product.images.attachments.destroy_all
+    # A. ロールバック後に「残すべき」Blob IDのリスト/to_iはstringをintegerにする
+    keep_blob_ids = @draft.original_image_blobs.map { |b| b["blob_id"].to_i }
 
-    # 2. オリジナル情報（Blob ID）を元に、既存の Blob を Product に再添付する
-    original_image_blobs.each do |blob_info|
-      # ProductsController で保存したロジックから、ハッシュは{ "blob_id" => 10, "filename" => "olive_oil_front.jpg" } のようになる。
-      # id: active_storage_blobs テーブルの主キー
-      # blob_id: 別のテーブル（active_storage_attachments）で、ActiveStorage::Blob のidを参照するための外部キー
+    # B. 現在Productに紐づいている画像の中で「却下対象」のものを特定
+    unwanted_attachments = @draft.product.images.attachments.reject do |att|
+      keep_blob_ids.include?(att.blob_id)
+    end
+
+    # C. 却下対象の画像をストレージから削除
+    unwanted_attachments.each(&:purge_later)
+
+    # D. 元の画像を再アタッチする/original_image_blobsの中身例:[{ "blob_id": 12, "filename": "a.jpg" },{ "blob_id": 15, "filename": "b.png" }]
+    @draft.original_image_blobs.each do |blob_info|
+      # jsonb に保存されていた blob_id を使って実際の blob がまだ存在するか確認。削除済みなら nil
       blob = ActiveStorage::Blob.find_by(id: blob_info["blob_id"])
-
-      # Blobが見つからなかった場合に備えて存在確認
-      if blob
-        ActiveStorage::Attachment.create!(
-          name: "images", # has_many_attached :images の関連付け名
-          record: @draft.product, # 紐づけるモデルインスタンス
-          blob: blob # 紐づけるActiveStorage::Blobオブジェクト
-        )
+      # 存在し(purgeしていない)、Product にこの blob が紐づいていない(二重attachでない)か確認
+      if blob && !@draft.product.images.blobs.include?(blob)
+        @draft.product.images.attach(blob)
       end
     end
   end
@@ -161,12 +165,6 @@ class Admin::ProductDraftsController < ApplicationController
     # new_olive_variety_idsには新規作成されたIDのみが入っているため、無条件で削除しても安全
     OliveVariety.where(id: variety_ids).destroy_all
     @draft.update_column(:new_olive_variety_ids, [])
-  end
-
-  def purge_draft_images
-    # destroy_all は ActiveStorage::Attachment レコードを削除するが、Blobは残る
-    # purge_later は Blob（Cloudinary上のファイル）を非同期で削除し、その前に Attachment を削除する
-    @draft.images.attachments.each(&:purge_later)
   end
 
   def authorize_admin

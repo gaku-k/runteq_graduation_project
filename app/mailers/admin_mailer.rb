@@ -6,6 +6,7 @@ class AdminMailer < ApplicationMailer
     total = draft_count + contact_count
 
     mail(
+      # to: 受け取る相手 from: 差出人
       to: "olivebase.info@gmail.com",
       # 宛名/本文には投げない
       subject: "特定レコード#{total}件追加のお知らせ"

@@ -27,6 +27,7 @@ module WebpAttachable
         webp.format "webp"
 
         # ループ中にパージすることで画像を常にバリデーション制約以下にする
+        # attachment.purge
         attachment.purge
 
         attachable.attach(

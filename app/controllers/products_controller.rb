@@ -199,7 +199,8 @@ class ProductsController < ApplicationController
 
     if success
       # 新規の画像があればwebp化処理
-      if product_params[:images].present?
+      # webp変換中にパージを行うので元画像が消える。一般ユーザーの申請時は、まだ変換しない（元画像を維持する）
+      if current_user.admin? && product_params[:images].present?
         @product.convert_images_to_webp!
       end
     end
@@ -270,6 +271,7 @@ class ProductsController < ApplicationController
     # 既存の添付ファイルをrubyの配列に変換して取得
     existing_attachments = product.images.attachments.to_a
     combined_images = existing_attachments + new_images
+    # 4はバリデーションの画像の上限枚数
     images_to_attach = combined_images.last(4)
     # 関連を一度削除することで、最終的に紐づけたい状態を確実に反映させる
     draft.images.attachments.destroy_all
@@ -277,15 +279,10 @@ class ProductsController < ApplicationController
     images_to_attach.each do |item|
       # obuject.is_a?() オブジェクトの型を調べるメソッド
       if item.is_a?(ActiveStorage::Attachment)
-        # blobは実際のファイルデータ
-        # ProductからProductDraftへ画像をコピーしている
-        blob = item.blob
-        draft.images.attach(
-          io: StringIO.new(blob.download),
-          filename: blob.filename,
-          content_type: blob.content_type
-        )
+        # 既存のblobをそのまま紐付ける
+        draft.images.attach(item.blob)
       else
+        # 新規アップロード画像の場合
         draft.images.attach(item)
       end
     end
