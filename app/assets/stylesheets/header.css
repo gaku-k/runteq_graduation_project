@@ -9,8 +9,8 @@
   display: block;
 }
 
-/* 画面幅が800px以上のスクリーンに対応するスタイル */
-@media (min-width: 800px) {
+/* 画面幅が830px以上のスクリーンに対応するスタイル */
+@media (min-width: 830px) {
   .desktop-header-container {
     display: block;
   }
