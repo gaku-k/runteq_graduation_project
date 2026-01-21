@@ -30,3 +30,9 @@
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
+.guide-image {
+  display: block;        /* これ重要 */
+  margin-bottom: 24px;
+  margin-top: 10px;
+}

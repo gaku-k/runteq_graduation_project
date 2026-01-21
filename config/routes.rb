@@ -76,6 +76,7 @@ Rails.application.routes.draw do
   controller :pages do
     get :terms
     get :privacy
+    get :guide
   end
 
   # http://localhost:3000/letter_opener にアクセスすると、LetterOpenerWebのメール確認画面が表示される
