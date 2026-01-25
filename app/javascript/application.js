@@ -3,6 +3,8 @@ import $ from "jquery";
 import "jquery-raty";
 import "controllers";
 import Rails from "@rails/ujs"
+// ファイル選択で画像リサイズ
+import "custom/image_compression"
 Rails.start()
 
 // --------------------------------
