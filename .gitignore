@@ -44,3 +44,7 @@
 
 # Rails / Ruby プロジェクトでは通常：vendor/bundle は Git管理しない
 vendor/bundle
+
+# finderで画像保存先を変更した際に追加されたMacが自動的に作成する隠しファイル。
+.DS_Store
+**/.DS_Store

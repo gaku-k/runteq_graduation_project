@@ -3,10 +3,17 @@
   <head>
     <title><%= content_for?(:title) ? yield(:title) : "Olive Base" %></title>
     <meta name="description" content="Olive Baseは、オリーブオイルを評価・共有できるレビューサイトです。">
-    <meta property="og:site_name" content="Olive Base">
-    <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Olive Base' %>">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- og:image を大きく表示 -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta property="og:site_name" content="Olive Base">
+    <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : "Olive Base" %>">
+    <meta property="og:description" content="Olive Baseは、オリーブオイルを評価・共有できるレビューサイトです。">
+    <meta property="og:image" content="<%= asset_url("ogp.png") %>">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:type" content="<%= content_for?(:og_type) ? yield(:og_type) : "website" %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
