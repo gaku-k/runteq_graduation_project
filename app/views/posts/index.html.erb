@@ -10,16 +10,8 @@
     レビューから広がる、あなただけの愛用品
   </h2>
 
-  <!-- 検索フォーム中央寄せ -->
-  <%= search_form_for @q, url: posts_path, method: :get, class: "flex justify-center" do |f| %>
-    <div class="flex w-[90%] max-w-[400px] sm:max-w-[700px]">
-      <%= f.search_field :product_name_or_body_cont,
-        placeholder: "キーワードを入力",
-        class: "w-full p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-1" %>
-      <%= f.submit "検索",
-        class: "bg-[#7D9D76] hover:bg-[#6a8c63] px-4 py-2 rounded-r-lg" %>
-    </div>
-  <% end %>
+  <!-- 検索フォーム -->
+  <%= render "shared/search_form", q: @q, url: posts_path, search_key: :product_name_or_body_cont %>
 </div>
 
 </turbo-frame>
