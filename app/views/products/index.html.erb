@@ -12,10 +12,19 @@
   </h2>
 
   <!-- 検索フォーム -->
-  <%= render "shared/search_form", q: @q, url: products_path, search_key: :name_or_country_of_origin_or_olive_varieties_name_cont %>
+  <%= render "shared/search_form",
+    q: @q,
+    url: products_path,
+    search_key: :name_or_country_of_origin_or_olive_varieties_name_cont %>
 </div>
 
-<turbo-frame id="products">
+<%= turbo_frame_tag "search_results" do %>
+
+    <!-- 検索候補 -->
+    <% @products.each do |product| %>
+      <div><%= product.name %></div>
+    <% end %>
+
   <ul class="product-list-container">
     <% @products.each do |product| %>
       <li class="product-card">
@@ -54,4 +63,4 @@
   <div class="pagination">
     <%= paginate @products %>
   </div>
-</turbo-frame>
+<% end %>

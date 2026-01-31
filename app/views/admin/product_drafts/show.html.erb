@@ -21,10 +21,14 @@
   </ul>
   <div class="approval-or-rejection">
     <div>
-      <%= button_to "却下", reject_admin_product_draft_path(@draft), method: :patch, data: { confirm: "却下しますか？" } %>
+      <%= button_to "却下", reject_admin_product_draft_path(@draft),
+          method: :patch,
+          data: { turbo_confirm: "却下しますか？" } %>
     </div>
     <div>
-      <%= button_to "承認", approve_admin_product_draft_path(@draft), method: :patch, data: { confirm: "承認しますか？" } %>
+      <%= button_to "承認", approve_admin_product_draft_path(@draft),
+          method: :patch,
+          data: { turbo_confirm: "承認しますか？" } %>
     </div>
   </div>
 </div>

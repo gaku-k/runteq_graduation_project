@@ -1,5 +1,5 @@
 import imageCompression from 'browser-image-compression';
-// console.log("JS読み込み成功");
+console.log("JS読み込み成功");
 
 // 保存ボタンの状態を切り替える関数。()は「引数の名前」
 const setSubmitButtonDisabled = (disabled) => {
@@ -100,4 +100,4 @@ const initializeImageCompression = () => {
 
 // 本筋の処理（画像の圧縮）を実際に動かすための「起動スイッチ」
 // 'DOMContentLoaded': HTMLの読み込みが完了して、DOM（画面上の部品）がすべて準備できた時
-document.addEventListener('DOMContentLoaded', initializeImageCompression);
+document.addEventListener('turbo:load', initializeImageCompression);

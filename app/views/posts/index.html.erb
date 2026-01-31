@@ -11,10 +11,19 @@
   </h2>
 
   <!-- 検索フォーム -->
-  <%= render "shared/search_form", q: @q, url: posts_path, search_key: :product_name_or_body_cont %>
+  <%= render "shared/search_form",
+    q: @q,
+    url: posts_path,
+    search_key: :product_name_or_body_cont %>
 </div>
 
-</turbo-frame>
+<%= turbo_frame_tag "search_results" do %>
+
+    <!-- 検索候補 -->
+    <% @posts.each do |post| %>
+      <div><%= post.product_name %></div>
+    <% end %>
+
   <div class="my-card">
     <div class="posts-list">
       <% @posts.each do |post| %>
@@ -70,7 +79,10 @@
                   </div>
 
                   <% if post.user == current_user %>
-                    <%= button_to post_path(post.id), method: :delete, data: { confirm: "削除しますか？" }, class: "trash-can" do %>
+                    <%= button_to post_path(post.id),
+                        method: :delete,
+                        data: { turbo_confirm: "削除しますか？", turbo_frame: "_top" },
+                        class: "trash-can" do %>
                       <i class="fas fa-trash"></i>
                     <% end %>
                   <% end %>
@@ -88,4 +100,4 @@
   <div class="pagination">
     <%= paginate @posts %>
   </div>
-</turbo-frame>
+<% end %>

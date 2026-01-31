@@ -32,7 +32,10 @@
     <% if comment.user == current_user %>
       <%= link_to comment_path(comment),
         method: :delete,
-        data: { confirm: "削除しますか？" },
+        data: { 
+          turbo_method: :delete,
+          turbo_confirm: "削除しますか？"
+        },
         class: "trash-can" do%>
         <i class="fas fa-trash"></i>
       <% end %>

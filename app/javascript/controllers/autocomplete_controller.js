@@ -22,3 +22,4 @@ export default class extends Controller {
   }
 }
 // このコントローラーだけの処理ではフォームを送信のたびにリロードを挟む。
+// これを防いで「検索結果のリストだけ」を入れ替えるため Turbo Frame（ターボフレーム）という技術を用いる
