@@ -30,7 +30,7 @@
         <div class="avatar-post-wrapper">
 
           <div>
-            <%= link_to user_path(post.user) do %>
+            <%= link_to user_path(post.user), data: { turbo_frame: "_top" } do %>
               <% if post.user.avatar.attached? %>
                 <%= image_tag post.user.avatar.variant(resize_to_fill: [300, 300]),
                   class: "rounded-full user-avatar-s"%>
@@ -42,7 +42,7 @@
           </div>
     
           <div class="post-item">
-            <%= link_to post_path(post), class: "post-card-link" do %>
+            <%= link_to post_path(post), class: "post-card-link", data: { turbo_frame: "_top" } do %>
               <div class="image-section">
                 <%= render "posts/images", post: post %>
               </div>
