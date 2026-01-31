@@ -15,9 +15,9 @@
         <!-- ure_signed_in?メソッド: ユーザーがサインイン状態だとtrue, ログアウト状態だとfalse -->
         <!-- 余談だがadmin_signed_in? でも動くとかなんとか -->
         <% if user_signed_in?  %>
-          <%= button_to "ログアウト", destroy_user_session_path, method: :delete, date: { turbo: false } %>
+          <%= button_to "ログアウト", destroy_user_session_path, method: :delete, data: { turbo: false } %>
         <% else %>
-          <%= button_to "ログイン", new_user_session_path %>
+          <%= button_to "ログイン", new_user_session_path, data: { turbo: false } %>
         <% end %>
       </div>
     </div>
@@ -58,9 +58,9 @@
 
     <div>
       <% if user_signed_in?  %>
-        <%= button_to "ログアウト", destroy_user_session_path, method: :delete, date: { turbo: false } %>
+        <%= button_to "ログアウト", destroy_user_session_path, method: :delete, data: { turbo: false } %>
       <% else %>
-        <%= button_to "ログイン", new_user_session_path %>
+        <%= button_to "ログイン", new_user_session_path, data: { turbo: false } %>
       <% end %>
     </div>
   </div>
