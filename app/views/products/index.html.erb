@@ -11,20 +11,32 @@
     暮らしをちょっと良くするアイテム探し
   </h2>
 
-  <!-- 検索フォーム -->
-  <%= render "shared/search_form",
-    q: @q,
-    url: products_path,
-    search_key: :name_or_country_of_origin_or_olive_varieties_name_cont %>
-</div>
+  <div data-controller="autocomplete">
 
-<%= turbo_frame_tag "search_results" do %>
+    <!-- 検索フォーム -->
+    <%= render "shared/search_form",
+      q: @q,
+      url: products_path,
+      search_key: :name_or_country_of_origin_or_olive_varieties_name_cont %>
 
-    <!-- 検索候補 -->
-    <% @products.each do |product| %>
-      <div><%= product.name %></div>
+    <%= turbo_frame_tag "search_results" do %>
+      <!-- 検索候補 -->
+      <!-- 左: フォームが送信されたか.右: valuesでハッシュを値だけの配列にし、一文字でも入力があればtrue( .any? { |v| v.present? } )。空文字の場合右の処理へ進む -->
+      <% if params[:q].present? && params[:q].values.any?(&:present?) %>
+        <% @products.each do |product| %>
+          <div
+            data-action="click->autocomplete#select"
+            data-value="<%= product.name %>">
+            <%= product.name %>
+          </div>
+        <% end %>
+      <% end %>
     <% end %>
 
+  </div>
+</div>
+
+<%= turbo_frame_tag "products_list" do %>
   <ul class="product-list-container">
     <% @products.each do |product| %>
       <li class="product-card">

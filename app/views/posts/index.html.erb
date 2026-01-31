@@ -10,20 +10,32 @@
     レビューから広がる、あなただけの愛用品
   </h2>
 
-  <!-- 検索フォーム -->
-  <%= render "shared/search_form",
-    q: @q,
-    url: posts_path,
-    search_key: :product_name_or_body_cont %>
-</div>
+  <div data-controller="autocomplete">
+ 
+    <!-- 検索フォーム -->
+    <%= render "shared/search_form",
+      q: @q,
+      url: posts_path,
+      search_key: :product_name_or_body_cont %>
 
-<%= turbo_frame_tag "search_results" do %>
-
-    <!-- 検索候補 -->
-    <% @posts.each do |post| %>
-      <div><%= post.product_name %></div>
+    <%= turbo_frame_tag "search_results" do %>
+      <!-- 検索候補 -->
+      <!-- 左: フォームが送信されたか.右: valuesでハッシュを値だけの配列にし、一文字でも入力があればtrue( .any? { |v| v.present? } )。空文字の場合右の処理へ進む -->
+      <% if params[:q].present? && params[:q].values.any?(&:present?) %>
+        <% @posts.each do |post| %>
+          <div
+            data-action="click->autocomplete#select"
+            data-value="<%= post.product_name %>">
+            <%= post.product_name %>
+          </div>
+        <% end %>
+      <% end %>
     <% end %>
 
+  </div>
+</div>
+
+<%= turbo_frame_tag "posts_list" do %>
   <div class="my-card">
     <div class="posts-list">
       <% @posts.each do |post| %>

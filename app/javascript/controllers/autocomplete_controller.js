@@ -5,21 +5,47 @@ export default class extends Controller {
   // html側でdata-autocomplete-target="input".JS側で static targets = ["input"] と定義すれば、this.inputTarget で操作することになる。イベントではなく場所
   static targets = ["input"]
 
-  connect() {
-    console.log("オートコンプリート準備完了！")
-  }
-
   search() {
     // 1文字打つたびに前の予約を消すことで高速タイピング中はサーバー通信を削減
     // clearTimeoutはjs標準の「予約キャンセルボタン」。()内の引数が存在すれば(予約IDがあれば)実行。
     clearTimeout(this.timeout)
+
+    // this.inputTarget: htmlで付与したinput要素。
+    // .trim(): 値の前後の余白を削除
+    const value = this.inputTarget.value.trim()
+
+    if (value === "") {
+      const frame = document.getElementById("search_results")
+      // 要素の中のHTMLを空文字にする
+      if (frame) frame.innerHTML = ""
+      return
+    }
+
     // this.timeoutは0.3秒後にフォームを送信する予約。戻り値として識別IDを返す。
     this.timeout = setTimeout(() => {
       // this.element:コントローラーが貼り付けられているhtml要素そのもの
-      // 「あ」と入力したら0.3秒後に文字通り「あ」でフォームを送信する
-      this.element.requestSubmit()
+      // 「あ」と入力したら0.3秒後に文字通り「あ」でフォームを送信する。search_resultsフレームだけ更新される
+      this.form.requestSubmit()
     }, 300)
   }
+
+  select(event) {
+    const value = event.currentTarget.dataset.value
+
+    // this.inputTarget: htmlで付与したinput要素。
+    this.inputTarget.value = value
+
+    // 候補を消す
+    const frame = document.getElementById("search_results")
+    if (frame) frame.innerHTML = ""
+
+    this.form.requestSubmit()
+  }
+
+  // ゲッター: this.formと書いた時、裏でこの処理が実行される
+  // htmlに幾つかのformタグがあると仮定して、ターゲットで指定したものを確実に指定するための処置
+  get form() {
+    // closest("form"): 最初に見つかったformを返す
+    return this.inputTarget.closest("form")
+  }
 }
-// このコントローラーだけの処理ではフォームを送信のたびにリロードを挟む。
-// これを防いで「検索結果のリストだけ」を入れ替えるため Turbo Frame（ターボフレーム）という技術を用いる

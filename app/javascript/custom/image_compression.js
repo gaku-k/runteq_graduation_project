@@ -1,5 +1,5 @@
 import imageCompression from 'browser-image-compression';
-console.log("JS読み込み成功");
+// console.log("JS読み込み成功");
 
 // 保存ボタンの状態を切り替える関数。()は「引数の名前」
 const setSubmitButtonDisabled = (disabled) => {
