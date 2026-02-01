@@ -11,18 +11,16 @@
     暮らしをちょっと良くするアイテム探し
   </h2>
 
-  <div>
-    <!-- 検索フォーム -->
-    <!-- 検索候補一覧(suggestions), 表示候補(label_for)をクリック時,jsに渡したい値(value_for) -->
-    <%= render "shared/search_form",
-      q: @q,
-      url: products_path,
-      search_key: :name_or_country_of_origin_or_olive_varieties_name_cont,
-      suggestions: @suggestions,
-      value_for: ->(s) { s.name },
-      label_for: ->(s) { s.name }
-    %>
-  </div>
+  <!-- 検索フォーム -->
+  <!-- 検索候補一覧(suggestions), 表示候補(label_for)をクリック時,jsに渡したい値(value_for) -->
+  <%= render "shared/search_form",
+    q: @q,
+    url: products_path,
+    search_key: :name_or_country_of_origin_or_olive_varieties_name_cont,
+    suggestions: @suggestions,
+    value_for: ->(s) { s.name },
+    label_for: ->(s) { s.name }
+  %>
 
 </div>
 
