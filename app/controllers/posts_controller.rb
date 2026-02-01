@@ -1,6 +1,8 @@
 class PostsController < ApplicationController
   # 1ページあたりの件数
   BOOK_COUNT = 24
+  # オートコンプリートで出す検索候補数
+  SUGGESTION_COUNT = 10
   # before_action :autenticate_uer! メソッド: Deviseが提供する「ログインしていなければログインページにリダイレクトする」
   # except :ただし/除く
   before_action :authenticate_user!, except: [ :index, :show ]
@@ -21,6 +23,21 @@ class PostsController < ApplicationController
                .page(params[:page])
                # 1ページあたりの件数
                .per(BOOK_COUNT)
+
+    # digでparams[:q](検索条件=>値のハッシュ)がnilの時例外を出さずにnilを返す。Ransackはnilでも全件取得できるが、RubyのHashアクセスは例外を出すらしい
+    # if params[:q][:product_name_or_body_cont] これだとparams[:q] が nil のときエラー
+    if params.dig(:q, :product_name_or_body_cont).present?
+      keyword = params[:q][:product_name_or_body_cont]
+
+      @suggestions = Post
+        # product_name に keyword が含まれているレコードを、大文字小文字を区別せずに取得する
+        .where("product_name ILIKE ?", "%#{keyword}%")
+        .select(:product_name)
+        .distinct
+        .limit(SUGGESTION_COUNT)
+    else
+      @suggestions = []
+    end
   end
 
   def show

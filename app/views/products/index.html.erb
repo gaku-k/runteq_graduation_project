@@ -23,11 +23,11 @@
       <!-- 検索候補 -->
       <!-- 左: フォームが送信されたか.右: valuesでハッシュを値だけの配列にし、一文字でも入力があればtrue( .any? { |v| v.present? } )。空文字の場合右の処理へ進む -->
       <% if params[:q].present? && params[:q].values.any?(&:present?) %>
-        <% @products.each do |product| %>
+        <% @suggestions.each do |s| %>
           <div
             data-action="click->autocomplete#select"
-            data-value="<%= product.name %>">
-            <%= product.name %>
+            data-value="<%= s.name %>">
+            <%= s.name %>
           </div>
         <% end %>
       <% end %>

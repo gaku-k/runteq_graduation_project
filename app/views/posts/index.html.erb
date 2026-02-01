@@ -19,14 +19,14 @@
       search_key: :product_name_or_body_cont %>
 
     <%= turbo_frame_tag "search_results" do %>
-      <!-- 検索候補 -->
+      <!-- 検索候補:オートコンプリートは商品名にのみ実装 -->
       <!-- 左: フォームが送信されたか.右: valuesでハッシュを値だけの配列にし、一文字でも入力があればtrue( .any? { |v| v.present? } )。空文字の場合右の処理へ進む -->
       <% if params[:q].present? && params[:q].values.any?(&:present?) %>
-        <% @posts.each do |post| %>
+        <% @suggestions.each do |s| %>
           <div
             data-action="click->autocomplete#select"
-            data-value="<%= post.product_name %>">
-            <%= post.product_name %>
+            data-value="<%= s.product_name %>">
+            <%= s.product_name %>
           </div>
         <% end %>
       <% end %>

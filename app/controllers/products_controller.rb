@@ -4,6 +4,8 @@ class ProductsController < ApplicationController
   IMMEDIATE_UPDATE_COLUMNS = %w[ name ].freeze
   # 1ページあたりの件数
   BOOK_COUNT = 24
+  # オートコンプリートで出す検索候補数
+  SUGGESTION_COUNT = 10
 
   # before_action :autenticate_uer! メソッド: Deviseが提供する「ログインしていなければログインページにリダイレクトする」
   # except :ただし/除く
@@ -19,6 +21,20 @@ class ProductsController < ApplicationController
                   .page(params[:page])
                   # 1ページあたりの件数
                   .per(BOOK_COUNT)
+
+    # digでparams[:q](検索条件=>値のハッシュ)がnilの時例外を出さずにnilを返す。Ransackはnilでも全件取得できるが、RubyのHashアクセスは例外を出すらしい
+    if params.dig(:q, :name_or_country_of_origin_or_olive_varieties_name_cont).present?
+      keyword = params[:q][:name_or_country_of_origin_or_olive_varieties_name_cont]
+
+      @suggestions = Product
+        # product_name に keyword が含まれているレコードを、大文字小文字を区別せずに取得する
+        .where("name ILIKE ?", "%#{keyword}%")
+        .select(:name)
+        .distinct
+        .limit(SUGGESTION_COUNT)
+    else
+      @suggestions = []
+    end
   end
 
   def show
