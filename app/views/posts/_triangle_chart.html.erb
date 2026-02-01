@@ -3,46 +3,61 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const ctx = document.getElementById('rating-chart-<%= post_id %>').getContext('2d');
+{
+  const renderChart = () => {
+    const canvas = document.getElementById('rating-chart-<%= post_id %>');
+    if (!canvas) return;
   
-  new Chart(ctx, {
-    type: 'radar',
-    data: {
-      labels: ['香り', '味', '価格'],
-      datasets: [{
-        label: 'Triangle Chart', 
-        data: [
-          <%= product_rating.aroma %>,
-          <%= product_rating.taste %>,
-          <%= product_rating.price %>
-        ],
-        fill: true,
-        backgroundColor: 'rgba(125, 157, 118, 0.2)',
-        borderColor: 'rgba(125, 157, 118, 1)',
-        pointBackgroundColor: 'rgba(125, 157, 118, 1)'
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: true,
-          labels: {
-            usePointStyle: false,  // 左の四角を非表示
-            boxWidth: 0,           // 余白も消す
-            font: {
-              size: 14,            // 文字サイズ
-              style: 'italic'      // 斜体
+    // 既存のグラフがあるかチェックして壊す. スクリプト読み込みとturbo:loadイベントで2回同じCanvasに書こうとするため
+    const existingChart = Chart.getChart(canvas); 
+    if (existingChart) {
+      existingChart.destroy();
+    }
+
+    const ctx = canvas.getContext('2d');
+    new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: ['香り', '味', '価格'],
+        datasets: [{
+          label: 'Triangle Chart', 
+          data: [
+            <%= product_rating.aroma %>,
+            <%= product_rating.taste %>,
+            <%= product_rating.price %>
+          ],
+          fill: true,
+          backgroundColor: 'rgba(125, 157, 118, 0.2)',
+          borderColor: 'rgba(125, 157, 118, 1)',
+          pointBackgroundColor: 'rgba(125, 157, 118, 1)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              usePointStyle: false,  // 左の四角を非表示
+              boxWidth: 0,           // 余白も消す
+              font: {
+                size: 14,            // 文字サイズ
+                style: 'italic'      // 斜体
+              }
             }
           }
+        },
+        scales: {
+          r: { min: 0, max: 5, ticks: { stepSize: 1 } }
         }
-      },
-      scales: {
-        r: { min: 0, max: 5, ticks: { stepSize: 1 } }
       }
-    }
-  });
-});
+    });
+  };
+
+  // 1. 最初の読み込み時やページ遷移時
+  document.addEventListener("turbo:load", renderChart, { once: true });
+  // 2. 検索などでフレームが書き換わった直後にも実行
+  renderChart();
+}
 </script>

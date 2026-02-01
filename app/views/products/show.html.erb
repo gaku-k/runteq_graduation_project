@@ -75,7 +75,12 @@
   <div style="text-align: right; padding-right: 5px;">
     <% unless @product.draft? %>
       <% if current_user&.admin? %>
-        <%= link_to "削除", product_path(@product), method: :delete, data: { confirm: "削除しますか？" } %>
+        <%= link_to "削除", product_path(@product), 
+          method: :delete,
+          data: {
+            turbo_method: :delete,
+            turbo_confirm: "削除しますか？"
+          } %>
       <% end %>
 
       <%= link_to edit_product_path(@product) do%>

@@ -1,0 +1,47 @@
+<!-- 検索フォーム: inputイベント(1文字でも入力)で、autocomplete_controller.jsの search関数を呼び出す -->
+<!-- turbo_frameにより検索候補のフォーム送信はTurbo経由となる -->
+<div data-controller="autocomplete" class="relative">
+
+  <!-- 引数2： @q(どのモデルか)と、検索フォームの送信先url(products_path等) -->
+  <%= search_form_for q, url: url, method: :get,
+      data: { 
+        action: "input->autocomplete#search",
+        turbo_frame: "search_results"
+      },
+      class: "flex justify-center" do |f| %>
+
+    <!-- 引数1: search_key -->
+    <div class="flex w-[90%] max-w-[400px] sm:max-w-[700px]">
+      <%= f.search_field search_key,
+          placeholder: "キーワードを入力",
+          class: "w-full p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-1",
+          data: { autocomplete_target: "input" } %>
+
+      <!-- Turboを無効化してturbo_frame: "search_results"との紐付けを断つ -->
+      <%= f.submit "検索",
+          class: "bg-[#7D9D76] hover:bg-[#6a8c63] px-4 py-2 rounded-r-lg",
+          data: { turbo: false } %>
+    </div>
+  <% end %>
+
+  <!-- 検索候補:オートコンプリートは商品名にのみ実装 -->
+  <!-- 引数3: 検索候補一覧(suggestions), 表示候補(label_for)をクリック時,jsに渡したい値(value_for) -->
+  
+  <%= turbo_frame_tag "search_results",
+      class: "absolute left-1/2 -translate-x-1/2 mt-2
+              w-[90%] max-w-[700px]
+              bg-white shadow-lg z-50" do %>
+    <!-- 左: フォームが送信されたか.右: valuesでハッシュを値だけの配列にし、一文字でも入力があればtrue( .any? { |v| v.present? } )。空文字の場合右の処理へ進む -->
+    <% if params[:q].present? && params[:q].values.any?(&:present?) %>
+      <% suggestions.each do |s| %>
+        <div
+          class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+          data-action="click->autocomplete#select"
+          data-value="<%= value_for.call(s) %>">
+          <%= label_for.call(s) %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+
+</div>

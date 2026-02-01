@@ -1,11 +1,12 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import $ from "jquery";
 import "jquery-raty";
+import "@hotwired/turbo-rails"
 import "controllers";
-import Rails from "@rails/ujs"
+// import Rails from "@rails/ujs"
 // ファイル選択で画像リサイズ
 import "custom/image_compression"
-Rails.start()
+// Rails.start()
 
 // --------------------------------
 // 五つ星

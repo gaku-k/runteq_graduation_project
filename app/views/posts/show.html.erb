@@ -55,7 +55,10 @@
     </div>
 
     <% if @post.user == current_user %>
-      <%= button_to post_path(@post.id), method: :delete, data: { confirm: "削除しますか？" }, class: "trash-can" do %>
+      <%= button_to post_path(@post.id),
+          method: :delete,
+          data: { turbo_confirm: "削除しますか？" },
+          class: "trash-can" do %>
         <i class="fas fa-trash"></i>
       <% end %>
     <% end %>
