@@ -10,29 +10,19 @@
     レビューから広がる、あなただけの愛用品
   </h2>
 
-  <div data-controller="autocomplete">
- 
+   
     <!-- 検索フォーム -->
+    <!-- 検索候補一覧(suggestions), 表示候補(label_for)をクリック時,jsに渡したい値(value_for) -->
     <%= render "shared/search_form",
       q: @q,
       url: posts_path,
-      search_key: :product_name_or_body_cont %>
+      search_key: :product_name_or_body_cont,
+      suggestions: @suggestions,
+      value_for: ->(s) { s.product_name },
+      label_for: ->(s) { s.product_name } 
+    %>
+  
 
-    <%= turbo_frame_tag "search_results" do %>
-      <!-- 検索候補:オートコンプリートは商品名にのみ実装 -->
-      <!-- 左: フォームが送信されたか.右: valuesでハッシュを値だけの配列にし、一文字でも入力があればtrue( .any? { |v| v.present? } )。空文字の場合右の処理へ進む -->
-      <% if params[:q].present? && params[:q].values.any?(&:present?) %>
-        <% @suggestions.each do |s| %>
-          <div
-            data-action="click->autocomplete#select"
-            data-value="<%= s.product_name %>">
-            <%= s.product_name %>
-          </div>
-        <% end %>
-      <% end %>
-    <% end %>
-
-  </div>
 </div>
 
 <%= turbo_frame_tag "posts_list" do %>
