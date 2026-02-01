@@ -5,6 +5,14 @@ export default class extends Controller {
   // html側でdata-autocomplete-target="input".JS側で static targets = ["input"] と定義すれば、this.inputTarget で操作することになる。イベントではなく場所
   static targets = ["input"]
 
+  // 送信時に候補を消すための処理 ---
+  clear() {
+    const frame = document.getElementById("search_results")
+    if (frame) frame.innerHTML = ""
+    // 実行待ちの検索予約もキャンセルしておく
+    clearTimeout(this.timeout)
+  }
+
   search() {
     // 1文字打つたびに前の予約を消すことで高速タイピング中はサーバー通信を削減
     // clearTimeoutはjs標準の「予約キャンセルボタン」。()内の引数が存在すれば(予約IDがあれば)実行。
@@ -15,9 +23,7 @@ export default class extends Controller {
     const value = this.inputTarget.value.trim()
 
     if (value === "") {
-      const frame = document.getElementById("search_results")
-      // 要素の中のHTMLを空文字にする
-      if (frame) frame.innerHTML = ""
+      this.clear() // 共通化したクリア処理を呼ぶ
       return
     }
 
@@ -36,10 +42,8 @@ export default class extends Controller {
     this.inputTarget.value = value
 
     // 候補を消す
-    const frame = document.getElementById("search_results")
-    if (frame) frame.innerHTML = ""
-
-    this.form.requestSubmit()
+    this.clear() // 共通化したクリア処理を呼ぶ
+    // selectではsubmitしない。検索ボタンに任せる
   }
 
   // ゲッター: this.formと書いた時、裏でこの処理が実行される

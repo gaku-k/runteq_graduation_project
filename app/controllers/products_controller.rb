@@ -22,8 +22,9 @@ class ProductsController < ApplicationController
                   # 1ページあたりの件数
                   .per(BOOK_COUNT)
 
+    # turbo_frame_request?: turboを切ったsubmitボタンを押すとRailsがhtmlを再描画する関係でparams[:q]を元にフォームのvalueが再装填、jsがオートコンプリートの検索候補をだしてしまう
     # digでparams[:q](検索条件=>値のハッシュ)がnilの時例外を出さずにnilを返す。Ransackはnilでも全件取得できるが、RubyのHashアクセスは例外を出すらしい
-    if params.dig(:q, :name_or_country_of_origin_or_olive_varieties_name_cont).present?
+    if turbo_frame_request? && params.dig(:q, :name_or_country_of_origin_or_olive_varieties_name_cont).present?
       keyword = params[:q][:name_or_country_of_origin_or_olive_varieties_name_cont]
 
       @suggestions = Product
