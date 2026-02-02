@@ -87,6 +87,13 @@ group :development, :test do
 
   # 環境変数をRailsで簡単に使うためのライブラリ
   gem "dotenv-rails"
+
+  # Postモデルテスト作成: docker compose exec web bundle exec rails g rspec:model Post
+  # PostモデルHTTPリクエスト/レスポンス: docker compose exec web bundle exec rails g rspec:request posts
+  gem "rspec-rails"
+  # モデルのオブジェクトを簡単に作れる
+  # Postモデルを作る: docker compose exec web bundle exec rails g factory_bot:model Post
+  gem "factory_bot_rails"
 end
 
 group :development do
@@ -102,4 +109,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # テスト実行でDBに残るレコードを削除/system specで必要
+  gem "database_cleaner-active_record"
 end
