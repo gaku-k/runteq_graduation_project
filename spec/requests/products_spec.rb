@@ -42,6 +42,24 @@ RSpec.describe "Products", type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
+
+      it "バリデーションが正しい場合、編集Productが管理者ユーザーへ申請される" do
+        # FactoryBotを使うときは create(:factory_name)
+        product = create(:product)
+        expect {
+          patch product_path(product), params: {
+            product: {
+              name: "新しい名前"
+            }
+          }
+        }.to change(ProductDraft, :count).by(1)
+
+        # ステータス検証
+        expect(product.reload.status).to eq "draft"
+        draft = ProductDraft.find_by(product: product)
+        expect(draft.status).to eq "pending"
+        expect(response).to redirect_to products_path
+      end
     end
 
     context "管理医者ユーザーでログインしている場合" do
