@@ -25,7 +25,30 @@
   text-decoration: none;  /* リンクの下線消す */
   color: inherit;         /* テキスト色継承 */
   border-radius: 12px; /* 丸みでカードっぽくする */
+  /* はみ出した部分を隠し、画像の角を丸く */
+  overflow: hidden;
+  position: relative;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 柔らかい影 */
+}
+
+/* グレーの膜 */
+/* afterは要素の一番最後に追加される擬似要素（逆に ::before は一番最初） */
+.post-card-link::after {
+  /* 中身は空 */
+  content: "";
+  /* 一番近い position が指定された祖先要素
+  （.post-card-link）を 全面覆う板になる */
+  position: absolute;
+  inset: 0;
+  /* 普段は見えない */
+  opacity: 0;
+  /* クリックの邪魔をしない */
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.post-card-link:hover::after {
+  opacity: 1;
 }
 
 /* 画像エリア */
@@ -38,11 +61,6 @@
   width: 100%;
   height: auto;
   object-fit: cover; /* 画像を枠いっぱいにしつつ、縦横比を保持 */
-}
-
-.productname-link {
-  color: blue;
-  text-decoration: underline;
 }
 
 /* チャート＋レビューは縦並び */
