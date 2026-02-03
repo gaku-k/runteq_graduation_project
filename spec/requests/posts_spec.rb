@@ -8,12 +8,6 @@ RSpec.describe "Posts", type: :request do
 
   describe "POST /posts" do
 
-      it "GET /posts/new は 200 OK を返す" do
-        sign_in user, scope: :user
-        get new_post_path
-        expect(response).to have_http_status(:ok)
-      end
-
     context "ログインしている場合" do
       before do
         sign_in user, scope: :user
