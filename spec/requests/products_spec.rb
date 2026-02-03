@@ -4,7 +4,7 @@ RSpec.describe "Products", type: :request do
   let(:user) { create(:user) }
   let(:admin_user) { create(:user, :admin) }
   # 非公開(保留中)か、公開済みか。
-  #enum :status, { draft: 0, published: 1 }
+  # enum :status, { draft: 0, published: 1 }
 
   describe "POST /products" do
     context "一般ユーザーでログインしている場合" do
@@ -39,7 +39,7 @@ RSpec.describe "Products", type: :request do
           }
         }.to change(Product, :count).by(0)
          .and change(ProductDraft, :count).by(0)
-        
+
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -76,11 +76,9 @@ RSpec.describe "Products", type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
-
     end
 
     context "ログインしていない場合" do
-
       it "Productが作成されず、ログイン画面にリダイレクトされる" do
         expect {
           post products_path, params: {
@@ -93,6 +91,5 @@ RSpec.describe "Products", type: :request do
         expect(response).to redirect_to(new_user_session_path)  # Devise のログインページ
       end
     end
-
   end
 end

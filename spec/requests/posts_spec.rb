@@ -7,7 +7,6 @@ RSpec.describe "Posts", type: :request do
   let(:user) { create(:user) }
 
   describe "POST /posts" do
-
     context "ログインしている場合" do
       before do
         sign_in user, scope: :user
@@ -17,14 +16,14 @@ RSpec.describe "Posts", type: :request do
         expect {
           post posts_path, params: {
             post: {
-              body: "本文" 
-            } 
+              body: "本文"
+            }
           }
         }.to change(Post, :count).by(1)   # DBの件数が増えたことを確認
 
         expect(response).to redirect_to(posts_path)  # リダイレクト先を確認
       end
-  
+
       it "バリデーションが不正な場合、Postが作成されない" do
         expect {
           post posts_path, params: {
@@ -51,6 +50,5 @@ RSpec.describe "Posts", type: :request do
         expect(response).to redirect_to(new_user_session_path)  # Devise のログインページ
       end
     end
-
   end
 end

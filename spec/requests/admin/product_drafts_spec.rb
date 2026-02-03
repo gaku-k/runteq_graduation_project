@@ -31,7 +31,7 @@ RSpec.describe "Admin::ProductDrafts", type: :request do
 
       it "Productが削除され、Draftのstatusがrejectedになる" do
         # expect { } →「処理・副作用」を検証する
-        expect{
+        expect {
           patch reject_admin_product_draft_path(product_draft)
         }.to change(Product, :count).by(-1)
 
@@ -43,7 +43,7 @@ RSpec.describe "Admin::ProductDrafts", type: :request do
     context "update_requestの場合" do
       let!(:product) { create(:product, name: "元の名前", status: :published) }
       # createする際に、明示的にproductを引数として渡すことで、assoriationで生成されるproductは無視され1:1の関係になる
-      let!(:product_draft) do 
+      let!(:product_draft) do
         # traitによる上書き
         create(:product_draft, :update_request,
           product_id: product.id,
