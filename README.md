@@ -12,8 +12,8 @@
 「香り・味・価格のバランスを比べながら、お気に入りのオリーブオイルを探したい、紹介したい人」が想定されるユーザー層です。
 
 ## サービスの利用イメージ
-ユーザーがつぶやきのようにサクッとレビュー投稿できます。この時投稿フォームに「商品名」検索欄を用意し、既存商品があれば選択、なければ「新規商品として追加」を選択してもらい、商品詳細ページに情報を登録することができます。
-もちろん、商品詳細ページには「詳細情報を追加する」ボタン等を配置して、公式情報を後から補足できるようにします。これにより、仕上げ用オリーブオイルの詳細な意見、評価情報を得ることができます。
+ユーザーがつぶやきのようにサクッとレビュー投稿できます。商品詳細ページを介して"この商品でPostする"を選択することで、「香り」「価格」「味」を5段階で評価することができ、レーダーチャートを組み込んだ投稿をすることができます。もちろん同じ商品で複数投稿することもでき、その都度評価も更新されます。
+評価したい商品が一覧ページになければ新規商品として追加する必要はありますが、商品詳細ページには編集リンクを配置して、公式情報を後から補足できるようにしています。これにより、仕上げ用オリーブオイルの詳細な意見、評価情報を得ることができます。
 
 ## ユーザーの獲得について
 初期はレビューがないと使われないので、まずは自分が過去に購入したいくつかの商品の詳細情報とレビュー投稿を行います。
@@ -45,29 +45,41 @@
 ## 使用するAPIやgem
 ### MVP
 * ruby "3.2.4"
-* gem 'rails', '~> 7.2.1'
+* gem "rails", "~> 8.1.1"
   - importmap js使用量が低くRailsの機能中心で作れる
-* gem 'pg', '~> 1.5'　PostgreSQL用データベースアダプタ
+* gem "pg", "~> 1.1"　PostgreSQL用データベースアダプタ
   - 使用DB: PostgreSQL 15  実際に使うDBのバージョンを明記
   - デプロイサーバー：Render
-* gem 'devise'　実務でよく使われるとされる認証ライブラリ
-* gem 'letter_opener' 開発環境でパスワードリセット機能の確認
-* gem 'ransack'　検索・ソート
-* gem 'bootstrap'　UI・スタイリング
-* gem 'sass-rails'　SCSS対応
+
+* gem "sprockets-rails"
+
+* gem "puma", ">= 5.0"
+* gem "importmap-rails"
+* gem "turbo-rails" 
+  - オートコンプリート
+* gem "stimulus-rails"
+* gem "jbuilder"
+
+* gem "devise"
+* gem "omniauth" googleログイン実装で必要
+* gem "omniauth-google-oauth2"
+* gem "omniauth-rails_csrf_protection"
+* gem "letter_opener"
+* gem "ransack"　検索・ソート
+* gem "kaminari"
+* gem "cssbundling-rails"
+* gem "bootstrap"
+* gem "ancestry" 無限階層コメント
+
 * chart.js 商品評価についてのレーダーチャートを作成。星マークで評価項目を数値として保存し、その数値を渡して可視化する
 * raty-js 星をクリックして数値を取得
 
 ### 画像機能追加
-* gem 'image_processing'　リサイズ
-* gem 'mini_magick'　リサイズ、フォーマット変換など
-* gem 'aws-sdk-s3'　クラウドストレージへの配送係
+* gem "image_processing", "~> 1.2"
+* gem "mini_magick"
+* gem "cloudinary"
 
-### 高度な機能
-* gem 'acts-as-taggable-on'　タグ機能
-* gem 'acts_as_favoritor'　お気に入り機能
-* gem 'turbo-rails'　# オートコンプリート用
-
+### MVP後
 ### 外部API
 * Amazon Product Advertising API
 * 楽天商品検索API
