@@ -41,56 +41,65 @@
             <% end %>
           </div>
     
-          <div class="post-item">
-            <%= link_to post_path(post), class: "post-card-link", data: { turbo_frame: "_top" } do %>
-              <div class="image-section">
-                <%= render "posts/images", post: post %>
-              </div>
-
-              <div class="chart-review-wrapper">
-    
-                <% if post.product.present? %>
-                  <!-- 1ユーザー1商品1評価値を実現するためにProductRatingsテーブルにはpost_idがない。つなりPostと直接的なアソシエーションがない -->
-                  <% product_rating = post.product.product_ratings.find_by(user: post.user) %>
-                  <% if product_rating.present? %>
-                    <div class="chart-section">
-                      <h2><%= post.product_name %></h2>
-                      <%= render partial: "posts/triangle_chart", locals: { post_id: post.id, product_rating: product_rating } %>
-                    </div>
-                  <% end %>
-                <% end %>              
-
-                <div class="review-section">
-                  <p class="review-body"><%= post.body %></p>
+          <div class="post-item post-card-link">
+            <div>
+              <%= link_to post_path(post), data: { turbo_frame: "_top" } do %>
+                <div class="image-section">
+                  <%= render "posts/images", post: post %>
                 </div>
 
-                <div class="reaction-container">
-                  <div class="like-wrapper">
-                    <% if user_signed_in? && current_user.liked_post?(post) %>
-                      <%= button_to post_like_posts_path(post), method: :delete do %>
-                        <i class="fa-solid fa-heart"></i>
-                      <% end %>
-                    <% else %>
-                      <%= button_to post_like_posts_path(post), method: :post do %>
-                        <i class="fa-regular fa-heart"></i>
-                      <% end %>
+                <div class="chart-review-wrapper">
+                  <% if post.product.present? %>
+                    <!-- 1ユーザー1商品1評価値を実現するためにProductRatingsテーブルにはpost_idがない。つなりPostと直接的なアソシエーションがない -->
+                    <% product_rating = post.product.product_ratings.find_by(user: post.user) %>
+                    <% if product_rating.present? %>
+                      <div class="chart-section">
+                        <h2><%= post.product_name %></h2>
+                        <%= render partial: "posts/triangle_chart", locals: { post_id: post.id, product_rating: product_rating } %>
+                      </div>
                     <% end %>
-                    <%= post.like_posts.count %>
+                  <% end %>              
+
+                  <div class="review-section">
+                    <p class="review-body"><%= post.body %></p>
                   </div>
-
-                  <% if post.user == current_user %>
-                    <%= button_to post_path(post.id),
-                        method: :delete,
-                        data: { turbo_confirm: "削除しますか？", turbo_frame: "_top" },
-                        class: "trash-can" do %>
-                      <i class="fas fa-trash"></i>
-                    <% end %>
-                  <% end %>
                 </div>
+              <!-- link_to のend -->
+              <% end %>
+            </div>
 
+            <!-- 下線: 下要素に5pxのスペースを取りつつ長さ自体を80%くらいにして真ん中に置く -->
+            <hr class="mb-[5px] mx-auto w-11/12 border-t border-gray-300">
+            <div class="reaction-container">
+              <div class="like-wrapper">
+                <% if user_signed_in? && current_user.liked_post?(post) %>
+                  <%= button_to post_like_posts_path(post), method: :delete do %>
+                    <i class="fa-solid fa-heart"></i>
+                  <% end %>
+                 <% else %>
+                  <%= button_to post_like_posts_path(post), method: :post do %>
+                    <i class="fa-regular fa-heart"></i>
+                   <% end %>
+                <% end %>
+                <%= post.like_posts.count %>
               </div>
-            <!-- link_to のend -->
-            <% end %>
+
+              <div>
+                <i class="fa-regular fa-comment"></i>
+                <%= post.comments.count %>
+              </div>
+
+              <div>
+                <% if post.user == current_user %>
+                  <%= button_to post_path(post.id),
+                       method: :delete,
+                       data: { turbo_confirm: "削除しますか？", turbo_frame: "_top" },
+                      class: "trash-can" do %>
+                    <i class="fas fa-trash"></i>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
           </div>
         </div>
       <% end %>

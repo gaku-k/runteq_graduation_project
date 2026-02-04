@@ -85,17 +85,6 @@ width: 100%;は左寄せできる変化幅を決めている。*/
   margin-top: 8px;             /* 少し余白を入れると見やすい */
 }
 
-/* -------------------------------------- */
-/* Product.nameのリンク
-デフォルトで下線がきえているか…? */
-.product-name-link {
-  color: #000000;
-}
-
-.product-name-link:hover {
-  text-decoration: underline;
-  color: #0070f3;
-}
 /* ====================================== */
 /* pruducts/showページ */
 

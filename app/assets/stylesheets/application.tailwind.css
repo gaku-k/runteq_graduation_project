@@ -72,6 +72,17 @@ body {
   font-weight: 600; /* 通常よりは太く、boldよりは細い */
 }
 
+/* リンク化した商品名 */ 
+.productname-link {
+  color: #000000;
+  text-decoration: underline;
+}
+
+.productname-link:hover {
+  text-decoration: underline;
+  color: #0070f3;
+}
+
 /* -------------------------------------- */
 /* 共通: 入力フィールドを親要素の幅いっぱいに広げる */
 .input-group input[type="text"],

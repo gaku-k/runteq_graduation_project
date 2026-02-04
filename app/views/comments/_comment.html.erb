@@ -15,6 +15,12 @@
     <div class="comment-item-l">
       <div class="comment-user-name">
         <%= comment.user.name %>
+        <!-- parent: ancestryの便利メソッド。直接親のレコードを返す -->
+        <% if comment.parent&.user %>
+          <span class="reply-to">
+            @</i><%= comment.parent.user.name %>
+          </span>
+        <% end %>
       </div>
       <div class="comment-body">
         <%= comment.body %>
@@ -26,7 +32,7 @@
     <button
       type="button"
       data-action="click->reply#toggle">
-      <i class="fa-solid fa-reply"></i>
+      <i class="fa-solid fa-paper-plane"></i>
     </button>
 
     <% if comment.user == current_user %>
