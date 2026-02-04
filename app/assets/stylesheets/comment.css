@@ -1,21 +1,21 @@
 .comment-container {
   display: flex;
   gap: 8px;
+  align-items: flex-start;
 }
 
 .comment-item-r {
-  width: 35px;
   /* 縮小しない */
   flex-shrink: 0;
   padding-top: 4px;
 }
 
 .comment-item-l {
-
   display: flex;
   flex-direction: column;
   /* 最小の制約を無視し、対抗要素のアイコンの形状を保護する狙い */
   min-width: 0;
+  flex: 1;
 }
 
 /* ユーザー名と本文にメリハリ */
@@ -24,6 +24,16 @@
   font-weight: 600;
   color: #333;
   margin-bottom: 4px;
+  /* コメント主と返信先を横並び */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reply-to {
+  color: #888;
+  /* 文字サイズを親要素の90% */
+  font-size: 0.9em;
 }
 
 .comment-body {

@@ -40,6 +40,8 @@
     </div>
   </div>
 
+  <!-- 下線: 下要素に5pxのスペースを取りつつ長さ自体を80%くらいにして真ん中に置く -->
+  <hr class="mb-[5px] mx-auto w-11/12 border-t border-gray-300">
   <div class="reaction-container">
     <div class="like-wrapper">
       <% if user_signed_in? && current_user.liked_post?(@post) %>
@@ -54,14 +56,21 @@
       <%= @post.like_posts.count %>
     </div>
 
-    <% if @post.user == current_user %>
-      <%= button_to post_path(@post.id),
-          method: :delete,
-          data: { turbo_confirm: "削除しますか？" },
-          class: "trash-can" do %>
-        <i class="fas fa-trash"></i>
+    <div>
+      <i class="fa-regular fa-comment"></i>
+      <%= @post.comments.count %>
+    </div>    
+
+    <div>
+      <% if @post.user == current_user %>
+        <%= button_to post_path(@post.id),
+            method: :delete,
+            data: { turbo_confirm: "削除しますか？" },
+            class: "trash-can" do %>
+          <i class="fas fa-trash"></i>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 
   <div>コメント</div>
