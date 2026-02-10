@@ -1,4 +1,7 @@
 <div class="my-card">
+
+  <%= render "shared/back_link" %>
+
   <%
     all_errors = @product.errors.full_messages
     all_errors += @product_rating.errors.full_messages if @product_rating.present?

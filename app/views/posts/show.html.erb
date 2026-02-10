@@ -1,9 +1,12 @@
 <div class="my-card">
+
+  <%= render "shared/back_link" %>
+
   <div class="posts-list">
     <div class="avatar-post-wrapper">
 
       <div>
-        <%= link_to user_path(@post.user) do %>
+        <%= link_to user_path(@post.user, back_to: request.fullpath) do %>
           <% if @post.user.avatar.attached? %>
             <%= image_tag @post.user.avatar.variant(resize_to_fill: [300, 300]),
               class: "rounded-full user-avatar-s"%>
@@ -22,7 +25,7 @@
         <div class="chart-review-wrapper"> 
           <% if @post.product_id.present? %>
             <div class="chart-section">
-              <%= link_to @post.product_name, product_path(@post.product_id), class: "productname-link"%>
+              <%= link_to @post.product_name, product_path(@post.product_id, back_to: request.fullpath), class: "productname-link"%>
 
               <% product_rating = @post.product.product_ratings.find_by(user: @post.user) %>
               <% if product_rating.present? %>

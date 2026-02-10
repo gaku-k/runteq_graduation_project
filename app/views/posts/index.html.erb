@@ -30,7 +30,7 @@
         <div class="avatar-post-wrapper">
 
           <div>
-            <%= link_to user_path(post.user), data: { turbo_frame: "_top" } do %>
+            <%= link_to user_path(post.user, back_to: request.fullpath), data: { turbo_frame: "_top" } do %>
               <% if post.user.avatar.attached? %>
                 <%= image_tag post.user.avatar.variant(resize_to_fill: [300, 300]),
                   class: "rounded-full user-avatar-s"%>
@@ -43,7 +43,8 @@
     
           <div class="post-item post-card-link">
             <div>
-              <%= link_to post_path(post), data: { turbo_frame: "_top" } do %>
+              <!-- link_to の引数に back_to: request.fullpath を追加。一覧ページのどの位置から詳細ページへ飛んだのかという情報を引き継ぐことができる -->
+              <%= link_to post_path(post, back_to: request.fullpath), data: { turbo_frame: "_top" } do %>
                 <div class="image-section">
                   <%= render "posts/images", post: post %>
                 </div>
