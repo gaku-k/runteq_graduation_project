@@ -16,6 +16,7 @@
 @import "product_form.css";
 @import "pages.css";
 @import "comment.css";
+@import "back_link.css";
 
 @tailwind base;
 @tailwind components;

@@ -1,0 +1,10 @@
+/* 戻るor作業中断における画面遷移をサポートするアイコン */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 30px;
+  text-decoration: none;
+  color: #4c4c4c;
+  margin: 10px 0px 20px 0px;
+  padding: 4px 8px;
+}

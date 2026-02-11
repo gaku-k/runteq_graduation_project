@@ -1,4 +1,7 @@
 <div class="my-card">
+
+  <%= render "shared/back_link" %>
+
   <%
     all_errors = @product.errors.full_messages
     all_errors += @product_rating.errors.full_messages if @product_rating.present?
@@ -30,7 +33,7 @@
         <div  class="post-from-product">
           <span class="post-text">この商品でPostする</span>
           <div>
-            <%= link_to new_product_post_path(@product),
+            <%= link_to new_product_post_path(@product, back_to: request.fullpath),
               class: "create-a-post" do %>
               <i class="fas fa-pen"></i>
             <% end %>
@@ -83,7 +86,7 @@
           } %>
       <% end %>
 
-      <%= link_to edit_product_path(@product) do%>
+      <%= link_to edit_product_path(@product, back_to: request.fullpath) do%>
         <div class="icon-text-container">
           <i class="fa-solid fa-gears"></i>
           <span>編集する</span>

@@ -1,4 +1,7 @@
 <div class="my-card">
+
+  <%= render "shared/back_link" %>
+
   <%= form_with(model: @post, local: true) do |f| %>
     <!-- ProductRating値について各ページでバリデーションを区別するための処理 -->
     <%= f.hidden_field :product_page_rating, value: 'false' %>
