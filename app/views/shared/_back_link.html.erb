@@ -1,5 +1,6 @@
-<% if params[:back_to].present? %>
-  <%= link_to params[:back_to], class: "back-link" do %>
-    ← 戻る
-  <% end %>
+<% return unless params[:back_to].present? %>
+
+<!-- params[:back_to]: 渡されたURLをそのままリンク先に指定 -->
+<%= link_to params[:back_to], class: "back-link back-link" do %>
+  ←
 <% end %>
