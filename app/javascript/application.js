@@ -45,13 +45,16 @@ const initializeRaty = () => {
 
 };
 
-// 1. DOMが完全に準備されたときに実行
+// 1. DOMが完全に準備されたときに実行。通常のページ読み込み（リロード時など）
 $(function() {
     initializeRaty();
 });
 
-// 2. Turboがページ遷移・復元したときに実行
+// 2. Turboによる遷移
 $(document).on("turbo:load", initializeRaty);
+
+// 3. バリデーションエラー等での再描画時に実行
+$(document).on("turbo:render", initializeRaty);
 
 // --------------------------------
 // product送信前に選択中の画像を表示する
