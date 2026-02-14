@@ -7,4 +7,10 @@
   color: #4c4c4c;
   margin: 10px 0px 20px 0px;
   padding: 4px 8px;
+
+  position: sticky;
+  /* 浮き始めるライン */
+  top: 60px;
+  /* モバイルヘッダーが100なので隠れるようにする */
+  z-index: 90;
 }

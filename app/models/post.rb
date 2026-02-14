@@ -46,7 +46,6 @@ class Post < ApplicationRecord
   def body_or_images_required
     if body.blank? && !images.attached?
       errors.add(:body, "または画像をアップロードしてください")
-      errors.add(:images, "または画像をアップロードしてください")
     end
   end
 end

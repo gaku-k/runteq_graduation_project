@@ -1,0 +1,35 @@
+ja:
+  errors:
+    header:
+      one: ""
+      other: "%{count}件のエラーが発生しました"
+  activerecord:
+    models:
+      user: "ユーザー"
+      post: "ポスト"
+    attributes:
+      user:
+        name: "ユーザー名"
+      post:
+        body: "本文"
+        images: "画像"
+      product:
+        name: "商品名"
+      product_rating:
+        sweet: "甘さ"
+        spicy: "辛さ"
+        green: "青い"
+        fruity: "果実感"
+        bitter: "苦さ"
+        aroma: "香りの印象"
+        taste: "味わい満足度"
+        price: "価格満足度"
+      contact:
+        name: "お名前"
+        email: "メールアドレス"
+        message: "お問い合わせ内容"
+        inquiry_type: "お問い合わせの種類"
+
+        
+
+

@@ -43,7 +43,7 @@ gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
 # 翻訳
-# gem "rails-i18n"
+gem "rails-i18n"
 
 # 検索・ソート
 gem "ransack"
