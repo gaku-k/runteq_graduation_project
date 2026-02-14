@@ -65,7 +65,7 @@
 
               <!-- 香り -->
               <div class="rating-field">
-                <%= r.label :aroma, "香り", class: "rating-label" %>
+                <span class="rating-label">香りの印象</span>
                 <!-- この空の `div` に、外部ライブラリ(js)が動的にHTML要素を生成します -->
                 <div id="aroma-rating"></div>
                 <!-- ユーザーが上記の `div` で星などを操作した際、その評価結果（数値）を実際に保存するための隠された入力欄 -->
@@ -74,14 +74,14 @@
 
               <!-- 味 -->
               <div class="rating-field">
-                <%= r.label :taste, "味", class: "rating-label" %>
+                <span class="rating-label">味わいの満足度</span>
                 <div id="taste-rating"></div>
                 <%= r.hidden_field :taste %>
               </div>
 
               <!-- 価格 -->
               <div class="rating-field">
-                <%= r.label :price, "価格" , class: "rating-label" %>
+                <span class="rating-label">価格の満足度</span>
                 <div id="price-rating"></div>
                 <%= r.hidden_field :price %>
               </div>

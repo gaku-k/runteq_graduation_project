@@ -15,9 +15,8 @@
 
 /* ラベルのスタイル調整 */
 .rating-label {
-  /* 修正: 確実に星の開始位置を揃えるため、ラベル内のテキストを右寄せにする */
-  text-align: right;
-  width: 50px;
+  text-align: left;
+  width: 120px;
   /* 0:縮むな という意味。親コンテナが狭くなっても省略、押しつぶされたりするのを防ぐ */
   flex-shrink: 0;
   font-weight: 600;

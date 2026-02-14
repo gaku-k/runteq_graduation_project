@@ -23,6 +23,9 @@ class ProductRatingsController < ApplicationController
     if @product_rating.update(product_rating_params)
       redirect_to product_path(@product), notice: "評価を投稿しました"
     else
+      # showページを表示するのに必要な未定義の変数を「全て」再定義する
+      @comments = @product.comments.includes(:user)
+
       flash.now[:danger] = "評価に失敗しました"
       render "products/show", status: :unprocessable_entity
     end

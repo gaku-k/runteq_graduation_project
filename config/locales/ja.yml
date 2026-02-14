@@ -21,9 +21,9 @@ ja:
         green: "青い"
         fruity: "果実感"
         bitter: "苦さ"
-        aroma: "香り"
-        taste: "味"
-        price: "価格"
+        aroma: "香りの印象"
+        taste: "味わいの満足度"
+        price: "価格の満足度"
       contact:
         name: "お名前"
         email: "メールアドレス"
