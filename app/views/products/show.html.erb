@@ -7,9 +7,8 @@
     all_errors += @product_rating.errors.full_messages if @product_rating.present?
   %>
   <% if all_errors.any? %>
-    <div id="error_explanation">
-      <!-- pluralizeを(単数、複数を切り替えてくれる)使って、発生したエラーの総数を表示 -->
-      <h2><%= pluralize(all_errors.count, "error") %> が発生しました:</h2>
+    <div id="error_explanation" class="form-errors">
+      <h2><%= t("errors.header", count: all_errors.count) %></h2>
       <ul>
         <!-- @post のバリデーションに基づいて、Rilsがエラーを生成 -->
         <% all_errors.uniq.each do |msg| %>

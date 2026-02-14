@@ -28,3 +28,12 @@
 }
 
 /* -------------------------------------- */
+/* フォームのバリデーション等エラー内容 */
+.form-errors {
+  background-color: #fee2e2;
+  border: 1px solid #ef4444;
+  color: #991b1b;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}

@@ -1,4 +1,8 @@
 ja:
+  errors:
+    header:
+      one: ""
+      other: "%{count}件のエラーが発生しました"
   activerecord:
     models:
       user: "ユーザー"
