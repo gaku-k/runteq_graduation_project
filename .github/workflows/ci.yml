@@ -44,7 +44,7 @@ jobs:
           # trust認証を使うので、rootユーザーからのアクセスも認証失敗でクラッシュしなくなる
           echo "host all all 127.0.0.1/32 trust" >> .github/pg_hba.conf
           
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@v1
